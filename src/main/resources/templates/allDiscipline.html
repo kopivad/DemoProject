@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All disciplines</title>
+</head>
+<body>
+<a href="/discipline/add">Add new discipline</a>
+    <tr th:each="discipline: ${allDisciplines}">
+        <td th:text="${discipline.id}" />
+        <td th:text="${discipline.title}" />
+<!--        <td th:text="${discipline.teacher.toString()}" />-->
+    </tr>
+</body>
+</html>
