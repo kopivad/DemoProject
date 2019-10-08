@@ -1,5 +1,12 @@
 package com.kopivad.demoproject.model;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     STUDENT, TEACHER, ADMIN;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
