@@ -1,12 +1,13 @@
 package com.kopivad.demoproject.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,10 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     private Set<Role> roles;
+
+    @ElementCollection(targetClass = Discipline.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_disciplines", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<Discipline> disciplines;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

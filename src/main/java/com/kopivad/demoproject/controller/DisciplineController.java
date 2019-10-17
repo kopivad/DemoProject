@@ -4,6 +4,7 @@ import com.kopivad.demoproject.model.Discipline;
 import com.kopivad.demoproject.model.User;
 import com.kopivad.demoproject.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,13 @@ public class DisciplineController {
     }
 
     @GetMapping("/add")
-    public String addDisciplinePage() { // It returns add discipline page
+    public String addDisciplinePage(Authentication authentication) { // It returns add discipline page
+        System.out.println(authentication.getName());
         return "addDiscipline";
     }
 
     @PostMapping("/add")
-    public String addDiscipline(@ModelAttribute Discipline discipline) {
+    public String addDiscipline(Authentication authentication, @ModelAttribute Discipline discipline) {
         disciplineService.addNewDiscipline(discipline);
         return "redirect:/discipline/all";
     }

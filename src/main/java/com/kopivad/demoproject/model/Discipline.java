@@ -16,7 +16,7 @@ public class Discipline {
     @Column(name = "discipline_title")
     private String title;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User teacher;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User teacher;
 }

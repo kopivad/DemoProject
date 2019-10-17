@@ -1,56 +1,22 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Login page</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
 <body>
-<div th:replace="fragments/header :: header"></div>
-<div class="container">
-    <div class="row justify-content-center align-middle">
-        <div class="col-sm-5">
-            <div class="card">
-                <article class="card-body">
-                    <a href="/signUp" class="float-right btn btn-outline-primary">Sign Up</a>
-                    <h4 class="card-title mb-4 mt-1">Log In</h4>
-                    <hr>
-                    <form method="post" th:action="@{/login}" action="#">
-                        <div class="form-group">
-                            <label for="i-name">Your e-mail</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"> <i class="fas fa-envelope"></i> </span>
-                                </div>
-                                <input required id="i-name" name="email" class="form-control" placeholder="Email"
-                                       type="email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="i-pass">Your password</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"> <i class="fas fa-envelope"></i> </span>
-                                </div>
-                                <input required id="i-pass" name="password" class="form-control "
-                                       placeholder="******" type="password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Log In</button>
-                        </div>
-                        <!--                        <p class="text-center"><a href="recovery" class="btn">Forgot password?</a></p>-->
-                    </form>
-                </article>
-                <div class="border-top card-body text-center">Haven't an account? <a href="/signUp">Sing Up</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div th:replace="fragments/footer :: footer"></div>
-<script src="/js/bootstrap.min.js"></script>
+<form action="#" th:action="@{/login}" method="post">
+    <h3>Login page</h3>
+    <p th:if="${param.logout}">You have been logged out.</p>
+    <p th:if="${param.error}">Invalid username and password.</p>
+    <table>
+        <tr>
+            <td>Email:</td>
+            <td><input type="email" name="email" required/></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" required/></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Login</button></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

@@ -17,12 +17,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean isUserExist(User user) {
-        return userRepository.existsByEmail(user.getEmail());
+    public boolean isUserExistByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override
-    public void addNewUser(User user) {
+    public void saveNewUser(User user) {
         userRepository.save(user);
     }
 
