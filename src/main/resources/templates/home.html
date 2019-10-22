@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1>Welcome!</h1>
+<h1>Welcome, <span th:text="${currentUser.getName()}">user</span></h1>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>

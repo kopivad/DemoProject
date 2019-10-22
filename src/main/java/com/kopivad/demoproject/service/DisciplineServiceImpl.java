@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DisciplineServiceImpl implements DisciplineService {
-    @Autowired
-    private DisciplineRepository disciplineRepository;
+    private final DisciplineRepository disciplineRepository;
+
+    public DisciplineServiceImpl(DisciplineRepository disciplineRepository) {
+        this.disciplineRepository = disciplineRepository;
+    }
 
     @Override
     public Iterable<Discipline> getAllDisciplines() {

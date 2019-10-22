@@ -5,10 +5,18 @@
     <title>Add discipline</title>
 </head>
 <body>
-<form action="#" th:action="@{/discipline/add}" method="post">
-    <p>Discipline title: <input type="text" name="title" />
-        <input type="hidden" name="user_id"><th</p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+<form action="#" th:action="@{/discipline/add}" th:object="${disciplineForm}" method="post">
+    <h3>Add discipline page</h3>
+    <table>
+        <tr>
+            <td>Discipline title:</td>
+            <td><input type="text" th:field="*{title}" /></td>
+            <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</td>
+        </tr>
+        <tr>
+            <td><button type="submit">Add discipline</button></td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>

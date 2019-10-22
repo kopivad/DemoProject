@@ -5,11 +5,14 @@
     <title>All disciplines</title>
 </head>
 <body>
-<a href="/discipline/add">Add new discipline</a>
+<h3>All discipline</h3>
+<table>
     <tr th:each="discipline: ${allDisciplines}">
-        <td th:text="${discipline.id}" />
-        <td th:text="${discipline.title}" />
-<!--        <td th:text="${discipline.teacher.toString()}" />-->
+        <td th:text="${discipline.title}"></td>
+        <td th:text="${discipline.author.getName()}"></td>
+        <td><a href="#">View all test</a></td>
     </tr>
+</table>
+<a href="/discipline/add">Add new discipline</a>
 </body>
 </html>

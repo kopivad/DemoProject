@@ -18,5 +18,5 @@ public class Discipline {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User teacher;
+    private User author;
 }
