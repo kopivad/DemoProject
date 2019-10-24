@@ -1,9 +1,8 @@
 package com.kopivad.demoproject.form;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,6 +28,6 @@ public class SignUpForm {
     private String email;
 
     @NotNull
-    @Min(5)
+//    @Min(4)
     private String password;
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All topics</title>
+</head>
+<body>
+<h3>All topic</h3>
+<table>
+    <tr th:each="topic: ${allTopics}">
+        <td th:text="${topic.title}"></td>
+        <td th:text="${topic.author.getName()}"></td>
+        <td><a href="#">View all test</a></td>
+    </tr>
+</table>
+<a href="/topic/add">Add new topic</a>
+</body>
+</html>

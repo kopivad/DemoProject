@@ -1,8 +1,6 @@
 package com.kopivad.demoproject.model;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,12 +26,12 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user"))
     private Set<Role> roles;
 
-    @ElementCollection(targetClass = Discipline.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_disciplines", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Discipline> disciplines;
+    @ElementCollection(targetClass = Topic.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_topics", joinColumns = @JoinColumn(name = "id_user"))
+    private Set<Topic> topics;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

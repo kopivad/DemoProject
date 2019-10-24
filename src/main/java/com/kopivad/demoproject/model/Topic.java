@@ -5,18 +5,18 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "disciplines")
+@Table(name = "topics")
 @Data
-public class Discipline {
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "discipline_id")
+    @Column(name = "id_topic")
     private Long id;
 
-    @Column(name = "discipline_title")
+    @Column(name = "topic_title")
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "id_user", nullable = false)
     private User author;
 }

@@ -2,19 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add discipline</title>
+    <title>Add topic</title>
 </head>
 <body>
-<form action="#" th:action="@{/discipline/add}" th:object="${disciplineForm}" method="post">
-    <h3>Add discipline page</h3>
+<form action="#" th:action="@{/topic/add}" th:object="${topicForm}" method="post">
+    <h3>Add topic page</h3>
     <table>
         <tr>
-            <td>Discipline title:</td>
+            <td>Topic title:</td>
             <td><input type="text" th:field="*{title}" /></td>
             <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</td>
         </tr>
         <tr>
-            <td><button type="submit">Add discipline</button></td>
+            <td><button type="submit">Add topic</button></td>
         </tr>
     </table>
 </form>
