@@ -1,6 +1,6 @@
 package com.kopivad.demoproject.controller;
 
-import com.kopivad.demoproject.form.SignUpForm;
+import com.kopivad.demoproject.dto.SignUpForm;
 import com.kopivad.demoproject.model.Role;
 import com.kopivad.demoproject.model.User;
 import com.kopivad.demoproject.service.UserService;
@@ -44,7 +44,7 @@ public class SignUpController {
         newUser.setSurname(signUpForm.getSurname());
         newUser.setEmail(signUpForm.getEmail());
         newUser.setPassword(signUpForm.getPassword());
-        newUser.setRoles(Collections.singleton(Role.STUDENT));
+        newUser.setRoles(Collections.singleton(Role.USER));
 
         userService.saveNewUser(newUser);
         return "redirect:/login";

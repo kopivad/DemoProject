@@ -1,4 +1,4 @@
-package com.kopivad.demoproject.form;
+package com.kopivad.demoproject.dto;
 
 import lombok.Data;
 

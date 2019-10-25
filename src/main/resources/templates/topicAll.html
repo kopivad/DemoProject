@@ -8,11 +8,11 @@
 <h3>All topic</h3>
 <table>
     <tr th:each="topic: ${allTopics}">
-        <td th:text="${topic.title}"></td>
+        <td th:text="${topic.getTitle()}"></td>
         <td th:text="${topic.author.getName()}"></td>
-        <td><a href="#">View all test</a></td>
+        <td><a th:href="@{/topics/{id} (id = ${topic.getId()})}">view all tests</a></td>
     </tr>
 </table>
-<a href="/topic/add">Add new topic</a>
+<a href="/topics/add">Add new topic</a>
 </body>
 </html>
