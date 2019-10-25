@@ -3,7 +3,7 @@ package com.kopivad.demoproject.model;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    STUDENT, TEACHER, ADMIN;
+    USER, MODERATOR, ADMIN;
 
     @Override
     public String getAuthority() {
