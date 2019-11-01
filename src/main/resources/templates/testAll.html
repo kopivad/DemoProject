@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Topic #</title>
+    <title>All test</title>
 </head>
 <body>
 <h3>All test</h3>
@@ -10,10 +10,9 @@
     <tr th:each="test: ${allTests}">
         <td th:text="${test.getTitle()}"></td>
         <td th:text="${test.getCountOfQuestion()}"></td>
-        <td><a th:href="@{/test/{id} (id = ${test.getId()})}">view all questions</a></td>
+        <td><a th:href="@{/tests/{id} (id = ${test.getId()})}">view all question</a></td>
     </tr>
 </table>
-<a href=""></a>
-<a th:href="@{/tests/add/{id} (id = ${topicId})}">Add new test</a>
+<a href="/tests/add">Add new test</a>
 </body>
 </html>

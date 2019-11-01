@@ -1,9 +1,11 @@
 package com.kopivad.demoproject.controller;
 
 import com.kopivad.demoproject.dto.TopicForm;
+import com.kopivad.demoproject.model.Test;
 import com.kopivad.demoproject.model.Topic;
 import com.kopivad.demoproject.model.User;
 import com.kopivad.demoproject.service.TopicService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,25 +16,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/topics")
 public class TopicController {
-    public final TopicService topicService;
+    private final TopicService topicService;
 
+    @Autowired
     public TopicController(TopicService topicService) {
         this.topicService = topicService;
     }
 
     @GetMapping("/all")
-    public String topicAllPage(Model model) { // It returns list of all disciplines
+    public String topicAllPage(Model model) {
         Iterable<Topic> allTopics = topicService.getAllTopics();
         model.addAttribute("allTopics", allTopics);
         return "topicAll";
     }
 
     @GetMapping("/add")
-    public String topicAddPage(Model model, TopicForm topicForm) { // It returns add discipline page
+    public String getTopicAddPage(Model model, TopicForm topicForm) {
         model.addAttribute("topicForm", topicForm);
         return "topicAdd";
     }
@@ -52,7 +56,10 @@ public class TopicController {
     }
 
     @GetMapping("{id}")
-    public String getTopicByIdPage(@PathVariable String id) {
+    public String getAllTestsByTopicId(@PathVariable(name = "id") Long id, Model model) {
+        List<Test> allTestsByTopicId = topicService.getAllTestsByTopicId(id);
+        model.addAttribute("allTests", allTestsByTopicId);
+        model.addAttribute("topicId", id);
         return "topic";
     }
 }

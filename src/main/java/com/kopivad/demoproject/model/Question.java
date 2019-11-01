@@ -3,7 +3,7 @@ package com.kopivad.demoproject.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "questions")
@@ -13,23 +13,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     private String title;
-
-    @NotNull
-    private String firstAnswer;
-
-    @NotNull
-    private String secondAnswer;
-
-    @NotNull
-    private String thirdAnswer;
-
-    @NotNull
-    private String fourthAnswer;
-
-    @NotNull
-    private String rightAnswer;
+    @ElementCollection(targetClass = Answer.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "questions_answer", joinColumns = @JoinColumn(name = "id_question"))
+    private List<Answer> answers;
 
     @ManyToOne
     @JoinColumn(name = "id_test")

@@ -5,13 +5,12 @@ import com.kopivad.demoproject.model.Topic;
 
 import java.util.List;
 
-
-public interface TopicService {
-    List<Topic> getAllTopics();
-
+public interface TestService {
     List<Test> getAllTestsByTopicId(Long id);
 
-    void addNewTopic(Topic topic);
+    Topic findCurrentTopicById(Long id);
 
-    Topic findTopicById(Long id);
+    List<Test> getTestsByTopicId(Long id);
+
+    void addNewTest(Test newTest);
 }

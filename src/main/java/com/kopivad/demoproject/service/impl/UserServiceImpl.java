@@ -1,7 +1,9 @@
-package com.kopivad.demoproject.service;
+package com.kopivad.demoproject.service.impl;
 
 import com.kopivad.demoproject.dao.UserRepository;
 import com.kopivad.demoproject.model.User;
+import com.kopivad.demoproject.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

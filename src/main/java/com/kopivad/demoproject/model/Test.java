@@ -27,8 +27,4 @@ public class Test {
     @ElementCollection(targetClass = Topic.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "test_questions", joinColumns = @JoinColumn(name = "id_test"))
     private Set<Question> questions;
-
-    @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
-    private User author;
 }
