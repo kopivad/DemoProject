@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th> All questions </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${questions == null}">
+        <td colspan="2"> No questions available </td>
+    </tr>
+    <tr th:each="question : ${questions}">
+        <td><span th:text="${question.title}"> Title </span></td>
+<!--        <tr th:each=" answer : ${question.answers}">-->
+<!--            <td><span th:text="${answer.text}"> Text </span></td>-->
+<!--            <td><span th:text="${answer.isRight}"> Is right </span></td>-->
+<!--        </tr>-->
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <div>
+        <form action="#" th:action="@{/question}" method="post">
+            <p>Add your question</p>
+            <label th:for="title">Type title</label><br>
+            <input id="title" type="text" name="title" /><br>
+            <button type="submit">create new question</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
