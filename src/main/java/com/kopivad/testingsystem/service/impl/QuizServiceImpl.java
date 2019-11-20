@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -25,5 +26,10 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
+    }
+
+    @Override
+    public Optional<Quiz> getQuizById(Long id) {
+        return quizRepository.findById(id);
     }
 }

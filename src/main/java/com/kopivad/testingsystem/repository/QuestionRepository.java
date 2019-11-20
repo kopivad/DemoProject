@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuestionRepository extends PagingAndSortingRepository<Question, Long> {
-    Page<Question> findAllByQuizId(Long id, Pageable pageable);
+    Page<Question> findAllByQuizId(Long quizId, Pageable pageable);
 }
