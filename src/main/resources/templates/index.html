@@ -1,32 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
     <link rel="stylesheet" href="../static/libs/bootstrap-4.0.0/css/bootstrap.min.css"
           th:href="@{/libs/bootstrap-4.0.0/css/bootstrap.min.css}">
+
 </head>
 <body>
 <!--Header here-->
 <div th:replace="fragments/header :: header"></div>
 <!--Content-->
 <div class="container">
-    <h1 class="mt-4" th:text="${quiz.getTitle()}">Quiz title</h1>
-    <p th:text="${quiz.getDescription()}">Quiz desc</p>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card bg-body text-body">
+    <br>
+    <h2>The quiz</h2>
+    <p>Each quiz contains questions, you get 1 point for each correct answer, at the end of each quiz you get your total
+        score.</p>
+    <p>When you finish the quiz, you can go through each question with the correct answer.</p>
+    <br>
+    <div class="row mb-4">
+        <div th:each="quiz : ${quizzes}" class="col-sm-6 text-center">
+            <div class="card bg-body text-body mt-4">
                 <div class="card-body">
-                    <h4 class="card-title display-4">Start the quiz</h4>
+                    <br>
+                    <h4 th:text="${quiz.getTitle()}" class="card-title">Quiz title</h4>
+                    <br>
                     <p class="card-text">
-                        Good luck!
+                        <mark>#</mark>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </p>
-                    <a th:href="@{/quiz/{id}/start (id = ${quiz.getId()})}" class="btn btn-success" href="#" role="button">Start the <span th:text="${quiz.getTitle()}">Quiz title</span> quiz</a>
+                    <br>
+                    <a th:href="@{/quiz/{id} (id = ${quiz.id})}" class="btn btn-success" role="button">Start quiz</a>
                     <br>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 <script src="../static/libs/popper-1.14.7/popper.min.js" th:src="@{/libs/popper-1.14.7/popper.min.js}"></script>
 <script src="../static/libs/jquery-3.4.1/jquery-3.4.1.min.js" th:src="@{/libs/jquery-3.4.1/jquery-3.4.1.min.js}"></script>

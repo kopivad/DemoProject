@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer</title>
+</head>
+<body>
+<h2>Add answers</h2>
+
+<form action="/answer/add" method="post">
+        Right answer<br>
+        <input type="text" name="rightAnswer">
+        <br>
+        Answer #1<br>
+        <input type="text" name="firstAnswer">
+        <br>
+        Answer #2<br>
+        <input type="text" name="secondAnswer">
+        <input type="hidden" name="questionId" th:value="${questionId}">
+        <br>
+        Answer #3<br>
+        <input type="text" name="thirdAnswer">
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

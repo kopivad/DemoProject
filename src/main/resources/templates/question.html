@@ -2,9 +2,28 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Question</title>
+    <title>Demo quiz app</title>
 </head>
 <body>
+<div class="container">
+    <h1 th:text="${quiz.getTitle()}" class="display-4 mt-4">Quiz title</h1>
+    <div class="card mt-4">
+        <h5 class="card-header">
+            Question <span th:text="${question.getNumber()}">n</span> of <span th:text="${question.getTotalPages()}">n</span>:
+        </h5>
+        <div class="card-body">
+            <h5 th:text="${question.getContent().get(0).getTitle()}" class="card-title">Lorem ipsum dolor sit amet?</h5>
+            <form class="mt-4" action="">
+                <div th:each="answer : question.getContent().get(0).getAnswers()" class="custom-control custom-radio mt-1 mb-1">
+                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                    <label th:text="${answer.getText()}" class="custom-control-label" for="customRadio1">answer text</label>
+                </div>
+                <a href="#" class="btn btn-primary mt-4">Next</a>
+            </form>
+        </div>
+    </div>
+</div>
+
 <table>
     <thead>
     <tr>
@@ -12,28 +31,20 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${questions == null}">
+    <tr th:if="${questions.isEmpty()}">
         <td colspan="2"> No questions available </td>
     </tr>
     <tr th:each="question : ${questions}">
         <td><span th:text="${question.title}"> Title </span></td>
-<!--        <tr th:each=" answer : ${question.answers}">-->
-<!--            <td><span th:text="${answer.text}"> Text </span></td>-->
-<!--            <td><span th:text="${answer.isRight}"> Is right </span></td>-->
-<!--        </tr>-->
+        <td th:if="${question.getAnswers().isEmpty()}" colspan="2"><span> no answers available</span>
+            <a th:href="@{/answer/add/{id} (id = ${question.getId()})}">add</a>
+        </td>
+        <td th:each="answer : ${question.getAnswers()}">
+            <span th:text="${answer.getText()}">  </span>
+        </td>
     </tr>
     </tbody>
 </table>
-
-<div>
-    <div>
-        <form action="#" th:action="@{/question}" method="post">
-            <p>Add your question</p>
-            <label th:for="title">Type title</label><br>
-            <input id="title" type="text" name="title" /><br>
-            <button type="submit">create new question</button>
-        </form>
-    </div>
-</div>
+<a th:href="@{/question/add/{id} (id = ${quizId})}">add question</a>
 </body>
 </html>
