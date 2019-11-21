@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo quiz app</title>
+    <link rel="stylesheet" href="../static/libs/bootstrap-4.0.0/css/bootstrap.min.css"
+          th:href="@{/libs/bootstrap-4.0.0/css/bootstrap.min.css}">
+</head>
+<body>
+<!--Header here-->
+<div th:replace="fragments/header :: header"></div>
+<!--Content-->
+<div class="container">
+    <div class="row justify-content-between mt-5">
+        <h2 class="col-10">Manage your questions!</h2>
+        <div class="col-2">
+            <a th:href="@{/question/add}" href="#" class="btn btn-primary">Add question</a>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Quiz title</th>
+            <th scope="col">Answers</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question : ${questions}">
+            <th th:text="${question.getId()}" scope="row">Id</th>
+            <td th:text="${question.getTitle()}">Title</td>
+            <td th:text="${question.getQuiz().getTitle()}">Title</td>
+            <td><a th:text="${question.getAnswers().size()}" th:href="@{/answer/manage/{id} (id = ${question.getId()})}" href="#"></a></td>
+            <td><a th:href="@{/question/edit/{id} (id = ${question.getId()})}">Edit</a></td>
+        </tr>
+    </table>
+</div>
+<script src="../static/libs/popper-1.14.7/popper.min.js" th:src="@{/libs/popper-1.14.7/popper.min.js}"></script>
+<script src="../static/libs/jquery-3.4.1/jquery-3.4.1.min.js" th:src="@{/libs/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
+<script src="../static/libs/bootstrap-4.0.0/js/bootstrap.min.js" th:src="@{/libs/bootstrap-4.0.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
