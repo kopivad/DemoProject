@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo quiz app</title>
+    <link rel="stylesheet" href="../static/libs/bootstrap-4.0.0/css/bootstrap.min.css"
+          th:href="@{/libs/bootstrap-4.0.0/css/bootstrap.min.css}">
+</head>
+<body>
+<!--Header here-->
+<div th:replace="fragments/header :: header"></div>
+<!--Content-->
+<div class="container">
+    <div class="row justify-content-between mt-5">
+        <h2 class="col-4">Manage your answers!</h2>
+        <div class="col-2">
+            <a th:href="@{/answer/add}" href="#" class="btn btn-primary">Add answer</a>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Text</th>
+            <th scope="col">Is right?</th>
+            <th scope="col">Question id</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="answer : ${answers}">
+            <th th:text="${answer.getId()}" scope="row">Id</th>
+            <td th:text="${answer.getText()}">Text</td>
+            <td th:text="${answer.isRight() ? 'Yes' : 'No'}">Is right</td>
+            <td th:text="${answer.getQuestion().getId()}">Id</td>
+            <td><a th:href="@{/answer/edit/{id} (id = ${answer.getId()})}">Edit</a></td>
+        </tr>
+    </table>
+</div>
+<script src="../static/libs/popper-1.14.7/popper.min.js" th:src="@{/libs/popper-1.14.7/popper.min.js}"></script>
+<script src="../static/libs/jquery-3.4.1/jquery-3.4.1.min.js" th:src="@{/libs/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
+<script src="../static/libs/bootstrap-4.0.0/js/bootstrap.min.js" th:src="@{/libs/bootstrap-4.0.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

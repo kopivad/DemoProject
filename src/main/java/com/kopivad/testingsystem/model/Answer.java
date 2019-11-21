@@ -29,25 +29,9 @@ public class Answer {
             mappedBy = "answer")
     private List<QuizResult> quizResults;
 
-    public Answer() {
-    }
-
-    public Answer(String text, boolean isRight, Question question) {
-        this.text = text;
-        this.isRight = isRight;
-        this.question = question;
-    }
-
-    public boolean isRight() {
-        return this.isRight;
-    }
-
-    public void setRight(boolean isRight) {
-        this.isRight = isRight;
-    }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof Answer;
-    }
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "answer")
+    private List<UserQuestionResponse> userQuestionResponses;
 
 }
