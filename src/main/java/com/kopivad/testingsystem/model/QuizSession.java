@@ -8,19 +8,19 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "quiz_sessions")
 @Data
 public class QuizSession {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Quiz quiz;
+
+    @Id
+    private String code;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

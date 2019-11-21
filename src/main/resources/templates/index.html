@@ -26,8 +26,8 @@
                     <h4 th:text="${quiz.getTitle()}" class="card-title">Quiz title</h4>
                     <br>
                     <p class="card-text">
-                        <mark>#</mark>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        <mark th:text="${quiz.getQuestions().size()}">#</mark>
+                        <span th:text="${quiz.getDescription()}"></span>
                     </p>
                     <br>
                     <a th:href="@{/quiz/{id} (id = ${quiz.id})}" class="btn btn-success" role="button">Start quiz</a>

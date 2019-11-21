@@ -11,19 +11,22 @@
 <div th:replace="fragments/header :: header"></div>
 <!--Content-->
 <div class="container">
-    <h2 class="mt-3 display-4">Create new quiz!</h2>
+    <h2 class="mt-3 display-4">Edit <span th:text="${quiz.getTitle()}"></span> quiz!</h2>
+
+    <p th:text="${quiz.getDescription()}">Description</p>
     <br>
     <div>
-        <form action="#" th:action="@{/quiz/add}" th:object="${quizForm}" method="post">
+        <form action="#" th:action="@{/quiz/edit}" th:object="${quizForm}" method="post">
             <div class="form-group">
                 <label for="quizTitle">Quiz title</label>
-                <input th:field="*{title}" type="text" class="form-control" id="quizTitle" placeholder="Enter title">
+                <input th:placeholder="${quiz.getTitle()}" th:field="*{title}" type="text" class="form-control" id="quizTitle">
             </div>
             <div class="form-group">
                 <label for="quizDescription">Quiz description</label>
-                <textarea  th:field="*{description}" type="text" class="form-control" id="quizDescription" placeholder="Enter description"></textarea>
+                <textarea th:placeholder="${quiz.getDescription()}" th:field="*{description}" type="text" class="form-control" id="quizDescription"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Create!</button>
+            <input type="hidden" name="quizId" th:value="${quiz.getId()}">
+            <button type="submit" class="btn btn-primary">Edit!</button>
         </form>
     </div>
 </div>
