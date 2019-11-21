@@ -11,4 +11,6 @@ public interface QuestionService {
     void saveQuestion(Question question);
     Page<Question> getQuestionByQuizId(Long id, Pageable pageable);
     Optional<Question> getQuestionById(Long questionId);
+
+    List<Question> getAllQuestions();
 }

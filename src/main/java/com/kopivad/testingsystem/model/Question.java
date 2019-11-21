@@ -31,4 +31,9 @@ public class Question {
             fetch = FetchType.LAZY,
             mappedBy = "question")
     private List<QuizResult> quizResults;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "question")
+    private List<UserQuestionResponse> userQuestionResponses;
 }

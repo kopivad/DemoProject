@@ -11,23 +11,14 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/index}" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <!--                <li class="nav-item">-->
-                    <!--                    <a class="nav-link" href="#">Features</a>-->
-                    <!--                </li>-->
-                    <!--                <li class="nav-item">-->
-                    <!--                    <a class="nav-link" href="#">Pricing</a>-->
-                    <!--                </li>-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Quiz
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" th:href="@{/quiz/add}" href="#">Add</a>
-                            <a class="dropdown-item disabled" href="#">Edit</a>
-                            <!--                        <div class="dropdown-divider"></div>-->
-                            <a class="dropdown-item disabled" href="#">Delete</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/quiz/manage}" href="#">Quizzes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/question/manage}" href="#">Questions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/answer/manage}" href="#">Answers</a>
                     </li>
                 </ul>
             </div>

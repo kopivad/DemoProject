@@ -6,4 +6,5 @@ import lombok.Data;
 public class QuestionForm {
     private String title;
     private Long quizId;
+    private Long questionId;
 }
