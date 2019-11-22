@@ -22,10 +22,10 @@ public class QuizSession {
     @Id
     private String code;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "session")
-    private List<QuizResult> quizResults;
+//    @OneToMany(cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY,
+//            mappedBy = "session")
+//    private List<QuizResult> quizResults;
 
     @CreatedDate
     private Date createdDate;

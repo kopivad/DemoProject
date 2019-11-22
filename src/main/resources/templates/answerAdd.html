@@ -15,14 +15,6 @@
     <br>
     <div>
         <form action="#" th:action="@{/answer/add}" method="post">
-            <div class="form-group">
-                <label for="text">Answer text</label>
-                <textarea  name="text" type="text" class="form-control" id="text" placeholder="Enter text"></textarea>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" name="isRight" value="true" class="form-check-input" id="right">
-                <label class="form-check-label" for="right">Is right?</label>
-            </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Questions</label>
@@ -31,6 +23,14 @@
                     <option selected>Choose question...</option>
                     <option th:each="question : ${questions}" th:value="${question.getId()}" th:text="${question.getTitle() + ' [' + question.getQuiz().getTitle() +']'}">One</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="text">Answer text</label>
+                <textarea  name="text" type="text" class="form-control" id="text" placeholder="Enter text"></textarea>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" name="isRight" value="true" class="form-check-input" id="right">
+                <label class="form-check-label" for="right">Is right?</label>
             </div>
             <button type="submit" class="btn btn-primary">Create!</button>
         </form>

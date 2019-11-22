@@ -68,7 +68,7 @@ public class AnswerController {
         Long currentQuestionQuizId = userQuestion.getQuiz().getId();
         UserQuestionResponse userResponse = new UserQuestionResponse();
         Answer questionAnswer = answerService.getAnswerById(userResponseForm.getUserAnswerId()).get();
-        userResponse.setSessionId(userResponseForm.getSessionCode());
+        userResponse.setSessionCode(userResponseForm.getSessionCode());
         userResponse.setQuestion(userQuestion);
         userResponse.setAnswer(questionAnswer);
         responseService.saveUserResponse(userResponse);

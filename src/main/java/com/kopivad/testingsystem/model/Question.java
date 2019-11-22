@@ -27,10 +27,10 @@ public class Question {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Quiz quiz;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "question")
-    private List<QuizResult> quizResults;
+//    @OneToMany(cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY,
+//            mappedBy = "question")
+//    private List<QuizResult> quizResults;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

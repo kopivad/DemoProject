@@ -11,4 +11,10 @@ public interface QuizService {
     List<Quiz> getAllQuizzes();
 
     Optional<Quiz> getQuizById(Long id);
+
+    long getCountOfCorrectAnswersBySessionCode(String code);
+
+    long getTotalOfAnswersBySessionCode(String code);
+
+    float getPercentageOfCorrectAnswers(long obtained, long total);
 }
