@@ -1,8 +1,12 @@
 package com.kopivad.testingsystem.form;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
 public class QuizForm {
     private String title;
     private String description;

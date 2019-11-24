@@ -9,6 +9,7 @@ import com.kopivad.testingsystem.model.UserQuestionResponse;
 import com.kopivad.testingsystem.service.AnswerService;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.UserQuestionResponseService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,17 +20,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@AllArgsConstructor
 public class AnswerController {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final UserQuestionResponseService responseService;
-
-    public AnswerController(QuestionService questionService, AnswerService answerService, UserQuestionResponseService responseService) {
-        this.questionService = questionService;
-        this.answerService = answerService;
-        this.responseService = responseService;
-    }
-
 
     @PostMapping(path = "/answer/add")
     public String saveQuestion(AnswerForm answerForm) {

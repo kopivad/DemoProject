@@ -1,26 +1,25 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.service.QuizService;
 import com.kopivad.testingsystem.service.UserQuestionResponseService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
+@AllArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final UserQuestionResponseService responseService;
-
-    @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository, UserQuestionResponseService responseService) {
-        this.quizRepository = quizRepository;
-        this.responseService = responseService;
-    }
 
     @Override
     public void saveQuiz(Quiz quiz) {
@@ -55,5 +54,12 @@ public class QuizServiceImpl implements QuizService {
     public float getPercentageOfCorrectAnswers(long obtained, long total) {
         float percentageOfCorrect = (float)obtained * 100 / total;
         return percentageOfCorrect;
+    }
+
+    @Override
+    public List<Question> getQuestionsBySessionCode(String code) {
+        Stream<UserQuestionResponse> stream = responseService.getAllResponseByCode(code).stream();
+        List<Question> questions = stream.map(UserQuestionResponse::getQuestion).collect(Collectors.toList());
+        return questions;
     }
 }

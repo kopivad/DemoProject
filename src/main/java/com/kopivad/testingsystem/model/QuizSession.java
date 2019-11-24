@@ -1,6 +1,6 @@
 package com.kopivad.testingsystem.model;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,7 +12,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "quiz_sessions")
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class QuizSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id", nullable = false)

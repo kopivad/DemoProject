@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo quiz app</title>
+    <link rel="stylesheet" href="../static/libs/bootstrap-4.0.0/css/bootstrap.min.css"
+          th:href="@{/libs/bootstrap-4.0.0/css/bootstrap.min.css}">
+</head>
+<body>
+<!--Header here-->
+<div th:replace="fragments/header :: header"></div>
+<!--Content-->
+<div class="container">
+    <h1 class="mt-5 mb-4" th:text="${quizTitle}">Quiz title</h1>
+    <h5 th:text="${'Score: ' + correctAmount + ' of ' + totalAmount}"></h5>
+    <h3 th:text="${percentageAmount + '% Correct:'}"></h3>
+
+    <div th:each="response : ${allResponseByCode}">
+        <hr>
+        <div class="card">
+            <h5 class="card-header">Question <span th:text="${allResponseByCode.indexOf(response) + 1}"></span>:</h5>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${response.getQuestion().getTitle()}"></h5>
+                <div th:each="answer : ${response.getQuestion().getAnswers()}" class="custom-control custom-radio mt-1 mb-1">
+                    <input type="radio" th:id="${answer.getId()}" class="custom-control-input" th:checked="${response.getAnswer().getId() == answer.getId()}"
+                           disabled>
+                    <label th:class="${answer.isRight() && response.getAnswer().getId() == answer.getId() ? 'custom-control-label text-success' : 'custom-control-label'}" th:text="${answer.getText()}"
+                           th:for="${answer.getId()}"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="../static/libs/popper-1.14.7/popper.min.js" th:src="@{/libs/popper-1.14.7/popper.min.js}"></script>
+<script src="../static/libs/jquery-3.4.1/jquery-3.4.1.min.js"
+        th:src="@{/libs/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
+<script src="../static/libs/bootstrap-4.0.0/js/bootstrap.min.js"
+        th:src="@{/libs/bootstrap-4.0.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
+
+

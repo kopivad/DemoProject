@@ -6,6 +6,7 @@ import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,15 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
     private final QuizService quizService;
 
-    @Autowired
-    public QuestionController(QuestionService questionService, QuizService quizService) {
-        this.questionService = questionService;
-        this.quizService = quizService;
-    }
 
     @PostMapping(path = "/question/add")
     public String saveQuestion(QuestionForm form) {

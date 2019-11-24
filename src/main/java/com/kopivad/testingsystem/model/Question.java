@@ -1,6 +1,6 @@
 package com.kopivad.testingsystem.model;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,7 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "questions")
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

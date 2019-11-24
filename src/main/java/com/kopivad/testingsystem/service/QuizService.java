@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.service;
 
+import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface QuizService {
     long getTotalOfAnswersBySessionCode(String code);
 
     float getPercentageOfCorrectAnswers(long obtained, long total);
+
+    List<Question> getQuestionsBySessionCode(String code);
 }
