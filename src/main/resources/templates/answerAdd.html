@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
-    <link rel="stylesheet" href="../static/libs/bootstrap-4.0.0/css/bootstrap.min.css"
-          th:href="@{/libs/bootstrap-4.0.0/css/bootstrap.min.css}">
+    <link th:replace="fragments/libs :: css" />
 </head>
 <body>
 <!--Header here-->
@@ -36,8 +35,6 @@
         </form>
     </div>
 </div>
-<script src="../static/libs/popper-1.14.7/popper.min.js" th:src="@{/libs/popper-1.14.7/popper.min.js}"></script>
-<script src="../static/libs/jquery-3.4.1/jquery-3.4.1.min.js" th:src="@{/libs/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
-<script src="../static/libs/bootstrap-4.0.0/js/bootstrap.min.js" th:src="@{/libs/bootstrap-4.0.0/js/bootstrap.min.js}"></script>
+<script th:replace="fragments/libs :: js"></script>
 </body>
 </html>
