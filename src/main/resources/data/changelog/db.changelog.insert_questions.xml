@@ -5,7 +5,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet author="Vadym (generated)" id="1574891634345-1">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="1"/>
             <column name="title" value="Скільки потрібно часу, щоб написати цей англійський тест?"/>
             <column name="quiz_id" value="1"/>
@@ -13,7 +13,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-2">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="2"/>
             <column name="title" value="Учителька примусила учнів прибирати класну кімнату."/>
             <column name="quiz_id" value="1"/>
@@ -21,7 +21,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-3">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="3"/>
             <column name="title" value="Коли вона була дитиною, то захоплювалася балетом."/>
             <column name="quiz_id" value="1"/>
@@ -29,7 +29,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-4">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="4"/>
             <column name="title" value="Учнів не було на останньому уроці."/>
             <column name="quiz_id" value="1"/>
@@ -37,7 +37,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-5">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="5"/>
             <column name="title" value="За таксі пошлють, щойно речі будуть спаковані."/>
             <column name="quiz_id" value="1"/>
@@ -45,7 +45,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-6">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="6"/>
             <column name="title" value="If she knew where they stayed she would join them."/>
             <column name="quiz_id" value="1"/>
@@ -53,7 +53,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-7">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="7"/>
             <column name="title" value="Suddenly I heard somebody play the violin."/>
             <column name="quiz_id" value="1"/>
@@ -61,7 +61,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-8">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="8"/>
             <column name="title" value="I was glad to find my new book on the shelf."/>
             <column name="quiz_id" value="1"/>
@@ -69,7 +69,7 @@
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634345-9">
-        <insert tableName="quizzes">
+        <insert tableName="questions">
             <column name="id" value="9"/>
             <column name="title" value="She found the film very interesting."/>
             <column name="quiz_id" value="1"/>
