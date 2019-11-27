@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
-    <link th:replace="fragments/libs :: css" />
+    <link th:replace="fragments/libs :: css"/>
 </head>
 <body>
 <!--Header here-->
@@ -15,6 +15,7 @@
         <div class="col-2">
             <a th:href="@{/question/add}" href="#" class="btn btn-primary">Add question</a>
         </div>
+
     </div>
 
     <table class="table table-striped mt-3">
@@ -32,7 +33,8 @@
             <th th:text="${question.getId()}" scope="row">Id</th>
             <td th:text="${question.getTitle()}">Title</td>
             <td th:text="${question.getQuiz().getTitle()}">Title</td>
-            <td><a th:text="${question.getAnswers().size()}" th:href="@{/answer/manage/{id} (id = ${question.getId()})}" href="#"></a></td>
+            <td><a th:text="${question.getAnswers().size()}" th:href="@{/answer/manage/{id} (id = ${question.getId()})}"
+                   href="#"></a></td>
             <td><a th:href="@{/question/edit/{id} (id = ${question.getId()})}">Edit</a></td>
         </tr>
     </table>

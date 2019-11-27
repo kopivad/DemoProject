@@ -82,6 +82,14 @@ public class AnswerController {
         return "answerManage";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(path = "/answer/manage/{id}")
+    public String getAllAnswersByQuizIdManagePage(@PathVariable(name = "id") Long id, Model model) {
+        List<Answer> allAnswers = answerService.getAnswersByQuestionId(id);
+        model.addAttribute("answers", allAnswers);
+        return "answerManage";
+    }
+
     @GetMapping(path = "/answer/edit/{id}")
     public String getEditQuestionPage(@PathVariable(name = "id") Long id, Model model) {
         Answer answer = answerService.getAnswerById(id).get();

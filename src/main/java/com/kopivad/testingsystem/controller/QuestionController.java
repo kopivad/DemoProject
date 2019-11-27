@@ -78,6 +78,14 @@ public class QuestionController {
         return "questionAdd";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(path = "/question/manage/{id}")
+    public String getAllQuestionsManageByQuizIdPage(@PathVariable(name = "id") Long id,  Model model) {
+        List<Question> allQuestions = questionService.getQuestionByQuizId(id);
+        model.addAttribute("questions", allQuestions);
+        return "questionManage";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/question/manage")
     public String getQuestionManagePage(Model model) {
         List<Question> allQuestions = questionService.getAllQuestions();
