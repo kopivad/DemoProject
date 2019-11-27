@@ -1,32 +1,33 @@
-<th:block th:fragment="header" xmlns:th="http://www.thymeleaf.org">
-    <div class="header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Quiz app</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/index}" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/quiz/manage}" href="#">Quizzes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/question/manage}" href="#">Questions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/answer/manage}" href="#">Answers</a>
-                    </li>
-                    <li class="nav-item">
-                        <form th:action="@{/logout}" method="post">
-                            <button class="btn btn-light" type="submit">Sign Out</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="nav" class="header">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Quizzes application</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a th:href="@{/index}" class="p-2 text-dark" href="#">Home</a>
+            <th:block sec:authorize="hasAuthority('ADMIN')">
+                <a class="p-2 text-dark" th:href="@{/quiz/manage}" href="#">Quizzes</a>
+                <a class="p-2 text-dark" th:href="@{/question/manage}" href="#">Questions</a>
+                <a class="p-2 text-dark" th:href="@{/answer/manage}" href="#">Answers</a>
+            </th:block>
         </nav>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <div sec:authorize="isAnonymous()">
+                <a th:href="@{/login}" class="btn btn-outline-primary" href="#">Log in</a>
+                <a th:href="@{/signup}" class="btn btn-primary" href="#">Sign up</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <form method="post" th:action="@{/logout}">
+                    <button class="btn btn-primary" type="submit">Sign Out</button>
+                </form>
+            </div>
+
+        </nav>
+
     </div>
-</th:block>
+</div>
+</body>
+</html>

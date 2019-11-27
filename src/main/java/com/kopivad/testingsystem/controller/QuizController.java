@@ -8,6 +8,7 @@ import com.kopivad.testingsystem.service.QuizService;
 import com.kopivad.testingsystem.service.QuizSessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,6 +89,7 @@ public class QuizController {
         return String.format("redirect:/quiz/%d/question/1?code=%s", id, sessionCode);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/quiz/manage")
     public String manageQuiz(Model model) {
         List<Quiz> allQuizzes = quizService.getAllQuizzes();

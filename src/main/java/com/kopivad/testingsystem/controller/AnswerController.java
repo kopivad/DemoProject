@@ -10,12 +10,15 @@ import com.kopivad.testingsystem.service.AnswerService;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.UserQuestionResponseService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +74,7 @@ public class AnswerController {
                 String.format("redirect:/quiz/result/?code=%s" , userResponseForm.getSessionCode()) :
                 String.format("redirect:/quiz/%d/question/%d?code=%s" , currentQuestionQuizId, currentQuestionNumber + 1, userResponseForm.getSessionCode());
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/answer/manage")
     public String getAnswerManagePage(Model model) {
         List<Answer> allAnswers = answerService.getAllAnswers();

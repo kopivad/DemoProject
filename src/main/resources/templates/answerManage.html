@@ -7,7 +7,7 @@
 </head>
 <body>
 <!--Header here-->
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
     <div class="row justify-content-between mt-5">
@@ -20,9 +20,9 @@
     <table class="table table-striped mt-3">
         <thead>
         <tr>
-            <th scope="col">Id</th>
+            <th scope="col">#</th>
             <th scope="col">Answer text</th>
-            <th scope="col">Is right?</th>
+            <th scope="col">Right?</th>
             <th scope="col">Question</th>
             <th scope="col">Action</th>
         </tr>

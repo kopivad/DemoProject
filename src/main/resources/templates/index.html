@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
@@ -9,16 +9,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 </head>
 <body>
 <!--Header here-->
-<div th:replace="fragments/header :: header"></div>
-<div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
-    Logged in user: <span sec:authentication="name"></span> |
-    Roles: <span sec:authentication="principal.authorities"></span>
-    <div>
-        <form action="#" th:action="@{/logout}" method="post">
-            <input type="submit" value="Logout" />
-        </form>
-    </div>
-</div>
+<div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
     <br>
