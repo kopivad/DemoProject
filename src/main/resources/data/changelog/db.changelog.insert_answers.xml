@@ -1,0 +1,81 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="Vadym (generated)" id="1574891634344-1">
+        <insert tableName="answers">
+            <column name="id" value="1"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How much time does it take to write this English test?"/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Vadym (generated)" id="1574891634344-2">
+        <insert tableName="answers">
+            <column name="id" value="2"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How long did it take to write this English test?"/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Vadym (generated)" id="1574891634344-3">
+        <insert tableName="answers">
+            <column name="id" value="3"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How many hours does it take to write this English test."/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Vadym (generated)" id="1574891634344-4">
+        <insert tableName="answers">
+            <column name="id" value="4"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How long does it take to write this English How many hours does it take to write this English test."/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+<!--    -->
+
+    <changeSet author="Vadym (generated)" id="1574891634344-5">
+        <insert tableName="answers">
+            <column name="id" value="5"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How much time does it take to write this English test?"/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Vadym (generated)" id="1574891634344-6">
+        <insert tableName="answers">
+            <column name="id" value="6"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How long did it take to write this English test?"/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Vadym (generated)" id="1574891634344-7">
+        <insert tableName="answers">
+            <column name="id" value="7"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="How many hours does it take to write this English test."/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Vadym (generated)" id="1574891634344-8">
+        <insert tableName="answers">
+            <column name="id" value="8"/>
+            <column name="isRight" value="0"/>
+            <column name="text" value="The teacher made her pupils to do the classroom."/>
+            <column name="question_id" value="1"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

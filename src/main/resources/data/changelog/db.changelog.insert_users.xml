@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Vadym (generated)" id="1574891634343-1">
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="nickname" value="Admin"/>
+            <column name="email" value="admin@gmail.com"/>
+            <column name="password" value="$2a$08$AYgAjhOsopRZ2Ye/tGq98e6b6fucc6fx.oo2mUK2/BItmBvPPHin6"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Vadym (generated)" id="1574891634343-2">
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="roles" value="ADMIN"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Vadym (generated)" id="1574891634343-3">
+        <insert tableName="users">
+            <column name="id" value="2"/>
+            <column name="nickname" value="User"/>
+            <column name="email" value="user@gmail.com"/>
+            <column name="password" value="$2a$08$Vb.jbmrq31zNvuu0OjA26eLXgRI2S7xKuuOMKE.t9MjUKyGeTczFq"/>
+        </insert>
+    </changeSet>
+    <changeSet author="Vadym (generated)" id="1574891634343-4">
+        <insert tableName="user_roles">
+            <column name="user_id" value="2"/>
+            <column name="roles" value="USER"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
