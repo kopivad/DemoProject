@@ -23,12 +23,12 @@
                 <h4 class="card-title mb-4 mt-1">Sign in</h4>
                 <form th:action="@{/login}" method="post">
                     <div class="form-group">
-                        <label>Your email</label>
+                        <label>Your email:</label>
                         <input name="username" class="form-control" placeholder="Email" type="text">
                     </div> <!-- form-group// -->
                     <div class="form-group">
-                        <a class="float-right" href="#">Forgot?</a>
-                        <label>Your password</label>
+                        <a class="float-right" th:href="@{/forgot}" href="#">Forgot?</a>
+                        <label>Your password:</label>
                         <input name="password" class="form-control" placeholder="******" type="password">
                     </div> <!-- form-group// -->
 <!--                    <div class="form-group">-->
