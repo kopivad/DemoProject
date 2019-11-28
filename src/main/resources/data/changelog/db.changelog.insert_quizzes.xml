@@ -11,4 +11,9 @@
             <column name="user_id" value="2"/>
         </insert>
     </changeSet>
+    <changeSet author="Vadym (generated)" id="1574891634344-2">
+        <insert tableName="hibernate_sequence">
+            <column name="next_val" value="2"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

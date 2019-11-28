@@ -76,4 +76,10 @@
         </insert>
     </changeSet>
 
+    <changeSet author="Vadym (generated)" id="1574891634344-10">
+        <insert tableName="hibernate_sequence">
+            <column name="next_val" value="10"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
