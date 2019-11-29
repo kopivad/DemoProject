@@ -11,7 +11,7 @@ public interface QuizService {
 
     List<Quiz> getAllQuizzes();
 
-    Optional<Quiz> getQuizById(Long id);
+    Quiz getQuizById(Long id);
 
     long getCountOfCorrectAnswersBySessionCode(String code);
 

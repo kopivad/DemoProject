@@ -40,7 +40,7 @@ public class QuizController {
 
     @PostMapping(path = "quiz/edit")
     public String editQuiz(@ModelAttribute QuizForm quizForm) {
-        Quiz quizForUpdate = quizService.getQuizById(quizForm.getQuizId()).get();
+        Quiz quizForUpdate = quizService.getQuizById(quizForm.getQuizId());
         quizForUpdate.setTitle(quizForm.getTitle());
         quizForUpdate.setDescription(quizForm.getDescription());
         quizService.saveQuiz(quizForUpdate);
@@ -62,7 +62,7 @@ public class QuizController {
 
     @GetMapping(path = "quiz/{id}")
     public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model) {
-        Quiz currentQuiz = quizService.getQuizById(quizId).get();
+        Quiz currentQuiz = quizService.getQuizById(quizId);
         model.addAttribute("quiz", currentQuiz);
         return "quiz";
     }
@@ -75,7 +75,7 @@ public class QuizController {
 
     @GetMapping(path = "/quiz/edit/{id}")
     public String getEditQuizPage(@PathVariable(name = "id") Long id, Model model, QuizForm quizForm) {
-        Quiz currentQuiz = quizService.getQuizById(id).get();
+        Quiz currentQuiz = quizService.getQuizById(id);
         model.addAttribute("quiz", currentQuiz);
         model.addAttribute("quizForm", quizForm);
         return "quizEdit";
@@ -84,7 +84,7 @@ public class QuizController {
     @GetMapping(path = "/quiz/{id}/start")
     public String startQuiz(@PathVariable(name = "id") Long id) {
         String sessionCode = UUID.randomUUID().toString();
-        Quiz currentQuiz = quizService.getQuizById(id).get();
+        Quiz currentQuiz = quizService.getQuizById(id);
         QuizSession quizSession = new QuizSession();
         quizSession.setQuiz(currentQuiz);
         quizSession.setCode(sessionCode);

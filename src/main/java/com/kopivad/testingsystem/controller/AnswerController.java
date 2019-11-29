@@ -31,7 +31,7 @@ public class AnswerController {
 
     @PostMapping(path = "/answer/add")
     public String saveQuestion(AnswerForm answerForm) {
-        Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId()).get();
+        Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId());
         Answer newAnswer = new Answer();
         newAnswer.setText(answerForm.getText());
         newAnswer.setRight(answerForm.getIsRight() != null);
@@ -42,8 +42,8 @@ public class AnswerController {
 
     @PostMapping(path = "/answer/edit")
     public String editQuiz(AnswerForm answerForm) {
-        Answer answerForUpdate = answerService.getAnswerById(answerForm.getAnswerId()).get();
-        Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId()).get();
+        Answer answerForUpdate = answerService.getAnswerById(answerForm.getAnswerId());
+        Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId());
         answerForUpdate.setRight(answerForm.getIsRight() != null);
         answerForUpdate.setText(answerForm.getText());
         answerForUpdate.setQuestion(currentQuestion);
@@ -60,12 +60,12 @@ public class AnswerController {
 
     @PostMapping(path = "/answer")
     public String getUserAnswer(UserQuestionResponseForm userResponseForm) {
-        Question userQuestion = questionService.getQuestionById(userResponseForm.getQuestionId()).get();
+        Question userQuestion = questionService.getQuestionById(userResponseForm.getQuestionId());
         Long currentQuestionNumber = userResponseForm.getQuestionNumber();
         Long totalQuizPage = userResponseForm.getQuestionTotalPages();
         Long currentQuestionQuizId = userQuestion.getQuiz().getId();
         UserQuestionResponse userResponse = new UserQuestionResponse();
-        Answer questionAnswer = answerService.getAnswerById(userResponseForm.getUserAnswerId()).get();
+        Answer questionAnswer = answerService.getAnswerById(userResponseForm.getUserAnswerId());
         userResponse.setSessionCode(userResponseForm.getSessionCode());
         userResponse.setQuestion(userQuestion);
         userResponse.setAnswer(questionAnswer);
@@ -92,7 +92,7 @@ public class AnswerController {
 
     @GetMapping(path = "/answer/edit/{id}")
     public String getEditQuestionPage(@PathVariable(name = "id") Long id, Model model) {
-        Answer answer = answerService.getAnswerById(id).get();
+        Answer answer = answerService.getAnswerById(id);
         List<Question> allQuestions = questionService.getAllQuestions();
         model.addAttribute("answer", answer);
         model.addAttribute("questions", allQuestions);

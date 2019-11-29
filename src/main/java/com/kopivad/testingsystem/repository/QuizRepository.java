@@ -1,12 +1,16 @@
 package com.kopivad.testingsystem.repository;
 
 import com.kopivad.testingsystem.model.Quiz;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface QuizRepository extends CrudRepository<Quiz, Long> {
+@NoRepositoryBean
+public interface QuizRepository {
     List<Quiz> findAll();
+
+    Quiz save(Quiz quiz);
+
+    Quiz findQuizById(Long id);
 }

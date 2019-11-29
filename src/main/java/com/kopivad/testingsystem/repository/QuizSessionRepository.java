@@ -1,10 +1,11 @@
 package com.kopivad.testingsystem.repository;
 
 import com.kopivad.testingsystem.model.QuizSession;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-@Repository
-public interface QuizSessionRepository extends JpaRepository<QuizSession, String> {
+@NoRepositoryBean
+public interface QuizSessionRepository {
     QuizSession findByCode(String code);
+
+    QuizSession save(QuizSession quizSession);
 }

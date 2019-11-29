@@ -23,8 +23,8 @@ public class AnswerServiceImpl implements AnswerService {
         return answerRepository.findAllByQuestionId(id);
     }
 
-    public Optional<Answer> getAnswerById(Long id) {
-        return answerRepository.findById(id);
+    public Answer getAnswerById(Long id) {
+        return answerRepository.findAnswerById(id);
     }
 
     @Override

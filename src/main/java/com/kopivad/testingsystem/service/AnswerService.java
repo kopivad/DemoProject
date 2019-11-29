@@ -10,7 +10,7 @@ public interface AnswerService {
 
     List<Answer> getAnswersByQuestionId(Long id);
 
-    Optional<Answer> getAnswerById(Long id);
+    Answer getAnswerById(Long id);
 
     List<Answer> getAllAnswers();
 }

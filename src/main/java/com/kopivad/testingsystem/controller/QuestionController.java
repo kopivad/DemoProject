@@ -30,7 +30,7 @@ public class QuestionController {
 
     @PostMapping(path = "/question/add")
     public String saveQuestion(QuestionForm form) {
-        Quiz quiz = quizService.getQuizById(form.getQuizId()).get();
+        Quiz quiz = quizService.getQuizById(form.getQuizId());
         Question newQuestion = new Question();
         newQuestion.setTitle(form.getTitle());
         newQuestion.setQuiz(quiz);
@@ -40,8 +40,8 @@ public class QuestionController {
 
     @PostMapping(path = "question/edit")
     public String editQuiz(@ModelAttribute QuestionForm questionForm) {
-        Question questionForUpdate = questionService.getQuestionById(questionForm.getQuestionId()).get();
-        Quiz currentQuiz = quizService.getQuizById(questionForm.getQuizId()).get();
+        Question questionForUpdate = questionService.getQuestionById(questionForm.getQuestionId());
+        Quiz currentQuiz = quizService.getQuizById(questionForm.getQuizId());
         questionForUpdate.setTitle(questionForm.getTitle());
         questionForUpdate.setQuiz(currentQuiz);
         questionService.saveQuestion(questionForUpdate);
@@ -56,7 +56,7 @@ public class QuestionController {
     ) {
         model.addAttribute("quizId", quizId);
         Pageable pageable = PageRequest.of(n - 1, 1);
-        Quiz currentQuiz = quizService.getQuizById(quizId).get();
+        Quiz currentQuiz = quizService.getQuizById(quizId);
         Page<Question> question = questionService.getQuestionByQuizId(quizId, pageable);
 
         Question currentQuestion = question.getContent().get(0);
@@ -95,7 +95,7 @@ public class QuestionController {
 
     @GetMapping(path = "/question/edit/{id}")
     public String getEditQuestionPage(@PathVariable(name = "id") Long id, Model model, QuestionForm questionForm) {
-        Question currentQuestion = questionService.getQuestionById(id).get();
+        Question currentQuestion = questionService.getQuestionById(id);
         List<Quiz> allQuizzes = quizService.getAllQuizzes();
         model.addAttribute("question", currentQuestion);
         model.addAttribute("quizzes", allQuizzes);

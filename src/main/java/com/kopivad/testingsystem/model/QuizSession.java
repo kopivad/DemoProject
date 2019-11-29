@@ -17,18 +17,13 @@ import java.util.UUID;
 @Getter
 @Setter
 public class QuizSession {
+    @Id
+    private String code;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Quiz quiz;
-
-    @Id
-    private String code;
-
-//    @OneToMany(cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY,
-//            mappedBy = "session")
-//    private List<QuizResult> quizResults;
 
     @CreatedDate
     private Date createdDate;
