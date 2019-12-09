@@ -4,13 +4,11 @@ import com.kopivad.testingsystem.form.AnswerForm;
 import com.kopivad.testingsystem.form.UserQuestionResponseForm;
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
 import com.kopivad.testingsystem.service.AnswerService;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.UserQuestionResponseService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -47,7 +43,7 @@ public class AnswerController {
         answerForUpdate.setRight(answerForm.getIsRight() != null);
         answerForUpdate.setText(answerForm.getText());
         answerForUpdate.setQuestion(currentQuestion);
-        answerService.saveAnswer(answerForUpdate);
+        answerService.updateAnswer(answerForUpdate);
         return "redirect:/answer/manage";
     }
 

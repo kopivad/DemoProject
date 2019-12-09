@@ -7,4 +7,6 @@ public interface UserService extends UserDetailsService {
     void saveUser(User user);
 
     User getUserByEmail(String email);
+
+    User getUserById(Long userId);
 }

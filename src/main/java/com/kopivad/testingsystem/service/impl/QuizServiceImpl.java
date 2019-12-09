@@ -1,17 +1,15 @@
 package com.kopivad.testingsystem.service.impl;
 
 import com.kopivad.testingsystem.model.Question;
+import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
 import com.kopivad.testingsystem.repository.QuizRepository;
-import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.service.QuizService;
 import com.kopivad.testingsystem.service.UserQuestionResponseService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,7 +21,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void saveQuiz(Quiz quiz) {
-        quizRepository.save(quiz);
+        quizRepository.saveQuiz(quiz);
     }
 
     @Override
@@ -61,5 +59,10 @@ public class QuizServiceImpl implements QuizService {
         Stream<UserQuestionResponse> stream = responseService.getAllResponseByCode(code).stream();
         List<Question> questions = stream.map(UserQuestionResponse::getQuestion).collect(Collectors.toList());
         return questions;
+    }
+
+    @Override
+    public List<Quiz> getAllQuizzesByUserId(Long id) {
+        return quizRepository.findAllByAuthorId(id);
     }
 }

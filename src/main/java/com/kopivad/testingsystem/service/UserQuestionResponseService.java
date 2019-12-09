@@ -8,4 +8,6 @@ public interface UserQuestionResponseService {
     void saveUserResponse(UserQuestionResponse userAnswer);
 
     List<UserQuestionResponse> getAllResponseByCode(String code);
+
+    List<UserQuestionResponse> getAllByQuestionId(Long id);
 }

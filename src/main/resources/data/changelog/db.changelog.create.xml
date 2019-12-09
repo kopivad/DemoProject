@@ -1,87 +1,89 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="Vadym (generated)" id="1574891634342-1">
         <createTable tableName="answers">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT"  >
+                <constraints nullable="true"/>
             </column>
             <column name="is_right" type="BIT(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="text" type="VARCHAR(255)"/>
             <column name="question_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
 
     <changeSet author="Vadym (generated)" id="1574891634342-4">
         <createTable tableName="questions">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT"  >
+                <constraints nullable="true"/>
             </column>
             <column name="title" type="VARCHAR(255)"/>
             <column name="quiz_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634342-6">
         <createTable tableName="quiz_results">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT"  >
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634342-7">
         <createTable tableName="quiz_sessions">
-            <column name="code" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+            <column name="code" type="VARCHAR(255)" >
+                <constraints nullable="true"/>
             </column>
             <column name="created_date" type="datetime(6)"/>
             <column name="quiz_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634342-8">
         <createTable tableName="quizzes">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT"  >
+                <constraints nullable="true"/>
             </column>
             <column name="description" type="VARCHAR(255)"/>
             <column name="title" type="VARCHAR(255)"/>
             <column name="user_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634342-10">
         <createTable tableName="user_responces">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT"  >
+                <constraints nullable="true"/>
             </column>
             <column name="session_code" type="VARCHAR(255)"/>
             <column name="answer_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="question_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634342-11">
         <createTable tableName="user_roles">
-            <column name="user_id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="user_id" type="BIGINT"  >
+                <constraints nullable="true"/>
             </column>
             <column name="roles" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634342-12">
         <createTable tableName="users">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT" >
+                <constraints nullable="true"/>
             </column>
             <column name="email" type="VARCHAR(255)"/>
             <column name="nickname" type="VARCHAR(255)"/>

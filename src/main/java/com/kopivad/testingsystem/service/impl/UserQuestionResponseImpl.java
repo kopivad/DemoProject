@@ -22,4 +22,9 @@ public class UserQuestionResponseImpl implements UserQuestionResponseService {
     public List<UserQuestionResponse> getAllResponseByCode(String code) {
         return userAnswerRepository.findAllBySessionCode(code);
     }
+
+    @Override
+    public List<UserQuestionResponse> getAllByQuestionId(Long id) {
+        return userAnswerRepository.findAllByQuestionId(id);
+    }
 }

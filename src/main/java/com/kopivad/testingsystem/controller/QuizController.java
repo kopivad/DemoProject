@@ -3,13 +3,9 @@ package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.QuizSession;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.QuizService;
-import com.kopivad.testingsystem.service.QuizSessionService;
-import com.kopivad.testingsystem.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,7 +22,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class QuizController {
     private final QuizService quizService;
-    private final QuizSessionService quizSessionService;
 
     @PostMapping(path = "quiz/add")
     public String saveQuiz(@AuthenticationPrincipal User user, @ModelAttribute QuizForm quizForm) {
@@ -84,11 +79,6 @@ public class QuizController {
     @GetMapping(path = "/quiz/{id}/start")
     public String startQuiz(@PathVariable(name = "id") Long id) {
         String sessionCode = UUID.randomUUID().toString();
-        Quiz currentQuiz = quizService.getQuizById(id);
-        QuizSession quizSession = new QuizSession();
-        quizSession.setQuiz(currentQuiz);
-        quizSession.setCode(sessionCode);
-        quizSessionService.createQuizSession(quizSession);
         return String.format("redirect:/quiz/%d/question/1?code=%s", id, sessionCode);
     }
 

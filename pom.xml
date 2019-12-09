@@ -32,6 +32,10 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 			<version>3.5.3</version>
@@ -81,7 +85,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.15</version>
+			<version>8.0.17</version>
 		</dependency>
 
 		<dependency>
@@ -109,6 +113,59 @@
 				<version>3.5.3</version>
 				<configuration>
 					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<version>3.12.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>8.0.17</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<jdbc>
+						<driver>com.mysql.cj.jdbc.Driver</driver>
+						<url>jdbc:mysql://localhost:3306/testing_system</url>
+						<user>root</user>
+						<password>root</password>
+					</jdbc>
+					<generator>
+						<name>org.jooq.codegen.JavaGenerator</name>
+						<database>
+							<name>org.jooq.meta.mysql.MySQLDatabase</name>
+							<includes>.*</includes>
+							<excludes>
+								databasechangelog |
+								databasechangeloglock |
+								hibernate_sequence
+							</excludes>
+							<inputSchema>testing_system</inputSchema>
+						</database>
+						<target>
+							<packageName>com.kopivad.testingsystem.model.db</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>9</source>
+					<target>9</target>
 				</configuration>
 			</plugin>
 		</plugins>

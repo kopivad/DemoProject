@@ -4,7 +4,6 @@ import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface QuizService {
     void saveQuiz(Quiz quiz);
@@ -20,4 +19,6 @@ public interface QuizService {
     float getPercentageOfCorrectAnswers(long obtained, long total);
 
     List<Question> getQuestionsBySessionCode(String code);
+
+    List<Quiz> getAllQuizzesByUserId(Long id);
 }

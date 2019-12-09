@@ -1,13 +1,11 @@
 package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.QuestionForm;
-import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +42,7 @@ public class QuestionController {
         Quiz currentQuiz = quizService.getQuizById(questionForm.getQuizId());
         questionForUpdate.setTitle(questionForm.getTitle());
         questionForUpdate.setQuiz(currentQuiz);
-        questionService.saveQuestion(questionForUpdate);
+        questionService.updateQuestion(questionForUpdate);
         return "redirect:/question/manage";
     }
 

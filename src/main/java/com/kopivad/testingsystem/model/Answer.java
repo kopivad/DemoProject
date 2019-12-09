@@ -13,9 +13,10 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "answers")
+@Builder
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String text;
@@ -27,10 +28,6 @@ public class Answer {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 
-//    @OneToMany(cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY,
-//            mappedBy = "answer")
-//    private List<QuizResult> quizResults;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

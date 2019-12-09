@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -16,7 +15,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public void saveAnswer(Answer answer) {
-        answerRepository.save(answer);
+        answerRepository.saveAnswer(answer);
     }
 
     public List<Answer> getAnswersByQuestionId(Long id) {
@@ -31,4 +30,11 @@ public class AnswerServiceImpl implements AnswerService {
     public List<Answer> getAllAnswers() {
         return answerRepository.findAll();
     }
+
+    @Override
+    public void updateAnswer(Answer answer) {
+        answerRepository.updateAnswer(answer);
+    }
+
+
 }

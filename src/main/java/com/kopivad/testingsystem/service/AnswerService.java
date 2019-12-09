@@ -3,7 +3,6 @@ package com.kopivad.testingsystem.service;
 import com.kopivad.testingsystem.model.Answer;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AnswerService {
     void saveAnswer(Answer answer);
@@ -13,4 +12,6 @@ public interface AnswerService {
     Answer getAnswerById(Long id);
 
     List<Answer> getAllAnswers();
+
+    void updateAnswer(Answer answer);
 }

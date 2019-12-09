@@ -7,7 +7,11 @@ import java.util.List;
 
 @NoRepositoryBean
 public interface UserQuestionResponseRepository {
-    List<UserQuestionResponse> findAllBySessionCode(String secodessionId);
+    List<UserQuestionResponse> findAllBySessionCode(String sessionCode);
 
     UserQuestionResponse save(UserQuestionResponse userAnswer);
+
+    List<UserQuestionResponse> findAllByQuestionId(Long id);
+
+    List<UserQuestionResponse> findAllByAnswerId(Long id);
 }
