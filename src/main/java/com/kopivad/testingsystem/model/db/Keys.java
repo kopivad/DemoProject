@@ -4,14 +4,25 @@
 package com.kopivad.testingsystem.model.db;
 
 
-import com.kopivad.testingsystem.model.db.tables.*;
-import com.kopivad.testingsystem.model.db.tables.records.*;
+import com.kopivad.testingsystem.model.db.tables.Answers;
+import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.Quizzes;
+import com.kopivad.testingsystem.model.db.tables.UserResponces;
+import com.kopivad.testingsystem.model.db.tables.UserRoles;
+import com.kopivad.testingsystem.model.db.tables.Users;
+import com.kopivad.testingsystem.model.db.tables.records.AnswersRecord;
+import com.kopivad.testingsystem.model.db.tables.records.QuestionsRecord;
+import com.kopivad.testingsystem.model.db.tables.records.QuizzesRecord;
+import com.kopivad.testingsystem.model.db.tables.records.UserResponcesRecord;
+import com.kopivad.testingsystem.model.db.tables.records.UserRolesRecord;
+import com.kopivad.testingsystem.model.db.tables.records.UsersRecord;
+
+import javax.annotation.processing.Generated;
+
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
-
-import javax.annotation.processing.Generated;
 
 
 /**
@@ -34,7 +45,6 @@ public class Keys {
 
     public static final Identity<AnswersRecord, Long> IDENTITY_ANSWERS = Identities0.IDENTITY_ANSWERS;
     public static final Identity<QuestionsRecord, Long> IDENTITY_QUESTIONS = Identities0.IDENTITY_QUESTIONS;
-    public static final Identity<QuizResultsRecord, Long> IDENTITY_QUIZ_RESULTS = Identities0.IDENTITY_QUIZ_RESULTS;
     public static final Identity<QuizzesRecord, Long> IDENTITY_QUIZZES = Identities0.IDENTITY_QUIZZES;
     public static final Identity<UserResponcesRecord, Long> IDENTITY_USER_RESPONCES = Identities0.IDENTITY_USER_RESPONCES;
     public static final Identity<UsersRecord, Long> IDENTITY_USERS = Identities0.IDENTITY_USERS;
@@ -45,7 +55,6 @@ public class Keys {
 
     public static final UniqueKey<AnswersRecord> KEY_ANSWERS_PRIMARY = UniqueKeys0.KEY_ANSWERS_PRIMARY;
     public static final UniqueKey<QuestionsRecord> KEY_QUESTIONS_PRIMARY = UniqueKeys0.KEY_QUESTIONS_PRIMARY;
-    public static final UniqueKey<QuizResultsRecord> KEY_QUIZ_RESULTS_PRIMARY = UniqueKeys0.KEY_QUIZ_RESULTS_PRIMARY;
     public static final UniqueKey<QuizzesRecord> KEY_QUIZZES_PRIMARY = UniqueKeys0.KEY_QUIZZES_PRIMARY;
     public static final UniqueKey<UserResponcesRecord> KEY_USER_RESPONCES_PRIMARY = UniqueKeys0.KEY_USER_RESPONCES_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
@@ -68,7 +77,6 @@ public class Keys {
     private static class Identities0 {
         public static Identity<AnswersRecord, Long> IDENTITY_ANSWERS = Internal.createIdentity(Answers.ANSWERS, Answers.ANSWERS.ID);
         public static Identity<QuestionsRecord, Long> IDENTITY_QUESTIONS = Internal.createIdentity(Questions.QUESTIONS, Questions.QUESTIONS.ID);
-        public static Identity<QuizResultsRecord, Long> IDENTITY_QUIZ_RESULTS = Internal.createIdentity(QuizResults.QUIZ_RESULTS, QuizResults.QUIZ_RESULTS.ID);
         public static Identity<QuizzesRecord, Long> IDENTITY_QUIZZES = Internal.createIdentity(Quizzes.QUIZZES, Quizzes.QUIZZES.ID);
         public static Identity<UserResponcesRecord, Long> IDENTITY_USER_RESPONCES = Internal.createIdentity(UserResponces.USER_RESPONCES, UserResponces.USER_RESPONCES.ID);
         public static Identity<UsersRecord, Long> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID);
@@ -77,7 +85,6 @@ public class Keys {
     private static class UniqueKeys0 {
         public static final UniqueKey<AnswersRecord> KEY_ANSWERS_PRIMARY = Internal.createUniqueKey(Answers.ANSWERS, "KEY_answers_PRIMARY", Answers.ANSWERS.ID);
         public static final UniqueKey<QuestionsRecord> KEY_QUESTIONS_PRIMARY = Internal.createUniqueKey(Questions.QUESTIONS, "KEY_questions_PRIMARY", Questions.QUESTIONS.ID);
-        public static final UniqueKey<QuizResultsRecord> KEY_QUIZ_RESULTS_PRIMARY = Internal.createUniqueKey(QuizResults.QUIZ_RESULTS, "KEY_quiz_results_PRIMARY", QuizResults.QUIZ_RESULTS.ID);
         public static final UniqueKey<QuizzesRecord> KEY_QUIZZES_PRIMARY = Internal.createUniqueKey(Quizzes.QUIZZES, "KEY_quizzes_PRIMARY", Quizzes.QUIZZES.ID);
         public static final UniqueKey<UserResponcesRecord> KEY_USER_RESPONCES_PRIMARY = Internal.createUniqueKey(UserResponces.USER_RESPONCES, "KEY_user_responces_PRIMARY", UserResponces.USER_RESPONCES.ID);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID);

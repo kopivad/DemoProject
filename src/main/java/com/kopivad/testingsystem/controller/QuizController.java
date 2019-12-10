@@ -4,6 +4,7 @@ package com.kopivad.testingsystem.controller;
 import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,10 +23,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class QuizController {
     private final QuizService quizService;
+    private final QuestionService questionService;
 
     @PostMapping(path = "quiz/add")
     public String saveQuiz(@AuthenticationPrincipal User user, @ModelAttribute QuizForm quizForm) {
         Quiz newQuiz = new Quiz();
+        newQuiz.setId(-1L);
         newQuiz.setTitle(quizForm.getTitle());
         newQuiz.setDescription(quizForm.getDescription());
         newQuiz.setAuthor(user);
@@ -58,7 +61,9 @@ public class QuizController {
     @GetMapping(path = "quiz/{id}")
     public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model) {
         Quiz currentQuiz = quizService.getQuizById(quizId);
+        long questionAmount = questionService.countByQuizId(quizId);
         model.addAttribute("quiz", currentQuiz);
+        model.addAttribute("questionAmount", questionAmount);
         return "quiz";
     }
 

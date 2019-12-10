@@ -5,12 +5,13 @@ package com.kopivad.testingsystem.model.db.tables.records;
 
 
 import com.kopivad.testingsystem.model.db.tables.UserRoles;
+
+import javax.annotation.processing.Generated;
+
 import org.jooq.Field;
 import org.jooq.Record2;
 import org.jooq.Row2;
 import org.jooq.impl.TableRecordImpl;
-
-import javax.annotation.processing.Generated;
 
 
 /**

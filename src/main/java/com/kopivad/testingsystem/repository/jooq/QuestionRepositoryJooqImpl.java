@@ -58,15 +58,11 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
 
     @Override
     public List<Question> findAll() {
-        List<Question> questions = dslContext
+        return dslContext
                 .select()
                 .from(QUESTIONS)
                 .fetch()
                 .map(this::getQuestionFromRecord);
-
-        int size = questions.size();
-
-        return questions;
     }
 
     @Override
@@ -89,12 +85,11 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
 
     @Override
     public Question findQuestionById(Long questionId) {
-        Question question = dslContext
+        return dslContext
                 .selectFrom(QUESTIONS)
                 .where(QUESTIONS.ID.eq(questionId))
                 .fetchOne()
                 .map(this::getQuestionFromRecord);
-        return question;
     }
 
     @Override
@@ -105,6 +100,16 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .set(QUESTIONS.TITLE, question.getTitle())
                 .where(QUESTIONS.ID.eq(question.getId()))
                 .execute();
+    }
+
+    @Override
+    public long countByQuizId(Long quizId) {
+        return dslContext
+                .selectCount()
+                .from(QUESTIONS)
+                .where(QUESTIONS.QUIZ_ID.eq(quizId))
+                .fetchOne()
+                .into(long.class);
     }
 
     private Question getQuestionFromRecord(Record r) {

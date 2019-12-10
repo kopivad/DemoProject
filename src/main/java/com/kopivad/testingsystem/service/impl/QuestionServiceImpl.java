@@ -44,6 +44,11 @@ public class QuestionServiceImpl implements QuestionService {
         questionRepository.updateQuestion(questionForUpdate);
     }
 
+    @Override
+    public long countByQuizId(Long quizId) {
+        return questionRepository.countByQuizId(quizId);
+    }
+
     @Autowired
     public void setQuestionRepository(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;

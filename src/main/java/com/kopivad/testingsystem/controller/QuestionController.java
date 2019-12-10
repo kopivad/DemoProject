@@ -30,6 +30,7 @@ public class QuestionController {
     public String saveQuestion(QuestionForm form) {
         Quiz quiz = quizService.getQuizById(form.getQuizId());
         Question newQuestion = new Question();
+        newQuestion.setId(-1L);
         newQuestion.setTitle(form.getTitle());
         newQuestion.setQuiz(quiz);
         questionService.saveQuestion(newQuestion);

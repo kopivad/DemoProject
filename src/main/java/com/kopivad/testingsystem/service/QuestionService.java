@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface QuestionService {
     void saveQuestion(Question question);
+
     Page<Question> getQuestionByQuizId(Long id, Pageable pageable);
+
     Question getQuestionById(Long questionId);
 
     List<Question> getAllQuestions();
@@ -16,4 +18,6 @@ public interface QuestionService {
     List<Question> getQuestionByQuizId(Long id);
 
     void updateQuestion(Question questionForUpdate);
+
+    long countByQuizId(Long quizId);
 }

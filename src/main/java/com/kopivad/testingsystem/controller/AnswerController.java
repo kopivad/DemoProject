@@ -29,6 +29,7 @@ public class AnswerController {
     public String saveQuestion(AnswerForm answerForm) {
         Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId());
         Answer newAnswer = new Answer();
+        newAnswer.setId(-1L);
         newAnswer.setText(answerForm.getText());
         newAnswer.setRight(answerForm.getIsRight() != null);
         newAnswer.setQuestion(currentQuestion);
@@ -62,6 +63,7 @@ public class AnswerController {
         Long currentQuestionQuizId = userQuestion.getQuiz().getId();
         UserQuestionResponse userResponse = new UserQuestionResponse();
         Answer questionAnswer = answerService.getAnswerById(userResponseForm.getUserAnswerId());
+        userResponse.setId(-1L);
         userResponse.setSessionCode(userResponseForm.getSessionCode());
         userResponse.setQuestion(userQuestion);
         userResponse.setAnswer(questionAnswer);

@@ -31,4 +31,8 @@ public interface QuestionRepositorySpringDataImpl extends QuestionRepository, Pa
     default void updateQuestion(Question question) {
         save(question);
     }
+
+    @Override
+    long countByQuizId(Long quizId);
+
 }

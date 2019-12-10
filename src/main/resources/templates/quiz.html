@@ -10,22 +10,11 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <h1 class="mt-4" th:text="${quiz.getTitle()}">Quiz title</h1>
-    <p th:text="${quiz.getDescription()}">Quiz desc</p>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card bg-body text-body">
-                <div class="card-body">
-                    <h4 class="card-title display-4">Start the quiz</h4>
-                    <p class="card-text">
-                        Good luck!
-                    </p>
-                    <a th:href="@{/quiz/{id}/start (id = ${quiz.getId()})}" class="btn btn-success" href="#" role="button">Start the <span th:text="${quiz.getTitle()}">Quiz title</span> quiz</a>
-                    <br>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1 class="mt-4" th:text="${'Title: ' + quiz.getTitle()}">Quiz title</h1>
+    <br>
+    <p th:text="${'Description: ' + quiz.getDescription()}">Quiz desc</p>
+    <p th:text="${'Count of questions: ' + questionAmount}">Question amount</p>
+    <a th:href="@{/quiz/{id}/start (id = ${quiz.getId()})}" class="btn btn-success" href="#" role="button">Start the <span th:text="${quiz.getTitle()}">Quiz title</span> quiz</a>
 </div>
 <script th:replace="fragments/libs :: js"></script>
 </body>

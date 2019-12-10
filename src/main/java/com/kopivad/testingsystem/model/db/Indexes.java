@@ -4,12 +4,18 @@
 package com.kopivad.testingsystem.model.db;
 
 
-import com.kopivad.testingsystem.model.db.tables.*;
+import com.kopivad.testingsystem.model.db.tables.Answers;
+import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.Quizzes;
+import com.kopivad.testingsystem.model.db.tables.UserResponces;
+import com.kopivad.testingsystem.model.db.tables.UserRoles;
+import com.kopivad.testingsystem.model.db.tables.Users;
+
+import javax.annotation.processing.Generated;
+
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.Internal;
-
-import javax.annotation.processing.Generated;
 
 
 /**
@@ -34,7 +40,6 @@ public class Indexes {
     public static final Index ANSWERS_PRIMARY = Indexes0.ANSWERS_PRIMARY;
     public static final Index QUESTIONS_FKN3GVCO4B0KEWXC0BYWF1IGFMS = Indexes0.QUESTIONS_FKN3GVCO4B0KEWXC0BYWF1IGFMS;
     public static final Index QUESTIONS_PRIMARY = Indexes0.QUESTIONS_PRIMARY;
-    public static final Index QUIZ_RESULTS_PRIMARY = Indexes0.QUIZ_RESULTS_PRIMARY;
     public static final Index QUIZZES_FKA2RODABLX8MHCE3BDAJ19EQHE = Indexes0.QUIZZES_FKA2RODABLX8MHCE3BDAJ19EQHE;
     public static final Index QUIZZES_PRIMARY = Indexes0.QUIZZES_PRIMARY;
     public static final Index USER_RESPONCES_FK323KVT7ONI5T0B0TR570YYN9T = Indexes0.USER_RESPONCES_FK323KVT7ONI5T0B0TR570YYN9T;
@@ -52,7 +57,6 @@ public class Indexes {
         public static Index ANSWERS_PRIMARY = Internal.createIndex("PRIMARY", Answers.ANSWERS, new OrderField[] { Answers.ANSWERS.ID }, true);
         public static Index QUESTIONS_FKN3GVCO4B0KEWXC0BYWF1IGFMS = Internal.createIndex("FKn3gvco4b0kewxc0bywf1igfms", Questions.QUESTIONS, new OrderField[] { Questions.QUESTIONS.QUIZ_ID }, false);
         public static Index QUESTIONS_PRIMARY = Internal.createIndex("PRIMARY", Questions.QUESTIONS, new OrderField[] { Questions.QUESTIONS.ID }, true);
-        public static Index QUIZ_RESULTS_PRIMARY = Internal.createIndex("PRIMARY", QuizResults.QUIZ_RESULTS, new OrderField[] { QuizResults.QUIZ_RESULTS.ID }, true);
         public static Index QUIZZES_FKA2RODABLX8MHCE3BDAJ19EQHE = Internal.createIndex("FKa2rodablx8mhce3bdaj19eqhe", Quizzes.QUIZZES, new OrderField[] { Quizzes.QUIZZES.USER_ID }, false);
         public static Index QUIZZES_PRIMARY = Internal.createIndex("PRIMARY", Quizzes.QUIZZES, new OrderField[] { Quizzes.QUIZZES.ID }, true);
         public static Index USER_RESPONCES_FK323KVT7ONI5T0B0TR570YYN9T = Internal.createIndex("FK323kvt7oni5t0b0tr570yyn9t", UserResponces.USER_RESPONCES, new OrderField[] { UserResponces.USER_RESPONCES.QUESTION_ID }, false);

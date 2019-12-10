@@ -28,10 +28,4 @@
             <column name="roles" value="USER"/>
         </insert>
     </changeSet>
-
-    <changeSet author="Vadym (generated)" id="1574891634344-5">
-        <insert tableName="hibernate_sequence">
-            <column name="next_val" value="5"/>
-        </insert>
-    </changeSet>
 </databaseChangeLog>

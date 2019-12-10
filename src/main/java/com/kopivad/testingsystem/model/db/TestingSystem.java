@@ -4,15 +4,22 @@
 package com.kopivad.testingsystem.model.db;
 
 
-import com.kopivad.testingsystem.model.db.tables.*;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
+import com.kopivad.testingsystem.model.db.tables.Answers;
+import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.Quizzes;
+import com.kopivad.testingsystem.model.db.tables.UserResponces;
+import com.kopivad.testingsystem.model.db.tables.UserRoles;
+import com.kopivad.testingsystem.model.db.tables.Users;
 
-import javax.annotation.processing.Generated;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.processing.Generated;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -28,7 +35,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TestingSystem extends SchemaImpl {
 
-    private static final long serialVersionUID = 2048810766;
+    private static final long serialVersionUID = 424071441;
 
     /**
      * The reference instance of <code>testing_system</code>
@@ -44,11 +51,6 @@ public class TestingSystem extends SchemaImpl {
      * The table <code>testing_system.questions</code>.
      */
     public final Questions QUESTIONS = com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
-
-    /**
-     * The table <code>testing_system.quiz_results</code>.
-     */
-    public final QuizResults QUIZ_RESULTS = com.kopivad.testingsystem.model.db.tables.QuizResults.QUIZ_RESULTS;
 
     /**
      * The table <code>testing_system.quizzes</code>.
@@ -94,7 +96,6 @@ public class TestingSystem extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Answers.ANSWERS,
             Questions.QUESTIONS,
-            QuizResults.QUIZ_RESULTS,
             Quizzes.QUIZZES,
             UserResponces.USER_RESPONCES,
             UserRoles.USER_ROLES,

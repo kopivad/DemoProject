@@ -4,7 +4,12 @@
 package com.kopivad.testingsystem.model.db;
 
 
-import com.kopivad.testingsystem.model.db.tables.*;
+import com.kopivad.testingsystem.model.db.tables.Answers;
+import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.Quizzes;
+import com.kopivad.testingsystem.model.db.tables.UserResponces;
+import com.kopivad.testingsystem.model.db.tables.UserRoles;
+import com.kopivad.testingsystem.model.db.tables.Users;
 
 import javax.annotation.processing.Generated;
 
@@ -31,11 +36,6 @@ public class Tables {
      * The table <code>testing_system.questions</code>.
      */
     public static final Questions QUESTIONS = Questions.QUESTIONS;
-
-    /**
-     * The table <code>testing_system.quiz_results</code>.
-     */
-    public static final QuizResults QUIZ_RESULTS = QuizResults.QUIZ_RESULTS;
 
     /**
      * The table <code>testing_system.quizzes</code>.
