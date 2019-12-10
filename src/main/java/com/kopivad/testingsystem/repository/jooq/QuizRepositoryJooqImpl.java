@@ -2,6 +2,7 @@ package com.kopivad.testingsystem.repository.jooq;
 
 
 import com.kopivad.testingsystem.model.Quiz;
+import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.repository.UserRepository;
@@ -9,8 +10,10 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.kopivad.testingsystem.model.db.Tables.QUIZZES;
@@ -81,15 +84,23 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
         String title = r.getValue(QUIZZES.TITLE, String.class);
         String description = r.getValue(QUIZZES.DESCRIPTION);
         Long userId = r.getValue(QUIZZES.USER_ID, Long.class);
-//        User user = userRepository.findUserById(userId);
+        User user = userRepository.findUserById(userId);
 //        List<Question> questions = questionRepository.findAllByQuizId(id);
 
         return Quiz
                 .builder()
                 .id(id)
                 .description(description)
-                .questions(null)
-                .author(null)
+                .questions(new ArrayList<>())
+                .author(
+                        User
+                        .builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .nickname(user.getNickname())
+                        .password(user.getPassword())
+                        .build()
+                )
                 .title(title)
                 .build();
     }

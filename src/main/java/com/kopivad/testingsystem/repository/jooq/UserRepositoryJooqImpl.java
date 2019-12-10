@@ -9,8 +9,10 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +63,7 @@ public class UserRepositoryJooqImpl implements UserRepository {
         String nickname = record.getValue(USERS.NICKNAME, String.class);
         String email = record.getValue(USERS.EMAIL, String.class);
         String password = record.getValue(USERS.PASSWORD, String.class);
-        List<Quiz> quizzes = quizRepository.findAllByAuthorId(id);
+//        List<Quiz> quizzes = quizRepository.findAllByAuthorId(id);
         Set<Role> roles = new HashSet<>(dslContext
                 .selectDistinct(USER_ROLES.ROLES)
                 .from(USER_ROLES)
@@ -74,7 +76,7 @@ public class UserRepositoryJooqImpl implements UserRepository {
                 .nickname(nickname)
                 .email(email)
                 .password(password)
-                .quizzes(quizzes)
+                .quizzes(new ArrayList<>())
                 .roles(roles)
                 .build();
     }

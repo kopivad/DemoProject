@@ -9,6 +9,7 @@ import com.kopivad.testingsystem.repository.UserQuestionResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -70,8 +71,21 @@ public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionRespo
                 .builder()
                 .id(id)
                 .sessionCode(sessionCode)
-                .answer(null)
-                .question(null)
+                .answer(
+                        Answer
+                        .builder()
+                        .id(answer.getId())
+                        .isRight(answer.isRight())
+                        .text(answer.getText())
+                        .build()
+                )
+                .question(
+                        Question
+                        .builder()
+                        .id(question.getId())
+                        .title(question.getTitle())
+                        .build()
+                )
                 .build();
     }
 }

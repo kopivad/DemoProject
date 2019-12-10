@@ -12,11 +12,14 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import javax.lang.model.type.ArrayType;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.kopivad.testingsystem.model.db.Tables.QUESTIONS;
@@ -117,16 +120,23 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
         String title = r.getValue(QUESTIONS.TITLE, String.class);
         Long quizId = r.getValue(QUESTIONS.QUIZ_ID, Long.class);
         Quiz quiz = quizRepository.findQuizById(quizId);
-        List<Answer> answers = answerRepository.findAllByQuestionId(id);
-        List<UserQuestionResponse> response = responseRepository.findAllByQuestionId(id);
+//        List<Answer> answers = answerRepository.findAllByQuestionId(id);
+//        List<UserQuestionResponse> response = responseRepository.findAllByQuestionId(id);
 
         return Question
                 .builder()
                 .id(id)
                 .title(title)
-                .quiz(quiz)
-                .answers(answers)
-                .userQuestionResponses(response)
+                .quiz(
+                        Quiz
+                        .builder()
+                        .id(quiz.getId())
+                        .title(quiz.getTitle())
+                        .description(quiz.getDescription())
+                        .build()
+                )
+                .answers(new ArrayList<>())
+                .userQuestionResponses(new ArrayList<>())
                 .build();
     }
 }

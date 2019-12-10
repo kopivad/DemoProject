@@ -2,6 +2,7 @@ package com.kopivad.testingsystem.repository.jooq;
 
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
+import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
 import com.kopivad.testingsystem.repository.AnswerRepository;
 import com.kopivad.testingsystem.repository.QuestionRepository;
@@ -10,8 +11,10 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.kopivad.testingsystem.model.db.tables.Answers.ANSWERS;
@@ -81,13 +84,19 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
         Question question = questionRepository.findQuestionById(questionId);
         String text = record.getValue(ANSWERS.TEXT, String.class);
         Boolean isRight = record.getValue(ANSWERS.IS_RIGHT, Boolean.class);
-        List<UserQuestionResponse> responses = responseRepository.findAllByAnswerId(id);
+//        List<UserQuestionResponse> responses = responseRepository.findAllByAnswerId(id);
         return Answer
                 .builder()
                 .id(id)
                 .isRight(isRight)
-                .question(question)
-                .userQuestionResponses(responses)
+                .question(
+                        Question
+                        .builder()
+                        .id(question.getId())
+                        .title(question.getTitle())
+                        .build()
+                )
+                .userQuestionResponses(new ArrayList<>())
                 .text(text)
                 .build();
     }
