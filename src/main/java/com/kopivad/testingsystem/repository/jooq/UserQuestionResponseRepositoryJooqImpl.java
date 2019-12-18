@@ -3,8 +3,6 @@ package com.kopivad.testingsystem.repository.jooq;
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
-import com.kopivad.testingsystem.repository.AnswerRepository;
-import com.kopivad.testingsystem.repository.QuestionRepository;
 import com.kopivad.testingsystem.repository.UserQuestionResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -14,13 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Tables.USER_RESPONCES;
+import static com.kopivad.testingsystem.model.db.Tables.*;
 
 @RequiredArgsConstructor
 @Repository
+@Primary
 public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionResponseRepository {
-    private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
     private final DSLContext dslContext;
 
     @Override
@@ -64,28 +61,32 @@ public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionRespo
         Long answerId = r.getValue(USER_RESPONCES.ANSWER_ID);
         Long questionId = r.getValue(USER_RESPONCES.QUESTION_ID);
         String sessionCode = r.getValue(USER_RESPONCES.SESSION_CODE);
-        Answer answer = answerRepository.findAnswerById(answerId);
-        Question question = questionRepository.findQuestionById(questionId);
-
+        Answer answer = dslContext
+                .selectFrom(ANSWERS)
+                .where(ANSWERS.ID.eq(answerId))
+                .fetchOne()
+                .map(record -> Answer
+                        .builder()
+                        .id(record.getValue(ANSWERS.ID))
+                        .text(record.getValue(ANSWERS.TEXT))
+                        .isRight(record.getValue(ANSWERS.IS_RIGHT))
+                        .build());
+        Question question = dslContext
+                .selectFrom(QUESTIONS)
+                .where(QUESTIONS.ID.eq(questionId))
+                .fetchOne()
+                .map(record -> Question
+                        .builder()
+                        .id(record.getValue(QUESTIONS.ID))
+                        .title(record.getValue(QUESTIONS.TITLE))
+                        .build()
+                );
         return UserQuestionResponse
                 .builder()
                 .id(id)
                 .sessionCode(sessionCode)
-                .answer(
-                        Answer
-                        .builder()
-                        .id(answer.getId())
-                        .isRight(answer.isRight())
-                        .text(answer.getText())
-                        .build()
-                )
-                .question(
-                        Question
-                        .builder()
-                        .id(question.getId())
-                        .title(question.getTitle())
-                        .build()
-                )
+                .answer(answer)
+                .question(question)
                 .build();
     }
 }

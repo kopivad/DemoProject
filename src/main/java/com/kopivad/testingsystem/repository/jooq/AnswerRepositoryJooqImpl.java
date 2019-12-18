@@ -2,42 +2,32 @@ package com.kopivad.testingsystem.repository.jooq;
 
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
 import com.kopivad.testingsystem.repository.AnswerRepository;
-import com.kopivad.testingsystem.repository.QuestionRepository;
-import com.kopivad.testingsystem.repository.UserQuestionResponseRepository;
+import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.kopivad.testingsystem.model.db.tables.Answers.ANSWERS;
+import static com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
+import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
 
 @Repository
+@Primary
+@RequiredArgsConstructor
 public class AnswerRepositoryJooqImpl implements AnswerRepository {
     private final DSLContext dslContext;
-    private final QuestionRepository questionRepository;
-    private final UserQuestionResponseRepository responseRepository;
-
-    @Autowired
-    public AnswerRepositoryJooqImpl(DSLContext dslContext, @Lazy QuestionRepository questionRepository, @Lazy UserQuestionResponseRepository responseRepository) {
-        this.dslContext = dslContext;
-        this.questionRepository = questionRepository;
-        this.responseRepository = responseRepository;
-    }
 
     @Override
     public List<Answer> findAllByQuestionId(Long id) {
         return dslContext
                 .select()
                 .from(ANSWERS)
-                .where(ANSWERS.ID.eq(id))
+                .where(ANSWERS.QUESTION_ID.eq(id))
                 .fetch()
                 .map(this::getAnswerFromRecord);
     }
@@ -78,13 +68,39 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
                 .execute();
     }
 
+    @Override
+    public void deleteAnswerById(Long id) {
+        dslContext
+                .deleteFrom(ANSWERS)
+                .where(ANSWERS.ID.eq(id))
+                .execute();
+    }
+
     private Answer getAnswerFromRecord(Record record) {
         Long questionId = record.getValue(ANSWERS.QUESTION_ID, Long.class);
         Long id = record.getValue(ANSWERS.ID, Long.class);
-        Question question = questionRepository.findQuestionById(questionId);
+        Question question = dslContext
+                .selectFrom(QUESTIONS)
+                .where(QUESTIONS.ID.eq(questionId))
+                .fetchOne()
+                .map(r -> Question
+                        .builder()
+                        .id(r.getValue(QUESTIONS.ID, Long.class))
+                        .title(r.getValue(QUESTIONS.TITLE, String.class))
+                        .build());
+
         String text = record.getValue(ANSWERS.TEXT, String.class);
         Boolean isRight = record.getValue(ANSWERS.IS_RIGHT, Boolean.class);
-//        List<UserQuestionResponse> responses = responseRepository.findAllByAnswerId(id);
+        List<UserQuestionResponse> responses = dslContext
+                .selectFrom(USER_RESPONCES)
+                .where(USER_RESPONCES.ANSWER_ID.eq(id))
+                .fetch()
+                .map(r -> UserQuestionResponse
+                        .builder()
+                        .id(r.getValue(USER_RESPONCES.ID, Long.class))
+                        .sessionCode(r.getValue(USER_RESPONCES.SESSION_CODE, String.class))
+                        .build()
+                );
         return Answer
                 .builder()
                 .id(id)
@@ -96,7 +112,7 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
                         .title(question.getTitle())
                         .build()
                 )
-                .userQuestionResponses(new ArrayList<>())
+                .userQuestionResponses(responses)
                 .text(text)
                 .build();
     }

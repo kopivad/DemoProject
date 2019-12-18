@@ -14,4 +14,6 @@ public interface AnswerService {
     List<Answer> getAllAnswers();
 
     void updateAnswer(Answer answer);
+
+    void deleteAnswerById(Long id);
 }

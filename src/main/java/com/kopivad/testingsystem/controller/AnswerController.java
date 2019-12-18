@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import java.util.List;
 
@@ -25,7 +26,15 @@ public class AnswerController {
     private final AnswerService answerService;
     private final UserQuestionResponseService responseService;
 
+    @PostMapping(path = "/answer/delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String deleteAnswer(Long answerId) {
+        answerService.deleteAnswerById(answerId);
+        return "redirect:/answer/manage";
+    }
+
     @PostMapping(path = "/answer/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String saveQuestion(AnswerForm answerForm) {
         Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId());
         Answer newAnswer = new Answer();
@@ -38,6 +47,7 @@ public class AnswerController {
     }
 
     @PostMapping(path = "/answer/edit")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String editQuiz(AnswerForm answerForm) {
         Answer answerForUpdate = answerService.getAnswerById(answerForm.getAnswerId());
         Question currentQuestion = questionService.getQuestionById(answerForm.getQuestionId());
@@ -49,6 +59,7 @@ public class AnswerController {
     }
 
     @GetMapping(path = "/answer/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String getAddAnswerPage(Model model) {
         List<Question> allQuestions = questionService.getAllQuestions();
         model.addAttribute("questions", allQuestions);

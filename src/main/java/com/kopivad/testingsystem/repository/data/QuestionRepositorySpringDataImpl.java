@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Primary
 public interface QuestionRepositorySpringDataImpl extends QuestionRepository, PagingAndSortingRepository<Question, Long> {
     Page<Question> findAllByQuizId(Long quizId, Pageable pageable);
 

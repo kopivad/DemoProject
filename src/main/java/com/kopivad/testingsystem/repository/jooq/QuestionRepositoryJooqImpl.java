@@ -4,40 +4,25 @@ import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.UserQuestionResponse;
-import com.kopivad.testingsystem.repository.AnswerRepository;
 import com.kopivad.testingsystem.repository.QuestionRepository;
-import com.kopivad.testingsystem.repository.QuizRepository;
-import com.kopivad.testingsystem.repository.UserQuestionResponseRepository;
+import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import javax.lang.model.type.ArrayType;
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Tables.QUESTIONS;
+import static com.kopivad.testingsystem.model.db.Tables.*;
 
 @Repository
+@Primary
+@RequiredArgsConstructor
 public class QuestionRepositoryJooqImpl implements QuestionRepository {
     private final DSLContext dslContext;
-    private final QuizRepository quizRepository;
-    private final AnswerRepository answerRepository;
-    private final UserQuestionResponseRepository responseRepository;
-
-    @Autowired
-    public QuestionRepositoryJooqImpl(DSLContext dslContext, QuizRepository quizRepository, @Lazy AnswerRepository answerRepository,@Lazy UserQuestionResponseRepository responseRepository) {
-        this.dslContext = dslContext;
-        this.quizRepository = quizRepository;
-        this.answerRepository = answerRepository;
-        this.responseRepository = responseRepository;
-    }
 
     @Override
     public Page<Question> findAllByQuizId(Long quizId, Pageable pageable) {
@@ -55,7 +40,7 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .offset(pageable.getOffset())
                 .fetch()
                 .map(this::getQuestionFromRecord);
-    return new PageImpl<>(questions, pageable, totalPages);
+        return new PageImpl<>(questions, pageable, totalPages);
     }
 
 
@@ -119,24 +104,52 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
         Long id = r.getValue(QUESTIONS.ID, Long.class);
         String title = r.getValue(QUESTIONS.TITLE, String.class);
         Long quizId = r.getValue(QUESTIONS.QUIZ_ID, Long.class);
-        Quiz quiz = quizRepository.findQuizById(quizId);
-//        List<Answer> answers = answerRepository.findAllByQuestionId(id);
-//        List<UserQuestionResponse> response = responseRepository.findAllByQuestionId(id);
-
+        Quiz quiz = dslContext
+                .selectFrom(QUIZZES)
+                .where(QUIZZES.ID.eq(quizId))
+                .fetchOne()
+                .map(record -> Quiz
+                        .builder()
+                        .id(record.getValue(QUIZZES.ID, Long.class))
+                        .title(record.getValue(QUIZZES.TITLE, String.class))
+                        .description(record.getValue(QUIZZES.DESCRIPTION, String.class))
+                        .build()
+                );
+        List<Answer> answers = dslContext
+                .selectFrom(ANSWERS)
+                .where(ANSWERS.QUESTION_ID.eq(id))
+                .fetch()
+                .map(record -> Answer
+                        .builder()
+                        .id(record.getValue(ANSWERS.ID, Long.class))
+                        .isRight(record.getValue(ANSWERS.IS_RIGHT, Boolean.class))
+                        .text(record.getValue(ANSWERS.TEXT, String.class))
+                        .build()
+                );
+        List<UserQuestionResponse> responses = dslContext
+                .selectFrom(USER_RESPONCES)
+                .where(USER_RESPONCES.QUESTION_ID.eq(id))
+                .fetch()
+                .map(record -> UserQuestionResponse
+                        .builder()
+                        .id(record.getValue(USER_RESPONCES.ID, Long.class))
+                        .sessionCode(record.getValue(USER_RESPONCES.SESSION_CODE, String.class))
+                        .build()
+                );
         return Question
                 .builder()
                 .id(id)
                 .title(title)
                 .quiz(
                         Quiz
-                        .builder()
-                        .id(quiz.getId())
-                        .title(quiz.getTitle())
-                        .description(quiz.getDescription())
-                        .build()
+                                .builder()
+                                .id(quiz.getId())
+                                .title(quiz.getTitle())
+                                .description(quiz.getDescription())
+                                .build()
                 )
-                .answers(new ArrayList<>())
-                .userQuestionResponses(new ArrayList<>())
+                .answers(answers)
+                .userQuestionResponses(responses)
                 .build();
     }
 }

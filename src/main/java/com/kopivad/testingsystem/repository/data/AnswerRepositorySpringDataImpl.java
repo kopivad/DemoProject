@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Primary
 public interface AnswerRepositorySpringDataImpl extends AnswerRepository, JpaRepository<Answer, Long> {
     @Override
     List<Answer> findAllByQuestionId(Long id);
@@ -28,6 +27,11 @@ public interface AnswerRepositorySpringDataImpl extends AnswerRepository, JpaRep
     @Override
     default void updateAnswer(Answer answer) {
         save(answer);
+    }
+
+    @Override
+    default void deleteAnswerById(Long id) {
+        deleteById(id);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.kopivad.testingsystem.repository.jooq;
 
 
+import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.repository.QuestionRepository;
@@ -16,19 +17,19 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kopivad.testingsystem.model.db.Tables.QUESTIONS;
 import static com.kopivad.testingsystem.model.db.Tables.QUIZZES;
 
 @Repository
+@Primary
 public class QuizRepositoryJooqImpl implements QuizRepository {
     private final UserRepository userRepository;
     private final DSLContext dslContext;
-    private final QuestionRepository questionRepository;
 
     @Autowired
-    public QuizRepositoryJooqImpl(UserRepository userRepository, DSLContext dslContext,@Lazy QuestionRepository questionRepository) {
+    public QuizRepositoryJooqImpl(UserRepository userRepository, DSLContext dslContext, @Lazy QuestionRepository questionRepository) {
         this.userRepository = userRepository;
         this.dslContext = dslContext;
-        this.questionRepository = questionRepository;
     }
 
     @Override
@@ -50,13 +51,11 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
 
     @Override
     public Quiz findQuizById(Long id) {
-        Quiz quiz = dslContext
+        return dslContext
                 .selectFrom(QUIZZES)
                 .where(QUIZZES.ID.eq(id))
                 .fetchOne()
                 .map(this::getQuizFromRecord);
-
-        return quiz;
     }
 
     @Override
@@ -85,21 +84,29 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
         String description = r.getValue(QUIZZES.DESCRIPTION);
         Long userId = r.getValue(QUIZZES.USER_ID, Long.class);
         User user = userRepository.findUserById(userId);
-//        List<Question> questions = questionRepository.findAllByQuizId(id);
-
+        List<Question> questions = dslContext
+                .selectFrom(QUESTIONS)
+                .where(QUESTIONS.QUIZ_ID.eq(id))
+                .fetch()
+                .map(record -> Question
+                        .builder()
+                        .id(record.getValue(QUESTIONS.ID, Long.class))
+                        .title(record.getValue(QUESTIONS.TITLE, String.class))
+                        .build()
+                );
         return Quiz
                 .builder()
                 .id(id)
                 .description(description)
-                .questions(new ArrayList<>())
+                .questions(questions)
                 .author(
                         User
-                        .builder()
-                        .id(user.getId())
-                        .email(user.getEmail())
-                        .nickname(user.getNickname())
-                        .password(user.getPassword())
-                        .build()
+                                .builder()
+                                .id(user.getId())
+                                .email(user.getEmail())
+                                .nickname(user.getNickname())
+                                .password(user.getPassword())
+                                .build()
                 )
                 .title(title)
                 .build();

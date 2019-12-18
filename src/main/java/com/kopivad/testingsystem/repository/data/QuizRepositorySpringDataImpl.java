@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Primary
 public interface QuizRepositorySpringDataImpl extends QuizRepository, JpaRepository<Quiz, Long> {
     @Override
     List<Quiz> findAll();

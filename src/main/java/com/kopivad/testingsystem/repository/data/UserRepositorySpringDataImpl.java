@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public interface UserRepositorySpringDataImpl extends UserRepository, JpaRepository<User, Long> {
     @Override
     User findByEmail(String email);

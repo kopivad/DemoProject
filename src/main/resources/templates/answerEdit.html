@@ -10,9 +10,13 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <h2 class="mt-3 display-4">Create new answer!</h2>
+    <h2 class="mt-3 display-4">Edit your answer!</h2>
     <br>
     <div>
+        <form action="#" th:action="@{/answer/delete}" method="post">
+            <input type="hidden" name="answerId" th:value="${answer.getId()}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
         <form action="#" th:action="@{/answer/edit}" method="post">
             <div class="form-group">
                 <label for="text">Answer text</label>
@@ -24,7 +28,7 @@
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Questions</label>
+                    <label class="input-group-text" for="inputGroupSelect01">Answer questions</label>
                 </div>
                 <select name="questionId" class="custom-select" id="inputGroupSelect01">
                     <option th:value="${answer.getQuestion().getId()}" th:text="${answer.getQuestion().getTitle()}" selected>Choose question...</option>
@@ -32,8 +36,11 @@
                 </select>
             </div>
             <input type="hidden" name="answerId" th:value="${answer.getId()}">
-            <button type="submit" class="btn btn-primary">Create!</button>
+            <button type="submit" class="btn btn-primary">Edit</button>
+
         </form>
+
+
     </div>
 </div>
 <script th:replace="fragments/libs :: js"></script>

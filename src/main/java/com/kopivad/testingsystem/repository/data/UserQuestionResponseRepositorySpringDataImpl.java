@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Primary
 public interface UserQuestionResponseRepositorySpringDataImpl extends UserQuestionResponseRepository, JpaRepository<UserQuestionResponse, String> {
     @Override
     List<UserQuestionResponse> findAllBySessionCode(String sessionCode);

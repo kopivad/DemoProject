@@ -12,5 +12,5 @@ public interface AnswerRepository {
     Answer saveAnswer(Answer answer);
     Answer findAnswerById(Long id);
     void updateAnswer(Answer answer);
-
+    void deleteAnswerById(Long id);
 }
