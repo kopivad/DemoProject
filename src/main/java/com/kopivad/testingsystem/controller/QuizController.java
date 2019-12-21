@@ -3,9 +3,11 @@ package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.model.Quiz;
+import com.kopivad.testingsystem.model.QuizSession;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
+import com.kopivad.testingsystem.service.QuizSessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.sql.Timestamp;
+import java.time.temporal.Temporal;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +29,7 @@ import java.util.UUID;
 public class QuizController {
     private final QuizService quizService;
     private final QuestionService questionService;
+    private final QuizSessionService quizSessionService;
 
     @PostMapping(path = "quiz/add")
     public String saveQuiz(@AuthenticationPrincipal User user, @ModelAttribute QuizForm quizForm) {
@@ -82,9 +88,18 @@ public class QuizController {
     }
 
     @GetMapping(path = "/quiz/{id}/start")
-    public String startQuiz(@PathVariable(name = "id") Long id) {
-        String sessionCode = UUID.randomUUID().toString();
-        return String.format("redirect:/quiz/%d/question/1?code=%s", id, sessionCode);
+    public String startQuiz(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id) {
+        Quiz quiz = quizService.getQuizById(id);
+        System.out.println(quiz.getId());
+        QuizSession quizSession = quizSessionService.saveQuizSession(
+                QuizSession
+                        .builder()
+                        .id(-1L)
+                        .user(user)
+                        .quiz(quiz)
+                        .build()
+        );
+        return String.format("redirect:/quiz/%d/question/1?session=%s", id, quizSession.getId());
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

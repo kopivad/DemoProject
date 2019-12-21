@@ -1,9 +1,13 @@
 package com.kopivad.testingsystem.controller;
 
-import com.kopivad.testingsystem.model.UserQuestionResponse;
+import com.kopivad.testingsystem.model.Question;
+import com.kopivad.testingsystem.model.Quiz;
+import com.kopivad.testingsystem.model.QuizSession;
+import com.kopivad.testingsystem.model.UserResponce;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
-import com.kopivad.testingsystem.service.UserQuestionResponseService;
+import com.kopivad.testingsystem.service.QuizSessionService;
+import com.kopivad.testingsystem.service.UserResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,33 +21,38 @@ import java.util.List;
 @AllArgsConstructor
 public class QuizResultController {
     private final QuizService quizService;
-    private final UserQuestionResponseService userQuestionResponseService;
+    private final UserResponseService userQuestionResponseService;
+    private final QuizSessionService quizSessionService;
     private final QuestionService questionService;
     
     @GetMapping(path = "quiz/result/")
-    public String resultPage(@RequestParam(name = "code") String code, Model model) {
-        long countOfCorrect = quizService.getCountOfCorrectAnswersBySessionCode(code);
-        long totalAnswers = quizService.getTotalOfAnswersBySessionCode(code);
+    public String resultPage(@RequestParam(name = "session") Long sessionId, Model model) {
+        long countOfCorrect = quizService.getCountOfCorrectAnswersBySessionId(sessionId);
+        long totalAnswers = quizService.getTotalOfAnswersBySessionId(sessionId);
         float percentageOfCorrectAnswers = quizService.getPercentageOfCorrectAnswers(countOfCorrect, totalAnswers);
         model.addAttribute("correctAmount", countOfCorrect);
-        model.addAttribute("code", code);
+        model.addAttribute("sessionId", sessionId);
         model.addAttribute("totalAmount", totalAnswers);
         model.addAttribute("percentageAmount", percentageOfCorrectAnswers);
         return "quizResult";
     }
 
-    @GetMapping(path = "/quiz/check/{code}")
-    public String checkResultPage(@PathVariable(name = "code") String code, Model model) {
-        long countOfCorrect = quizService.getCountOfCorrectAnswersBySessionCode(code);
-        long totalAnswers = quizService.getTotalOfAnswersBySessionCode(code);
-        List<UserQuestionResponse> allResponseByCode = userQuestionResponseService.getAllResponseByCode(code);
+    @GetMapping(path = "/quiz/check/{session}")
+    public String checkResultPage(@PathVariable(name = "session") Long sessionId, Model model) {
+        QuizSession quizSession = quizSessionService.getQuizSessionById(sessionId);
+        Quiz quiz = quizService.getQuizById(quizSession.getQuiz().getId());
+        List<Question> questions = questionService.getQuestionByQuizId(quiz.getId());
+        long countOfCorrect = quizService.getCountOfCorrectAnswersBySessionId(sessionId);
+        long totalAnswers = quizService.getTotalOfAnswersBySessionId(sessionId);
+        List<UserResponce> allResponseSessionId = userQuestionResponseService.getAllResponseBySessionId(sessionId);
         float percentageOfCorrectAnswers = quizService.getPercentageOfCorrectAnswers(countOfCorrect, totalAnswers);
-        model.addAttribute("quizTitle", null);  // quizSession.getQuiz().getTitle()
+
+        model.addAttribute("quizTitle", quiz.getTitle());
         model.addAttribute("correctAmount", countOfCorrect);
         model.addAttribute("totalAmount", totalAnswers);
-        model.addAttribute("allResponseByCode", allResponseByCode);
+        model.addAttribute("allResponses", allResponseSessionId);
         model.addAttribute("percentageAmount", percentageOfCorrectAnswers);
-        model.addAttribute("questions", null); // quizSession.getQuiz().getQuestions()
+        model.addAttribute("questions", questions);
         return "quizCheck";
     }
 }

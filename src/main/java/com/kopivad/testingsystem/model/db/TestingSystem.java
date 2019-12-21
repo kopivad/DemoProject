@@ -6,6 +6,7 @@ package com.kopivad.testingsystem.model.db;
 
 import com.kopivad.testingsystem.model.db.tables.Answers;
 import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.QuizSessions;
 import com.kopivad.testingsystem.model.db.tables.Quizzes;
 import com.kopivad.testingsystem.model.db.tables.UserResponces;
 import com.kopivad.testingsystem.model.db.tables.UserRoles;
@@ -35,7 +36,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TestingSystem extends SchemaImpl {
 
-    private static final long serialVersionUID = 424071441;
+    private static final long serialVersionUID = 1860952852;
 
     /**
      * The reference instance of <code>testing_system</code>
@@ -51,6 +52,11 @@ public class TestingSystem extends SchemaImpl {
      * The table <code>testing_system.questions</code>.
      */
     public final Questions QUESTIONS = com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
+
+    /**
+     * The table <code>testing_system.quiz_sessions</code>.
+     */
+    public final QuizSessions QUIZ_SESSIONS = com.kopivad.testingsystem.model.db.tables.QuizSessions.QUIZ_SESSIONS;
 
     /**
      * The table <code>testing_system.quizzes</code>.
@@ -96,6 +102,7 @@ public class TestingSystem extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Answers.ANSWERS,
             Questions.QUESTIONS,
+            QuizSessions.QUIZ_SESSIONS,
             Quizzes.QUIZZES,
             UserResponces.USER_RESPONCES,
             UserRoles.USER_ROLES,

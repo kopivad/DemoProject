@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserResponces extends TableImpl<UserResponcesRecord> {
 
-    private static final long serialVersionUID = -1348563698;
+    private static final long serialVersionUID = -307660587;
 
     /**
      * The reference instance of <code>testing_system.user_responces</code>
@@ -63,11 +63,6 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
     public final TableField<UserResponcesRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>testing_system.user_responces.session_code</code>.
-     */
-    public final TableField<UserResponcesRecord, String> SESSION_CODE = createField(DSL.name("session_code"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
-
-    /**
      * The column <code>testing_system.user_responces.answer_id</code>.
      */
     public final TableField<UserResponcesRecord, Long> ANSWER_ID = createField(DSL.name("answer_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
@@ -76,6 +71,11 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
      * The column <code>testing_system.user_responces.question_id</code>.
      */
     public final TableField<UserResponcesRecord, Long> QUESTION_ID = createField(DSL.name("question_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
+     * The column <code>testing_system.user_responces.session_id</code>.
+     */
+    public final TableField<UserResponcesRecord, Long> SESSION_ID = createField(DSL.name("session_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * Create a <code>testing_system.user_responces</code> table reference
@@ -117,7 +117,7 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USER_RESPONCES_FK323KVT7ONI5T0B0TR570YYN9T, Indexes.USER_RESPONCES_FKT4X7J4GV9GNVW9EQ16VQFQI46, Indexes.USER_RESPONCES_PRIMARY);
+        return Arrays.<Index>asList(Indexes.USER_RESPONCES_FK323KVT7ONI5T0B0TR570YYN9T, Indexes.USER_RESPONCES_FKKV6FTJCE5HFMCCH43JKBGG4OK, Indexes.USER_RESPONCES_FKT4X7J4GV9GNVW9EQ16VQFQI46, Indexes.USER_RESPONCES_PRIMARY);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
 
     @Override
     public List<ForeignKey<UserResponcesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<UserResponcesRecord, ?>>asList(Keys.FKT4X7J4GV9GNVW9EQ16VQFQI46, Keys.FK323KVT7ONI5T0B0TR570YYN9T);
+        return Arrays.<ForeignKey<UserResponcesRecord, ?>>asList(Keys.FKT4X7J4GV9GNVW9EQ16VQFQI46, Keys.FK323KVT7ONI5T0B0TR570YYN9T, Keys.FKKV6FTJCE5HFMCCH43JKBGG4OK);
     }
 
     public Answers answers() {
@@ -146,6 +146,10 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
 
     public Questions questions() {
         return new Questions(this, Keys.FK323KVT7ONI5T0B0TR570YYN9T);
+    }
+
+    public QuizSessions quizSessions() {
+        return new QuizSessions(this, Keys.FKKV6FTJCE5HFMCCH43JKBGG4OK);
     }
 
     @Override
@@ -179,7 +183,7 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, Long, Long> fieldsRow() {
+    public Row4<Long, Long, Long, Long> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

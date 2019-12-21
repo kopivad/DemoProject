@@ -31,5 +31,10 @@ public class Quiz {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "quiz")
-private List<Question> questions;
+    private List<Question> questions;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "quiz")
+    private List<QuizSession> quizSessions;
 }

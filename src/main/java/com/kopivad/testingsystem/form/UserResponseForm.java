@@ -7,8 +7,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserQuestionResponseForm {
-    private String sessionCode;
+public class UserResponseForm {
+    private Long sessionId;
     private Long questionId;
     private Long userAnswerId;
     private Long questionTotalPages;

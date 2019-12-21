@@ -2,8 +2,9 @@ package com.kopivad.testingsystem.repository.jooq;
 
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.UserQuestionResponse;
-import com.kopivad.testingsystem.repository.UserQuestionResponseRepository;
+import com.kopivad.testingsystem.model.QuizSession;
+import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.repository.UserResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -17,29 +18,30 @@ import static com.kopivad.testingsystem.model.db.Tables.*;
 @RequiredArgsConstructor
 @Repository
 @Primary
-public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionResponseRepository {
+public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     private final DSLContext dslContext;
 
     @Override
-    public List<UserQuestionResponse> findAllBySessionCode(String sessionCode) {
+    public List<UserResponce> findAllByQuizSessionId(Long sessionId) {
         return dslContext
                 .selectFrom(USER_RESPONCES)
-                .where(USER_RESPONCES.SESSION_CODE.eq(sessionCode))
+                .where(USER_RESPONCES.SESSION_ID.eq(sessionId))
                 .fetch()
                 .map(this::getUserQuestionResponseFromRecord);
     }
 
     @Override
-    public UserQuestionResponse save(UserQuestionResponse userAnswer) {
+    public UserResponce save(UserResponce userAnswer) {
+        System.out.println(userAnswer.getId());
         dslContext
-                .insertInto(USER_RESPONCES, USER_RESPONCES.ID, USER_RESPONCES.SESSION_CODE, USER_RESPONCES.ANSWER_ID, USER_RESPONCES.QUESTION_ID)
-                .values(0L, userAnswer.getSessionCode(), userAnswer.getAnswer().getId(), userAnswer.getQuestion().getId())
+                .insertInto(USER_RESPONCES, USER_RESPONCES.ID, USER_RESPONCES.SESSION_ID, USER_RESPONCES.ANSWER_ID, USER_RESPONCES.QUESTION_ID)
+                .values(0L, userAnswer.getQuizSession().getId(), userAnswer.getAnswer().getId(), userAnswer.getQuestion().getId())
                 .execute();
         return userAnswer;
     }
 
     @Override
-    public List<UserQuestionResponse> findAllByQuestionId(Long id) {
+    public List<UserResponce> findAllByQuestionId(Long id) {
         return dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.QUESTION_ID.eq(id))
@@ -48,7 +50,7 @@ public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionRespo
     }
 
     @Override
-    public List<UserQuestionResponse> findAllByAnswerId(Long id) {
+    public List<UserResponce> findAllByAnswerId(Long id) {
         return dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.ANSWER_ID.eq(id))
@@ -56,11 +58,11 @@ public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionRespo
                 .map(this::getUserQuestionResponseFromRecord);
     }
 
-    private UserQuestionResponse getUserQuestionResponseFromRecord(Record r) {
+    private UserResponce getUserQuestionResponseFromRecord(Record r) {
         Long id = r.getValue(USER_RESPONCES.ID, Long.class);
         Long answerId = r.getValue(USER_RESPONCES.ANSWER_ID);
         Long questionId = r.getValue(USER_RESPONCES.QUESTION_ID);
-        String sessionCode = r.getValue(USER_RESPONCES.SESSION_CODE);
+        Long sessionId = r.getValue(USER_RESPONCES.SESSION_ID);
         Answer answer = dslContext
                 .selectFrom(ANSWERS)
                 .where(ANSWERS.ID.eq(answerId))
@@ -81,10 +83,20 @@ public class UserQuestionResponseRepositoryJooqImpl implements UserQuestionRespo
                         .title(record.getValue(QUESTIONS.TITLE))
                         .build()
                 );
-        return UserQuestionResponse
+
+        QuizSession quizSession = dslContext
+                .selectFrom(QUIZ_SESSIONS)
+                .where(QUIZ_SESSIONS.ID.eq(sessionId))
+                .fetchOne()
+                .map(record -> QuizSession
+                        .builder()
+                        .id(record.getValue(QUIZ_SESSIONS.ID))
+                        .build()
+                );
+        return UserResponce
                 .builder()
                 .id(id)
-                .sessionCode(sessionCode)
+                .quizSession(quizSession)
                 .answer(answer)
                 .question(question)
                 .build();

@@ -4,33 +4,25 @@ package com.kopivad.testingsystem.repository.jooq;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.User;
-import com.kopivad.testingsystem.repository.QuestionRepository;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.kopivad.testingsystem.model.db.Tables.QUESTIONS;
 import static com.kopivad.testingsystem.model.db.Tables.QUIZZES;
 
 @Repository
+@RequiredArgsConstructor
 @Primary
 public class QuizRepositoryJooqImpl implements QuizRepository {
     private final UserRepository userRepository;
     private final DSLContext dslContext;
-
-    @Autowired
-    public QuizRepositoryJooqImpl(UserRepository userRepository, DSLContext dslContext, @Lazy QuestionRepository questionRepository) {
-        this.userRepository = userRepository;
-        this.dslContext = dslContext;
-    }
 
     @Override
     public List<Quiz> findAll() {
@@ -79,10 +71,10 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
     }
 
     private Quiz getQuizFromRecord(Record r) {
-        Long id = r.getValue(QUIZZES.ID, Long.class);
-        String title = r.getValue(QUIZZES.TITLE, String.class);
+        Long id = r.getValue(QUIZZES.ID);
+        String title = r.getValue(QUIZZES.TITLE);
         String description = r.getValue(QUIZZES.DESCRIPTION);
-        Long userId = r.getValue(QUIZZES.USER_ID, Long.class);
+        Long userId = r.getValue(QUIZZES.USER_ID);
         User user = userRepository.findUserById(userId);
         List<Question> questions = dslContext
                 .selectFrom(QUESTIONS)
@@ -90,8 +82,8 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .fetch()
                 .map(record -> Question
                         .builder()
-                        .id(record.getValue(QUESTIONS.ID, Long.class))
-                        .title(record.getValue(QUESTIONS.TITLE, String.class))
+                        .id(record.getValue(QUESTIONS.ID))
+                        .title(record.getValue(QUESTIONS.TITLE))
                         .build()
                 );
         return Quiz

@@ -50,7 +50,7 @@ public class QuestionController {
     @GetMapping(path = "quiz/{quizId}/question/{n}")
     public String getQuestionByIdAndQuizId(@PathVariable(name = "quizId") Long quizId,
                                            @PathVariable(name = "n") Integer n,
-                                           @ModelAttribute(name = "code") String sessionCode,
+                                           @ModelAttribute(name = "session") Long sessionId,
                                            Model model
     ) {
         model.addAttribute("quizId", quizId);
@@ -65,7 +65,7 @@ public class QuestionController {
         model.addAttribute("questionNumber", question.getNumber());
         model.addAttribute("questionTotalPages", question.getTotalPages());
         model.addAttribute("answers", currentQuestion.getAnswers());
-        model.addAttribute("sessionCode", sessionCode);
+        model.addAttribute("sessionId", sessionId);
         return "question";
     }
 

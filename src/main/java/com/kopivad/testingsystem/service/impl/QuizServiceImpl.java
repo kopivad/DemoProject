@@ -2,22 +2,21 @@ package com.kopivad.testingsystem.service.impl;
 
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.UserQuestionResponse;
+import com.kopivad.testingsystem.model.UserResponce;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.service.QuizService;
-import com.kopivad.testingsystem.service.UserQuestionResponseService;
+import com.kopivad.testingsystem.service.UserResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
-    private final UserQuestionResponseService responseService;
+    private final UserResponseService responseService;
 
     @Override
     public void saveQuiz(Quiz quiz) {
@@ -35,30 +34,33 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public long getCountOfCorrectAnswersBySessionCode(String code) {
-        List<UserQuestionResponse> allResponseByCode = responseService.getAllResponseByCode(code);
-        long correctAmount = allResponseByCode.stream().filter(response -> response.getAnswer().isRight()).count();
-        return correctAmount;
+    public long getCountOfCorrectAnswersBySessionId(Long sessionId) {
+        return responseService
+                .getAllResponseBySessionId(sessionId)
+                .stream()
+                .filter(response -> response.getAnswer().isRight())
+                .count();
     }
 
     @Override
-    public long getTotalOfAnswersBySessionCode(String code) {
-        List<UserQuestionResponse> allResponseByCode = responseService.getAllResponseByCode(code);
-        int totalResponses = allResponseByCode.size();
-        return totalResponses;
+    public long getTotalOfAnswersBySessionId(Long sessionId) {
+        return responseService
+                .getAllResponseBySessionId(sessionId)
+                .size();
     }
 
     @Override
     public float getPercentageOfCorrectAnswers(long obtained, long total) {
-        float percentageOfCorrect = (float)obtained * 100 / total;
-        return percentageOfCorrect;
+        return (float) obtained * 100 / total;
     }
 
     @Override
-    public List<Question> getQuestionsBySessionCode(String code) {
-        Stream<UserQuestionResponse> stream = responseService.getAllResponseByCode(code).stream();
-        List<Question> questions = stream.map(UserQuestionResponse::getQuestion).collect(Collectors.toList());
-        return questions;
+    public List<Question> getQuestionsBySessionId(Long sessionId) {
+        return responseService
+                .getAllResponseBySessionId(getTotalOfAnswersBySessionId(sessionId))
+                .stream()
+                .map(UserResponce::getQuestion)
+                .collect(Collectors.toList());
     }
 
     @Override

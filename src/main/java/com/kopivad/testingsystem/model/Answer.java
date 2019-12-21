@@ -32,6 +32,6 @@ public class Answer {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "answer")
-    private List<UserQuestionResponse> userQuestionResponses;
+    private List<UserResponce> userResponces;
 
 }

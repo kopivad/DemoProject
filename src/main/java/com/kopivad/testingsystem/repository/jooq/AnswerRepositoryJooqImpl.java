@@ -2,7 +2,7 @@ package com.kopivad.testingsystem.repository.jooq;
 
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.UserQuestionResponse;
+import com.kopivad.testingsystem.model.UserResponce;
 import com.kopivad.testingsystem.repository.AnswerRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -17,8 +17,8 @@ import static com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
 import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
 
 @Repository
-@Primary
 @RequiredArgsConstructor
+@Primary
 public class AnswerRepositoryJooqImpl implements AnswerRepository {
     private final DSLContext dslContext;
 
@@ -43,8 +43,8 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
     @Override
     public Answer saveAnswer(Answer answer) {
         dslContext
-                .insertInto(ANSWERS, ANSWERS.ID, ANSWERS.TEXT, ANSWERS.IS_RIGHT, ANSWERS.QUESTION_ID)
-                .values(0L, answer.getText(), answer.isRight(), answer.getQuestion().getId())
+                .insertInto(ANSWERS, ANSWERS.TEXT, ANSWERS.IS_RIGHT, ANSWERS.QUESTION_ID)
+                .values(answer.getText(), answer.isRight(), answer.getQuestion().getId())
                 .execute();
         return answer;
     }
@@ -91,14 +91,13 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
 
         String text = record.getValue(ANSWERS.TEXT, String.class);
         Boolean isRight = record.getValue(ANSWERS.IS_RIGHT, Boolean.class);
-        List<UserQuestionResponse> responses = dslContext
+        List<UserResponce> responses = dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.ANSWER_ID.eq(id))
                 .fetch()
-                .map(r -> UserQuestionResponse
+                .map(r -> UserResponce
                         .builder()
                         .id(r.getValue(USER_RESPONCES.ID, Long.class))
-                        .sessionCode(r.getValue(USER_RESPONCES.SESSION_CODE, String.class))
                         .build()
                 );
         return Answer
@@ -112,7 +111,7 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
                         .title(question.getTitle())
                         .build()
                 )
-                .userQuestionResponses(responses)
+                .userResponces(responses)
                 .text(text)
                 .build();
     }

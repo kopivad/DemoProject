@@ -3,7 +3,7 @@ package com.kopivad.testingsystem.repository.jooq;
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.UserQuestionResponse;
+import com.kopivad.testingsystem.model.UserResponce;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -19,8 +19,8 @@ import java.util.List;
 import static com.kopivad.testingsystem.model.db.Tables.*;
 
 @Repository
-@Primary
 @RequiredArgsConstructor
+@Primary
 public class QuestionRepositoryJooqImpl implements QuestionRepository {
     private final DSLContext dslContext;
 
@@ -126,14 +126,13 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                         .text(record.getValue(ANSWERS.TEXT, String.class))
                         .build()
                 );
-        List<UserQuestionResponse> responses = dslContext
+        List<UserResponce> responses = dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.QUESTION_ID.eq(id))
                 .fetch()
-                .map(record -> UserQuestionResponse
+                .map(record -> UserResponce
                         .builder()
                         .id(record.getValue(USER_RESPONCES.ID, Long.class))
-                        .sessionCode(record.getValue(USER_RESPONCES.SESSION_CODE, String.class))
                         .build()
                 );
         return Question
@@ -149,7 +148,7 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                                 .build()
                 )
                 .answers(answers)
-                .userQuestionResponses(responses)
+                .userQuestionRespons(responses)
                 .build();
     }
 }

@@ -13,12 +13,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
-public class UserQuestionResponse {
+public class UserResponce {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String sessionCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
@@ -29,4 +27,9 @@ public class UserQuestionResponse {
     @JoinColumn(name = "answer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Answer answer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private QuizSession quizSession;
 }

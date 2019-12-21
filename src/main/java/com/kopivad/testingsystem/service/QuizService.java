@@ -12,13 +12,13 @@ public interface QuizService {
 
     Quiz getQuizById(Long id);
 
-    long getCountOfCorrectAnswersBySessionCode(String code);
+    long getCountOfCorrectAnswersBySessionId(Long sessionId);
 
-    long getTotalOfAnswersBySessionCode(String code);
+    long getTotalOfAnswersBySessionId(Long sessionId);
 
     float getPercentageOfCorrectAnswers(long obtained, long total);
 
-    List<Question> getQuestionsBySessionCode(String code);
+    List<Question> getQuestionsBySessionId(Long sessionId);
 
     List<Quiz> getAllQuizzesByUserId(Long id);
 }
