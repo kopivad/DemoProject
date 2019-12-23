@@ -19,7 +19,7 @@ public interface QuestionRepository {
 
     Question findQuestionById(Long questionId);
 
-    void updateQuestion(Question question);
+    Question updateQuestion(Question question);
 
     long countByQuizId(Long quizId);
 }

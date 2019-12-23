@@ -17,7 +17,7 @@
         <p th:text="${percentageAmount + ' %'}"></p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, consequatur.</p>
         <div class="mt-4">
-            <a href="#" th:href="@{/quiz/check/{code} (code = ${code})}" class="btn btn-success disabled" role="button">Check your answers</a><a th:href="@{/}" class=" ml-2 btn btn-primary" role="button">Back to Quizzes</a>
+            <a href="#" th:href="@{/quiz/check/{sessionId} (sessionId = ${sessionId})}" class="btn btn-success" role="button">Check your answers</a><a th:href="@{/}" class=" ml-2 btn btn-primary" role="button">Back to Quizzes</a>
         </div>
     </div>
 </div>

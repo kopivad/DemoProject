@@ -2,7 +2,6 @@ package com.kopivad.testingsystem.repository.data;
 
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.repository.QuizRepository;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,8 +21,9 @@ public interface QuizRepositorySpringDataImpl extends QuizRepository, JpaReposit
     Quiz findQuizById(Long id);
 
     @Override
-    default void updateQuiz(Quiz quiz) {
+    default Quiz updateQuiz(Quiz quiz) {
         save(quiz);
+        return quiz;
     }
 
     @Override

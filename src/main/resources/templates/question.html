@@ -18,7 +18,7 @@
         <div class="card-body">
             <h5 th:text="${question.getTitle()}" class="card-title">Lorem ipsum dolor sit amet?</h5>
             <form class="mt-4" th:action="@{/answer}" method="post">
-                <input type="hidden" th:value="${sessionCode}" name="sessionCode">
+                <input type="hidden" th:value="${sessionId}" name="sessionId">
                 <input type="hidden" th:value="${question.getId()}" name="questionId">
                 <input type="hidden" th:value="${questionNumber + 1}" name="questionNumber">
                 <input type="hidden" th:value="${questionTotalPages}" name="questionTotalPages">

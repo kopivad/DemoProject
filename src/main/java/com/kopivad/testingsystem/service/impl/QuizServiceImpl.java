@@ -1,10 +1,10 @@
 package com.kopivad.testingsystem.service.impl;
 
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.form.QuizForm;
+import com.kopivad.testingsystem.model.*;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.service.QuizService;
+import com.kopivad.testingsystem.service.QuizSessionService;
 import com.kopivad.testingsystem.service.UserResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
+    private final QuizSessionService quizSessionService;
     private final UserResponseService responseService;
 
     @Override
-    public void saveQuiz(Quiz quiz) {
-        quizRepository.saveQuiz(quiz);
+    public Quiz saveQuiz(Quiz quiz) {
+        return quizRepository.saveQuiz(quiz);
     }
 
     @Override
@@ -66,5 +67,39 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<Quiz> getAllQuizzesByUserId(Long id) {
         return quizRepository.findAllByAuthorId(id);
+    }
+
+    @Override
+    public Long startQuiz(Long id, User user) {
+        Quiz quiz = getQuizById(id);
+        return quizSessionService.createSession(quiz, user).getId();
+    }
+
+    @Override
+    public Quiz saveQuiz(QuizForm form) {
+        return this.saveQuiz(getQuizFromForm(form));
+    }
+
+    @Override
+    public Quiz updateQuiz(QuizForm quizForm) {
+        Quiz quizForUpdate = quizRepository.findQuizById(quizForm.getQuizId());
+        quizForUpdate.setTitle(quizForm.getTitle());
+        quizForUpdate.setDescription(quizForm.getDescription());
+        return this.updateQuiz(quizForUpdate);
+    }
+
+    @Override
+    public Quiz updateQuiz(Quiz quiz) {
+        return quizRepository.updateQuiz(quiz);
+    }
+
+    public Quiz getQuizFromForm(QuizForm form) {
+        return Quiz
+                .builder()
+                .id(form.getQuizId())
+                .description(form.getDescription())
+                .title(form.getTitle())
+                .build();
+
     }
 }

@@ -40,6 +40,7 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .offset(pageable.getOffset())
                 .fetch()
                 .map(this::getQuestionFromRecord);
+
         return new PageImpl<>(questions, pageable, totalPages);
     }
 
@@ -64,11 +65,12 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
 
     @Override
     public Question saveQuestion(Question question) {
-        dslContext
-                .insertInto(QUESTIONS, QUESTIONS.ID, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
-                .values(0L, question.getTitle(), question.getQuiz().getId())
-                .execute();
-        return question;
+        return dslContext
+                .insertInto(QUESTIONS, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
+                .values(question.getTitle(), question.getQuiz().getId())
+                .returning(QUESTIONS.ID, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
+                .fetchOne()
+                .map(this::getQuestionFromRecord);
     }
 
     @Override
@@ -81,13 +83,14 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
     }
 
     @Override
-    public void updateQuestion(Question question) {
+    public Question updateQuestion(Question question) {
         dslContext
                 .update(QUESTIONS)
                 .set(QUESTIONS.QUIZ_ID, question.getQuiz().getId())
                 .set(QUESTIONS.TITLE, question.getTitle())
                 .where(QUESTIONS.ID.eq(question.getId()))
                 .execute();
+        return question;
     }
 
     @Override

@@ -16,16 +16,10 @@ import java.util.Collections;
 @AllArgsConstructor
 public class SignUpController {
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping(path = "/signup")
     public String signUp(SignUpForm signUpForm) {
-        User newUser = new User();
-        newUser.setEmail(signUpForm.getEmail());
-        newUser.setNickname(signUpForm.getNickname());
-        newUser.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
-        newUser.setRoles(Collections.singleton(Role.USER));
-        userService.saveUser(newUser);
+        userService.saveUser(signUpForm);
         return "redirect:/login";
     }
 

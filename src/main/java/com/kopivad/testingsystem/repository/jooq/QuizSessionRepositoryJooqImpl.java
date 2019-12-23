@@ -11,12 +11,10 @@ import org.jooq.Record;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import static com.kopivad.testingsystem.model.db.tables.QuizSessions.QUIZ_SESSIONS;
-import static com.kopivad.testingsystem.model.db.tables.Quizzes.*;
+import static com.kopivad.testingsystem.model.db.tables.Quizzes.QUIZZES;
 import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
 import static com.kopivad.testingsystem.model.db.tables.Users.USERS;
 
@@ -28,15 +26,12 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
 
     @Override
     public QuizSession saveQuizSession(QuizSession quizSession) {
-        QuizSession session = dslContext
-                .insertInto(QUIZ_SESSIONS, QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
-                .values(0L, quizSession.getUser().getId(), quizSession.getQuiz().getId())
+        return dslContext
+                .insertInto(QUIZ_SESSIONS, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
+                .values(quizSession.getUser().getId(), quizSession.getQuiz().getId())
                 .returning(QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
                 .fetchOne()
                 .map(this::getQuizSessionFromRecord);
-
-        System.out.println(session.getId());
-        return session;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.kopivad.testingsystem.repository.data;
 
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.repository.QuestionRepository;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -27,8 +26,9 @@ public interface QuestionRepositorySpringDataImpl extends QuestionRepository, Pa
     Question findQuestionById(Long questionId);
 
     @Override
-    default void updateQuestion(Question question) {
+    default Question updateQuestion(Question question) {
         save(question);
+        return question;
     }
 
     @Override

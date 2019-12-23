@@ -28,22 +28,13 @@ public class QuestionController {
 
     @PostMapping(path = "/question/add")
     public String saveQuestion(QuestionForm form) {
-        Quiz quiz = quizService.getQuizById(form.getQuizId());
-        Question newQuestion = new Question();
-        newQuestion.setId(-1L);
-        newQuestion.setTitle(form.getTitle());
-        newQuestion.setQuiz(quiz);
-        questionService.saveQuestion(newQuestion);
+        questionService.saveQuestion(form);
         return "redirect:/question/manage";
     }
 
     @PostMapping(path = "question/edit")
-    public String editQuiz(@ModelAttribute QuestionForm questionForm) {
-        Question questionForUpdate = questionService.getQuestionById(questionForm.getQuestionId());
-        Quiz currentQuiz = quizService.getQuizById(questionForm.getQuizId());
-        questionForUpdate.setTitle(questionForm.getTitle());
-        questionForUpdate.setQuiz(currentQuiz);
-        questionService.updateQuestion(questionForUpdate);
+    public String editQuiz(QuestionForm form) {
+        questionService.updateQuestion(form);
         return "redirect:/question/manage";
     }
 
@@ -53,18 +44,16 @@ public class QuestionController {
                                            @ModelAttribute(name = "session") Long sessionId,
                                            Model model
     ) {
-        model.addAttribute("quizId", quizId);
+
         Pageable pageable = PageRequest.of(n - 1, 1);
         Quiz currentQuiz = quizService.getQuizById(quizId);
         Page<Question> question = questionService.getQuestionByQuizId(quizId, pageable);
 
-        Question currentQuestion = question.getContent().get(0);
-
         model.addAttribute("quiz", currentQuiz);
-        model.addAttribute("question", currentQuestion);
+        model.addAttribute("question", question.getContent().get(0));
         model.addAttribute("questionNumber", question.getNumber());
         model.addAttribute("questionTotalPages", question.getTotalPages());
-        model.addAttribute("answers", currentQuestion.getAnswers());
+        model.addAttribute("answers", question.getContent().get(0).getAnswers());
         model.addAttribute("sessionId", sessionId);
         return "question";
     }
@@ -94,10 +83,8 @@ public class QuestionController {
 
     @GetMapping(path = "/question/edit/{id}")
     public String getEditQuestionPage(@PathVariable(name = "id") Long id, Model model, QuestionForm questionForm) {
-        Question currentQuestion = questionService.getQuestionById(id);
-        List<Quiz> allQuizzes = quizService.getAllQuizzes();
-        model.addAttribute("question", currentQuestion);
-        model.addAttribute("quizzes", allQuizzes);
+        model.addAttribute("question", questionService.getQuestionById(id));
+        model.addAttribute("quizzes", quizService.getAllQuizzes());
         model.addAttribute("questionForm", questionForm);
         return "questionEdit";
     }

@@ -1,12 +1,14 @@
 package com.kopivad.testingsystem.service;
 
+import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
+import com.kopivad.testingsystem.model.User;
 
 import java.util.List;
 
 public interface QuizService {
-    void saveQuiz(Quiz quiz);
+    Quiz saveQuiz(Quiz quiz);
 
     List<Quiz> getAllQuizzes();
 
@@ -21,4 +23,12 @@ public interface QuizService {
     List<Question> getQuestionsBySessionId(Long sessionId);
 
     List<Quiz> getAllQuizzesByUserId(Long id);
+
+    Long startQuiz(Long id, User user);
+
+    Quiz saveQuiz(QuizForm quizForm);
+
+    Quiz updateQuiz(QuizForm quizForm);
+
+    Quiz updateQuiz(Quiz quizForUpdate);
 }

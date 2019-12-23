@@ -11,6 +11,6 @@ public interface AnswerRepository {
     List<Answer> findAll();
     Answer saveAnswer(Answer answer);
     Answer findAnswerById(Long id);
-    void updateAnswer(Answer answer);
+    Answer updateAnswer(Answer answer);
     void deleteAnswerById(Long id);
 }

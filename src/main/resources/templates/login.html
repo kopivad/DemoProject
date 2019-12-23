@@ -10,36 +10,36 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <!--<div th:if="${param.error}">-->
-    <!--    Invalid username and password.-->
-    <!--</div>-->
-    <!--<div th:if="${param.logout}">-->
-    <!--    You have been logged out.-->
-    <!--</div>-->
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+
     <div class="d-flex mt-5 justify-content-center">
         <div class="card col-sm-4">
             <article class="card-body">
                 <a th:href="@{/signup}" href="#" class="float-right btn btn-outline-primary">Sign up</a>
                 <h4 class="card-title mb-4 mt-1">Sign in</h4>
                 <form th:action="@{/login}" method="post">
+                    <div th:if="${param.logout}">
+                        <p class="text-success">You have been logged out.</p>
+                    </div>
                     <div class="form-group">
-                        <label>Your email:</label>
-                        <input name="username" class="form-control" placeholder="Email" type="text">
-                    </div> <!-- form-group// -->
+                        <label for="username">Your email:</label>
+                        <input id="username" name="username" class="form-control" placeholder="Email" type="email" required>
+                    </div>
                     <div class="form-group">
                         <a class="float-right" th:href="@{/forgot}" href="#">Forgot?</a>
-                        <label>Your password:</label>
-                        <input name="password" class="form-control" placeholder="******" type="password">
-                    </div> <!-- form-group// -->
-<!--                    <div class="form-group">-->
-<!--                        <div class="checkbox">-->
-<!--                            <label> <input type="checkbox"> Save password </label>-->
-<!--                        </div> &lt;!&ndash; checkbox .// &ndash;&gt;-->
-<!--                    </div> &lt;!&ndash; form-group// &ndash;&gt;-->
-                    <br>
+                        <label for="password">Your password:</label>
+                        <input id="password" name="password" class="form-control" placeholder="******" type="password" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label> <input name="remember-me" type="checkbox"> Remember me </label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Login</button>
-                    </div> <!-- form-group// -->
+                    </div>
                 </form>
             </article>
         </div>

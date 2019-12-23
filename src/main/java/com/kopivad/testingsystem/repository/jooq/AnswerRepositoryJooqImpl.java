@@ -4,7 +4,8 @@ import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.UserResponce;
 import com.kopivad.testingsystem.repository.AnswerRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.context.annotation.Primary;
@@ -17,8 +18,9 @@ import static com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
 import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
 
 @Repository
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Primary
+@Log4j2
 public class AnswerRepositoryJooqImpl implements AnswerRepository {
     private final DSLContext dslContext;
 
@@ -42,11 +44,12 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
 
     @Override
     public Answer saveAnswer(Answer answer) {
-        dslContext
+        return dslContext
                 .insertInto(ANSWERS, ANSWERS.TEXT, ANSWERS.IS_RIGHT, ANSWERS.QUESTION_ID)
                 .values(answer.getText(), answer.isRight(), answer.getQuestion().getId())
-                .execute();
-        return answer;
+                .returning(ANSWERS.ID, ANSWERS.TEXT, ANSWERS.QUESTION_ID, ANSWERS.IS_RIGHT)
+                .fetchOne()
+                .map(this::getAnswerFromRecord);
     }
 
     @Override
@@ -59,13 +62,14 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
     }
 
     @Override
-    public void updateAnswer(Answer answer) {
+    public Answer updateAnswer(Answer answer) {
         dslContext.update(ANSWERS)
                 .set(ANSWERS.TEXT, answer.getText())
                 .set(ANSWERS.IS_RIGHT, answer.isRight())
                 .set(ANSWERS.QUESTION_ID, answer.getQuestion().getId())
                 .where(ANSWERS.ID.eq(answer.getId()))
                 .execute();
+        return answer;
     }
 
     @Override
@@ -106,10 +110,10 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
                 .isRight(isRight)
                 .question(
                         Question
-                        .builder()
-                        .id(question.getId())
-                        .title(question.getTitle())
-                        .build()
+                                .builder()
+                                .id(question.getId())
+                                .title(question.getTitle())
+                                .build()
                 )
                 .userResponces(responses)
                 .text(text)

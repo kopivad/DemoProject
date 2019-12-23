@@ -43,11 +43,8 @@ public class QuizController {
     }
 
     @PostMapping(path = "quiz/edit")
-    public String editQuiz(@ModelAttribute QuizForm quizForm) {
-        Quiz quizForUpdate = quizService.getQuizById(quizForm.getQuizId());
-        quizForUpdate.setTitle(quizForm.getTitle());
-        quizForUpdate.setDescription(quizForm.getDescription());
-        quizService.saveQuiz(quizForUpdate);
+    public String editQuiz(QuizForm quizForm) {
+        quizService.updateQuiz(quizForm);
         return "redirect:/quiz/manage";
     }
 
@@ -66,10 +63,8 @@ public class QuizController {
 
     @GetMapping(path = "quiz/{id}")
     public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model) {
-        Quiz currentQuiz = quizService.getQuizById(quizId);
-        long questionAmount = questionService.countByQuizId(quizId);
-        model.addAttribute("quiz", currentQuiz);
-        model.addAttribute("questionAmount", questionAmount);
+        model.addAttribute("quiz", quizService.getQuizById(quizId));
+        model.addAttribute("questionAmount", questionService.countByQuizId(quizId));
         return "quiz";
     }
 
@@ -81,32 +76,21 @@ public class QuizController {
 
     @GetMapping(path = "/quiz/edit/{id}")
     public String getEditQuizPage(@PathVariable(name = "id") Long id, Model model, QuizForm quizForm) {
-        Quiz currentQuiz = quizService.getQuizById(id);
-        model.addAttribute("quiz", currentQuiz);
+        model.addAttribute("quiz", quizService.getQuizById(id));
         model.addAttribute("quizForm", quizForm);
         return "quizEdit";
     }
 
     @GetMapping(path = "/quiz/{id}/start")
     public String startQuiz(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id) {
-        Quiz quiz = quizService.getQuizById(id);
-        System.out.println(quiz.getId());
-        QuizSession quizSession = quizSessionService.saveQuizSession(
-                QuizSession
-                        .builder()
-                        .id(-1L)
-                        .user(user)
-                        .quiz(quiz)
-                        .build()
-        );
-        return String.format("redirect:/quiz/%d/question/1?session=%s", id, quizSession.getId());
+        Long sessionId = quizService.startQuiz(id, user);
+        return String.format("redirect:/quiz/%d/question/1?session=%s", id, sessionId);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/quiz/manage")
     public String manageQuiz(Model model) {
-        List<Quiz> allQuizzes = quizService.getAllQuizzes();
-        model.addAttribute("quizzes", allQuizzes);
+        model.addAttribute("quizzes", quizService.getAllQuizzes());
         return "quizManage";
     }
 }

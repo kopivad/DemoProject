@@ -4,6 +4,7 @@ import com.kopivad.testingsystem.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@AllArgsConstructor
+@AllArgsConstructor(onConstructor = @__({@Lazy}))
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
 
@@ -31,13 +32,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/index", "/forgot", "/webjars/**", "/signup").permitAll()
                 .anyRequest().authenticated()
+
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+                    .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+
                 .and()
-                .logout()
-                .permitAll();
+                    .logout()
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/login?logout=true")
+                    .permitAll()
+
+                .and()
+                    .rememberMe()
+                    .key("simpleToken")
+                    .rememberMeParameter("remember-me")
+                    .tokenValiditySeconds(86400); // 2 weeks
     }
 
     @Override

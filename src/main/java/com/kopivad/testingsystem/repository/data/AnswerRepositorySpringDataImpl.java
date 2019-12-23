@@ -2,7 +2,6 @@ package com.kopivad.testingsystem.repository.data;
 
 import com.kopivad.testingsystem.model.Answer;
 import com.kopivad.testingsystem.repository.AnswerRepository;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +24,9 @@ public interface AnswerRepositorySpringDataImpl extends AnswerRepository, JpaRep
     Answer findAnswerById(Long id);
 
     @Override
-    default void updateAnswer(Answer answer) {
+    default Answer updateAnswer(Answer answer) {
         save(answer);
+        return answer;
     }
 
     @Override

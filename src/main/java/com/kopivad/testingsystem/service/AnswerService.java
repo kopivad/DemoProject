@@ -6,7 +6,7 @@ import com.kopivad.testingsystem.model.Answer;
 import java.util.List;
 
 public interface AnswerService {
-    void saveAnswer(Answer answer);
+    Answer saveAnswer(Answer answer);
 
     List<Answer> getAnswersByQuestionId(Long id);
 
@@ -14,9 +14,11 @@ public interface AnswerService {
 
     List<Answer> getAllAnswers();
 
-    void updateAnswer(Answer answer);
+    Answer updateAnswer(Answer answer);
 
     void deleteAnswerById(Long id);
 
-    void saveAnswerFromForm(AnswerForm answerForm);
+    Answer saveAnswer(AnswerForm answerForm);
+
+    Answer updateAnswer(AnswerForm answerForm);
 }

@@ -13,7 +13,7 @@ public interface QuizRepository {
 
     Quiz findQuizById(Long id);
 
-    void updateQuiz(Quiz quiz);
+    Quiz updateQuiz(Quiz quiz);
 
     List<Quiz> findAllByAuthorId(Long id);
 }

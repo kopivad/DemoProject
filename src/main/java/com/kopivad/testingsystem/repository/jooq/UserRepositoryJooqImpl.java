@@ -35,11 +35,19 @@ public class UserRepositoryJooqImpl implements UserRepository {
 
     @Override
     public User saveUser(User user) {
+        User savedUser = dslContext
+                .insertInto(USERS, USERS.NICKNAME, USERS.EMAIL, USERS.PASSWORD)
+                .values(user.getNickname(), user.getEmail(), user.getPassword())
+                .returning(USERS.ID, USERS.NICKNAME, USERS.EMAIL, USERS.PASSWORD)
+                .fetchOne()
+                .map(this::getUserFromRecord);
+
         dslContext
-                .insertInto(USERS, USERS.ID, USERS.NICKNAME, USERS.EMAIL, USERS.PASSWORD)
-                .values(0L, user.getNickname(), user.getEmail(), user.getPassword())
+                .insertInto(USER_ROLES, USER_ROLES.USER_ID, USER_ROLES.ROLES)
+                .values(savedUser.getId(), "USER")
                 .execute();
-        return user;
+
+        return savedUser;
     }
 
     @Override

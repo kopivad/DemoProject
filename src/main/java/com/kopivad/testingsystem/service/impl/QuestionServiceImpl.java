@@ -1,9 +1,12 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.form.QuestionForm;
 import com.kopivad.testingsystem.model.Question;
+import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.repository.QuestionRepository;
+import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.service.QuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,12 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
+    private final QuizRepository quizRepository;
 
     @Override
-    public void saveQuestion(Question question) {
-        questionRepository.saveQuestion(question);
+    public Question saveQuestion(Question question) {
+        return questionRepository.saveQuestion(question);
     }
 
     @Override
@@ -40,8 +45,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void updateQuestion(Question questionForUpdate) {
-        questionRepository.updateQuestion(questionForUpdate);
+    public Question updateQuestion(Question question) {
+        return questionRepository.updateQuestion(question);
     }
 
     @Override
@@ -49,8 +54,25 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.countByQuizId(quizId);
     }
 
-    @Autowired
-    public void setQuestionRepository(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    @Override
+    public Question saveQuestion(QuestionForm form) {
+        return this.saveQuestion(getQuestionFromForm(form));
+    }
+
+    @Override
+    public Question updateQuestion(QuestionForm form) {
+        Question questionForUpdate = questionRepository.findQuestionById(form.getQuestionId());
+        Quiz currentQuiz = quizRepository.findQuizById(form.getQuizId());
+        questionForUpdate.setTitle(form.getTitle());
+        questionForUpdate.setQuiz(currentQuiz);
+        return this.updateQuestion(questionForUpdate);
+    }
+
+    public Question getQuestionFromForm(QuestionForm form) {
+        return Question
+                .builder()
+                .title(form.getTitle())
+                .quiz(quizRepository.findQuizById(form.getQuizId()))
+                .build();
     }
 }

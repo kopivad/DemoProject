@@ -8,8 +8,8 @@
 
 <!--    <include file="classpath:/data/changelog/db.changelog.create.xml"/>-->
 
-<!--    <include file="classpath:/data/changelog/db.changelog.insert_users.xml"/>-->
-<!--    <include file="classpath:/data/changelog/db.changelog.insert_quizzes.xml"/>-->
-<!--    <include file="classpath:/data/changelog/db.changelog.insert_questions.xml"/>-->
-<!--    <include file="classpath:/data/changelog/db.changelog.insert_answers.xml"/>-->
+    <include file="classpath:/data/changelog/db.changelog.insert_users.xml"/>
+    <include file="classpath:/data/changelog/db.changelog.insert_quizzes.xml"/>
+    <include file="classpath:/data/changelog/db.changelog.insert_questions.xml"/>
+    <include file="classpath:/data/changelog/db.changelog.insert_answers.xml"/>
 </databaseChangeLog>
