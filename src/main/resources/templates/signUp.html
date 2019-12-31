@@ -10,77 +10,51 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-
     <div class="mt-5 row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <header class="card-header">
                     <a th:href="@{/login}" href="#" class="float-right btn btn-outline-primary mt-1">Log in</a>
-                    <h4 class="card-title mt-2">Sign up</h4>
+                    <h4 class="card-title mt-2">Registration</h4>
                 </header>
                 <article class="card-body">
-                    <form th:action="@{/signup}" method="post">
+                    <form th:action="@{/signup}" th:object="${form}" method="post">
                         <div class="form-row">
                             <div class="col form-group">
-                                <label>Nickname: </label>
-                                <input name="nickname" type="text" class="form-control" placeholder="">
-                            </div> <!-- form-group end.// -->
+                                <label for="nickname">Nickname: </label>
+                                <input th:class="${#fields.hasErrors('nickname')} ? 'is-invalid form-control' : 'form-control'"
+                                       id="nickname" th:field="*{nickname}" type="text" placeholder="Vadym"
+                                       th:value="*{nickname}">
+                                <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"
+                                     class="invalid-feedback"></div>
+                            </div>
                             <div class="col form-group">
-                                <label>Email address:</label>
-                                <input name="email" type="email" class="form-control" placeholder="">
-                            </div> <!-- form-group end.// -->
+                                <label for="email">Email address:</label>
+                                <input th:class="${#fields.hasErrors('email')} ? 'is-invalid form-control': 'form-control'"
+                                       id="email" th:field="*{email}" type="text"
+                                       placeholder="example@gmail.com">
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                     class="invalid-feedback"></div>
+                            </div>
                         </div>
-                        <!-- form-row end.// -->
-                        <!--                        <div class="form-group">-->
-                        <!--                            <label>Email address</label>-->
-                        <!--                            <input name="email" type="email" class="form-control" placeholder="">-->
-                        <!--&lt;!&ndash;                            <small class="form-text text-muted">We'll never share your email with anyone else.</small>&ndash;&gt;-->
-                        <!--                        </div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
-                        <!--                        <div class="form-group">-->
-                        <!--                            <label class="form-check form-check-inline">-->
-                        <!--                                <input class="form-check-input" type="radio" name="gender" value="option1">-->
-                        <!--                                <span class="form-check-label"> Male </span>-->
-                        <!--                            </label>-->
-                        <!--                            <label class="form-check form-check-inline">-->
-                        <!--                                <input class="form-check-input" type="radio" name="gender" value="option2">-->
-                        <!--                                <span class="form-check-label"> Female</span>-->
-                        <!--                            </label>-->
-                        <!--                        </div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
-                        <!--                        <div class="form-row">-->
-                        <!--                            <div class="form-group col-md-6">-->
-                        <!--                                <label>City</label>-->
-                        <!--                                <input type="text" class="form-control">-->
-                        <!--                            </div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
-                        <!--                            <div class="form-group col-md-6">-->
-                        <!--                                <label>Country</label>-->
-                        <!--                                <select id="inputState" class="form-control">-->
-                        <!--                                    <option> Choose...</option>-->
-                        <!--                                    <option>Uzbekistan</option>-->
-                        <!--                                    <option>Russia</option>-->
-                        <!--                                    <option selected="">United States</option>-->
-                        <!--                                    <option>India</option>-->
-                        <!--                                    <option>Afganistan</option>-->
-                        <!--                                </select>-->
-                        <!--                            </div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
-                        <!--                        </div> &lt;!&ndash; form-row.// &ndash;&gt;-->
                         <div class="form-group">
-                            <label>Password:</label>
-                            <input name="password" class="form-control" type="password">
-                        </div> <!-- form-group end.// -->
+                            <label for="pass">Password:</label>
+                            <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control': 'form-control'"
+                                   id="pass" th:field="*{password}" type="password">
+                            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                 class="invalid-feedback"></div>
+                        </div>
                         <br>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block"> Register</button>
-                        </div> <!-- form-group// -->
-                        <!--                        <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br>-->
-                        <!--                            Terms of use and Privacy Policy.</small>-->
+                        </div>
                     </form>
-                </article> <!-- card-body end .// -->
+                </article>
                 <div class="border-top card-body text-center">Have an account? <a th:href="@{/login}" href="#">Log
                     In</a></div>
-            </div> <!-- card.// -->
-        </div> <!-- col.//-->
-
-    </div> <!-- row.//-->
+            </div>
+        </div>
+    </div>
 </div>
 <script th:replace="fragments/libs :: js"></script>
 </body>

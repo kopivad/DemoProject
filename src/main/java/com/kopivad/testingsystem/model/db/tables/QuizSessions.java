@@ -6,9 +6,10 @@ package com.kopivad.testingsystem.model.db.tables;
 
 import com.kopivad.testingsystem.model.db.Indexes;
 import com.kopivad.testingsystem.model.db.Keys;
-import com.kopivad.testingsystem.model.db.TestingSystem;
+import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.QuizSessionsRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -42,10 +43,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class QuizSessions extends TableImpl<QuizSessionsRecord> {
 
-    private static final long serialVersionUID = 1234320001;
+    private static final long serialVersionUID = 817768811;
 
     /**
-     * The reference instance of <code>testing_system.quiz_sessions</code>
+     * The reference instance of <code>public.quiz_sessions</code>
      */
     public static final QuizSessions QUIZ_SESSIONS = new QuizSessions();
 
@@ -58,36 +59,41 @@ public class QuizSessions extends TableImpl<QuizSessionsRecord> {
     }
 
     /**
-     * The column <code>testing_system.quiz_sessions.id</code>.
+     * The column <code>public.quiz_sessions.id</code>.
      */
-    public final TableField<QuizSessionsRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<QuizSessionsRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('quiz_sessions_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>testing_system.quiz_sessions.quiz_id</code>.
+     * The column <code>public.quiz_sessions.created</code>.
+     */
+    public final TableField<QuizSessionsRecord, Timestamp> CREATED = createField(DSL.name("created"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+    /**
+     * The column <code>public.quiz_sessions.quiz_id</code>.
      */
     public final TableField<QuizSessionsRecord, Long> QUIZ_ID = createField(DSL.name("quiz_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>testing_system.quiz_sessions.user_id</code>.
+     * The column <code>public.quiz_sessions.user_id</code>.
      */
     public final TableField<QuizSessionsRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * Create a <code>testing_system.quiz_sessions</code> table reference
+     * Create a <code>public.quiz_sessions</code> table reference
      */
     public QuizSessions() {
         this(DSL.name("quiz_sessions"), null);
     }
 
     /**
-     * Create an aliased <code>testing_system.quiz_sessions</code> table reference
+     * Create an aliased <code>public.quiz_sessions</code> table reference
      */
     public QuizSessions(String alias) {
         this(DSL.name(alias), QUIZ_SESSIONS);
     }
 
     /**
-     * Create an aliased <code>testing_system.quiz_sessions</code> table reference
+     * Create an aliased <code>public.quiz_sessions</code> table reference
      */
     public QuizSessions(Name alias) {
         this(alias, QUIZ_SESSIONS);
@@ -107,12 +113,12 @@ public class QuizSessions extends TableImpl<QuizSessionsRecord> {
 
     @Override
     public Schema getSchema() {
-        return TestingSystem.TESTING_SYSTEM;
+        return Public.PUBLIC;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.QUIZ_SESSIONS_FKKFLYTH3D76ARXN7V9C0FYSKQO, Indexes.QUIZ_SESSIONS_FKTH8OXREKWMQH63RA9VR84CN17, Indexes.QUIZ_SESSIONS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.QUIZ_SESSIONS_PKEY);
     }
 
     @Override
@@ -122,25 +128,25 @@ public class QuizSessions extends TableImpl<QuizSessionsRecord> {
 
     @Override
     public UniqueKey<QuizSessionsRecord> getPrimaryKey() {
-        return Keys.KEY_QUIZ_SESSIONS_PRIMARY;
+        return Keys.QUIZ_SESSIONS_PKEY;
     }
 
     @Override
     public List<UniqueKey<QuizSessionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<QuizSessionsRecord>>asList(Keys.KEY_QUIZ_SESSIONS_PRIMARY);
+        return Arrays.<UniqueKey<QuizSessionsRecord>>asList(Keys.QUIZ_SESSIONS_PKEY);
     }
 
     @Override
     public List<ForeignKey<QuizSessionsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<QuizSessionsRecord, ?>>asList(Keys.FKTH8OXREKWMQH63RA9VR84CN17, Keys.FKKFLYTH3D76ARXN7V9C0FYSKQO);
+        return Arrays.<ForeignKey<QuizSessionsRecord, ?>>asList(Keys.QUIZ_SESSIONS__FKTH8OXREKWMQH63RA9VR84CN17, Keys.QUIZ_SESSIONS__FKKFLYTH3D76ARXN7V9C0FYSKQO);
     }
 
     public Quizzes quizzes() {
-        return new Quizzes(this, Keys.FKTH8OXREKWMQH63RA9VR84CN17);
+        return new Quizzes(this, Keys.QUIZ_SESSIONS__FKTH8OXREKWMQH63RA9VR84CN17);
     }
 
     public Users users() {
-        return new Users(this, Keys.FKKFLYTH3D76ARXN7V9C0FYSKQO);
+        return new Users(this, Keys.QUIZ_SESSIONS__FKKFLYTH3D76ARXN7V9C0FYSKQO);
     }
 
     @Override
@@ -170,11 +176,11 @@ public class QuizSessions extends TableImpl<QuizSessionsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Long, Long, Long> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Long, Timestamp, Long, Long> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

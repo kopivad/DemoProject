@@ -28,59 +28,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserResponcesRecord extends UpdatableRecordImpl<UserResponcesRecord> implements Record4<Long, Long, Long, Long> {
 
-    private static final long serialVersionUID = 61126066;
+    private static final long serialVersionUID = -90725592;
 
     /**
-     * Setter for <code>testing_system.user_responces.id</code>.
+     * Setter for <code>public.user_responces.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>testing_system.user_responces.id</code>.
+     * Getter for <code>public.user_responces.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>testing_system.user_responces.answer_id</code>.
+     * Setter for <code>public.user_responces.answer_id</code>.
      */
     public void setAnswerId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>testing_system.user_responces.answer_id</code>.
+     * Getter for <code>public.user_responces.answer_id</code>.
      */
     public Long getAnswerId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>testing_system.user_responces.question_id</code>.
+     * Setter for <code>public.user_responces.question_id</code>.
      */
     public void setQuestionId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>testing_system.user_responces.question_id</code>.
+     * Getter for <code>public.user_responces.question_id</code>.
      */
     public Long getQuestionId() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>testing_system.user_responces.session_id</code>.
+     * Setter for <code>public.user_responces.session_id</code>.
      */
     public void setSessionId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>testing_system.user_responces.session_id</code>.
+     * Getter for <code>public.user_responces.session_id</code>.
      */
     public Long getSessionId() {
         return (Long) get(3);

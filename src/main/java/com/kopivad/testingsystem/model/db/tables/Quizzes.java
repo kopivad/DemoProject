@@ -6,7 +6,7 @@ package com.kopivad.testingsystem.model.db.tables;
 
 import com.kopivad.testingsystem.model.db.Indexes;
 import com.kopivad.testingsystem.model.db.Keys;
-import com.kopivad.testingsystem.model.db.TestingSystem;
+import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.QuizzesRecord;
 
 import java.util.Arrays;
@@ -42,10 +42,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Quizzes extends TableImpl<QuizzesRecord> {
 
-    private static final long serialVersionUID = -1571648958;
+    private static final long serialVersionUID = -267354535;
 
     /**
-     * The reference instance of <code>testing_system.quizzes</code>
+     * The reference instance of <code>public.quizzes</code>
      */
     public static final Quizzes QUIZZES = new Quizzes();
 
@@ -58,41 +58,41 @@ public class Quizzes extends TableImpl<QuizzesRecord> {
     }
 
     /**
-     * The column <code>testing_system.quizzes.id</code>.
+     * The column <code>public.quizzes.id</code>.
      */
-    public final TableField<QuizzesRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<QuizzesRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('quizzes_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>testing_system.quizzes.description</code>.
+     * The column <code>public.quizzes.description</code>.
      */
     public final TableField<QuizzesRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>testing_system.quizzes.title</code>.
+     * The column <code>public.quizzes.title</code>.
      */
     public final TableField<QuizzesRecord, String> TITLE = createField(DSL.name("title"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>testing_system.quizzes.user_id</code>.
+     * The column <code>public.quizzes.user_id</code>.
      */
     public final TableField<QuizzesRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * Create a <code>testing_system.quizzes</code> table reference
+     * Create a <code>public.quizzes</code> table reference
      */
     public Quizzes() {
         this(DSL.name("quizzes"), null);
     }
 
     /**
-     * Create an aliased <code>testing_system.quizzes</code> table reference
+     * Create an aliased <code>public.quizzes</code> table reference
      */
     public Quizzes(String alias) {
         this(DSL.name(alias), QUIZZES);
     }
 
     /**
-     * Create an aliased <code>testing_system.quizzes</code> table reference
+     * Create an aliased <code>public.quizzes</code> table reference
      */
     public Quizzes(Name alias) {
         this(alias, QUIZZES);
@@ -112,12 +112,12 @@ public class Quizzes extends TableImpl<QuizzesRecord> {
 
     @Override
     public Schema getSchema() {
-        return TestingSystem.TESTING_SYSTEM;
+        return Public.PUBLIC;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.QUIZZES_FKA2RODABLX8MHCE3BDAJ19EQHE, Indexes.QUIZZES_PRIMARY);
+        return Arrays.<Index>asList(Indexes.QUIZZES_PKEY);
     }
 
     @Override
@@ -127,21 +127,21 @@ public class Quizzes extends TableImpl<QuizzesRecord> {
 
     @Override
     public UniqueKey<QuizzesRecord> getPrimaryKey() {
-        return Keys.KEY_QUIZZES_PRIMARY;
+        return Keys.QUIZZES_PKEY;
     }
 
     @Override
     public List<UniqueKey<QuizzesRecord>> getKeys() {
-        return Arrays.<UniqueKey<QuizzesRecord>>asList(Keys.KEY_QUIZZES_PRIMARY);
+        return Arrays.<UniqueKey<QuizzesRecord>>asList(Keys.QUIZZES_PKEY);
     }
 
     @Override
     public List<ForeignKey<QuizzesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<QuizzesRecord, ?>>asList(Keys.FKA2RODABLX8MHCE3BDAJ19EQHE);
+        return Arrays.<ForeignKey<QuizzesRecord, ?>>asList(Keys.QUIZZES__FKA2RODABLX8MHCE3BDAJ19EQHE);
     }
 
     public Users users() {
-        return new Users(this, Keys.FKA2RODABLX8MHCE3BDAJ19EQHE);
+        return new Users(this, Keys.QUIZZES__FKA2RODABLX8MHCE3BDAJ19EQHE);
     }
 
     @Override

@@ -28,59 +28,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class QuizzesRecord extends UpdatableRecordImpl<QuizzesRecord> implements Record4<Long, String, String, Long> {
 
-    private static final long serialVersionUID = 1006913148;
+    private static final long serialVersionUID = -1809785274;
 
     /**
-     * Setter for <code>testing_system.quizzes.id</code>.
+     * Setter for <code>public.quizzes.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>testing_system.quizzes.id</code>.
+     * Getter for <code>public.quizzes.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>testing_system.quizzes.description</code>.
+     * Setter for <code>public.quizzes.description</code>.
      */
     public void setDescription(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>testing_system.quizzes.description</code>.
+     * Getter for <code>public.quizzes.description</code>.
      */
     public String getDescription() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>testing_system.quizzes.title</code>.
+     * Setter for <code>public.quizzes.title</code>.
      */
     public void setTitle(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>testing_system.quizzes.title</code>.
+     * Getter for <code>public.quizzes.title</code>.
      */
     public String getTitle() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>testing_system.quizzes.user_id</code>.
+     * Setter for <code>public.quizzes.user_id</code>.
      */
     public void setUserId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>testing_system.quizzes.user_id</code>.
+     * Getter for <code>public.quizzes.user_id</code>.
      */
     public Long getUserId() {
         return (Long) get(3);

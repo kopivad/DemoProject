@@ -27,31 +27,31 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRolesRecord extends TableRecordImpl<UserRolesRecord> implements Record2<Long, String> {
 
-    private static final long serialVersionUID = 1762548770;
+    private static final long serialVersionUID = 1327686892;
 
     /**
-     * Setter for <code>testing_system.user_roles.user_id</code>.
+     * Setter for <code>public.user_roles.user_id</code>.
      */
     public void setUserId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>testing_system.user_roles.user_id</code>.
+     * Getter for <code>public.user_roles.user_id</code>.
      */
     public Long getUserId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>testing_system.user_roles.roles</code>.
+     * Setter for <code>public.user_roles.roles</code>.
      */
     public void setRoles(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>testing_system.user_roles.roles</code>.
+     * Getter for <code>public.user_roles.roles</code>.
      */
     public String getRoles() {
         return (String) get(1);

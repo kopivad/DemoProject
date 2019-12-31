@@ -16,7 +16,7 @@ import javax.annotation.processing.Generated;
 
 
 /**
- * Convenience access to all tables in testing_system
+ * Convenience access to all tables in public
  */
 @Generated(
     value = {
@@ -29,37 +29,37 @@ import javax.annotation.processing.Generated;
 public class Tables {
 
     /**
-     * The table <code>testing_system.answers</code>.
+     * The table <code>public.answers</code>.
      */
     public static final Answers ANSWERS = Answers.ANSWERS;
 
     /**
-     * The table <code>testing_system.questions</code>.
+     * The table <code>public.questions</code>.
      */
     public static final Questions QUESTIONS = Questions.QUESTIONS;
 
     /**
-     * The table <code>testing_system.quiz_sessions</code>.
+     * The table <code>public.quiz_sessions</code>.
      */
     public static final QuizSessions QUIZ_SESSIONS = QuizSessions.QUIZ_SESSIONS;
 
     /**
-     * The table <code>testing_system.quizzes</code>.
+     * The table <code>public.quizzes</code>.
      */
     public static final Quizzes QUIZZES = Quizzes.QUIZZES;
 
     /**
-     * The table <code>testing_system.user_responces</code>.
+     * The table <code>public.user_responces</code>.
      */
     public static final UserResponces USER_RESPONCES = UserResponces.USER_RESPONCES;
 
     /**
-     * The table <code>testing_system.user_roles</code>.
+     * The table <code>public.user_roles</code>.
      */
     public static final UserRoles USER_ROLES = UserRoles.USER_ROLES;
 
     /**
-     * The table <code>testing_system.users</code>.
+     * The table <code>public.users</code>.
      */
     public static final Users USERS = Users.USERS;
 }

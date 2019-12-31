@@ -8,10 +8,10 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-1">
         <insert tableName="answers">
-            <column name="id" valueBoolean="true"/>
+            <column name="id" value="1"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="How much time does it take to write this English test?"/>
-            <column name="question_id" valueBoolean="true"/>
+            <column name="question_id" value="1"/>
         </insert>
     </changeSet>
 
@@ -20,7 +20,7 @@
             <column name="id" value="2"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="How long did it take to write this English test?"/>
-            <column name="question_id" valueBoolean="true"/>
+            <column name="question_id" value="1"/>
         </insert>
     </changeSet>
 
@@ -29,7 +29,7 @@
             <column name="id" value="3"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="How many hours does it take to write this English test."/>
-            <column name="question_id" valueBoolean="true"/>
+            <column name="question_id" value="1"/>
         </insert>
     </changeSet>
 
@@ -38,7 +38,7 @@
             <column name="id" value="4"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="How long does it take to write this English How many hours does it take to write this English test."/>
-            <column name="question_id" valueBoolean="true"/>
+            <column name="question_id" value="1"/>
         </insert>
     </changeSet>
 

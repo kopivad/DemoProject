@@ -20,7 +20,6 @@ import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPO
 @Repository
 @AllArgsConstructor
 @Primary
-@Log4j2
 public class AnswerRepositoryJooqImpl implements AnswerRepository {
     private final DSLContext dslContext;
 
@@ -108,13 +107,7 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
                 .builder()
                 .id(id)
                 .isRight(isRight)
-                .question(
-                        Question
-                                .builder()
-                                .id(question.getId())
-                                .title(question.getTitle())
-                                .build()
-                )
+                .question(question)
                 .userResponces(responses)
                 .text(text)
                 .build();

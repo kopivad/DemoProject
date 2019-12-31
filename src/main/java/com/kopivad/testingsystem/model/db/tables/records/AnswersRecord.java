@@ -28,59 +28,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AnswersRecord extends UpdatableRecordImpl<AnswersRecord> implements Record4<Long, Boolean, String, Long> {
 
-    private static final long serialVersionUID = 2004729183;
+    private static final long serialVersionUID = 941034197;
 
     /**
-     * Setter for <code>testing_system.answers.id</code>.
+     * Setter for <code>public.answers.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>testing_system.answers.id</code>.
+     * Getter for <code>public.answers.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>testing_system.answers.is_right</code>.
+     * Setter for <code>public.answers.is_right</code>.
      */
     public void setIsRight(Boolean value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>testing_system.answers.is_right</code>.
+     * Getter for <code>public.answers.is_right</code>.
      */
     public Boolean getIsRight() {
         return (Boolean) get(1);
     }
 
     /**
-     * Setter for <code>testing_system.answers.text</code>.
+     * Setter for <code>public.answers.text</code>.
      */
     public void setText(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>testing_system.answers.text</code>.
+     * Getter for <code>public.answers.text</code>.
      */
     public String getText() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>testing_system.answers.question_id</code>.
+     * Setter for <code>public.answers.question_id</code>.
      */
     public void setQuestionId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>testing_system.answers.question_id</code>.
+     * Getter for <code>public.answers.question_id</code>.
      */
     public Long getQuestionId() {
         return (Long) get(3);

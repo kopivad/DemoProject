@@ -28,59 +28,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersRecord extends UpdatableRecordImpl<UsersRecord> implements Record4<Long, String, String, String> {
 
-    private static final long serialVersionUID = -21383001;
+    private static final long serialVersionUID = 96869543;
 
     /**
-     * Setter for <code>testing_system.users.id</code>.
+     * Setter for <code>public.users.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>testing_system.users.id</code>.
+     * Getter for <code>public.users.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>testing_system.users.email</code>.
+     * Setter for <code>public.users.email</code>.
      */
     public void setEmail(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>testing_system.users.email</code>.
+     * Getter for <code>public.users.email</code>.
      */
     public String getEmail() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>testing_system.users.nickname</code>.
+     * Setter for <code>public.users.nickname</code>.
      */
     public void setNickname(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>testing_system.users.nickname</code>.
+     * Getter for <code>public.users.nickname</code>.
      */
     public String getNickname() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>testing_system.users.password</code>.
+     * Setter for <code>public.users.password</code>.
      */
     public void setPassword(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>testing_system.users.password</code>.
+     * Getter for <code>public.users.password</code>.
      */
     public String getPassword() {
         return (String) get(3);

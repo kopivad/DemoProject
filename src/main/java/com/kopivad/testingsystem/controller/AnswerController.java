@@ -3,12 +3,14 @@ package com.kopivad.testingsystem.controller;
 import com.kopivad.testingsystem.form.AnswerForm;
 import com.kopivad.testingsystem.form.UserResponseForm;
 import com.kopivad.testingsystem.model.Question;
+import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.AnswerService;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizSessionService;
 import com.kopivad.testingsystem.service.UserResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,13 +45,6 @@ public class AnswerController {
         return "redirect:/answer/manage";
     }
 
-    @GetMapping(path = "/answer/add")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String getAddAnswerPage(Model model) {
-        model.addAttribute("questions", questionService.getAllQuestions());
-        return "answerAdd";
-    }
-
     @PostMapping(path = "/answer")
     public String getUserAnswer(UserResponseForm userResponseForm) {
         Question userQuestion = questionService.getQuestionById(userResponseForm.getQuestionId());
@@ -62,24 +57,37 @@ public class AnswerController {
                 String.format("redirect:/quiz/result/?session=%s" , userResponseForm.getSessionId()) :
                 String.format("redirect:/quiz/%d/question/%d?session=%s" , currentQuestionQuizId, currentQuestionNumber + 1, userResponseForm.getSessionId());
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping(path = "/answer/manage")
-    public String getAnswerManagePage(Model model) {
-        model.addAttribute("answers", answerService.getAllAnswers());
-        return "answerManage";
-    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(path = "/answer/manage")
+    public String getAnswerManagePage(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("answers", answerService.getAllAnswers());
+        model.addAttribute("user", user);
+        return "answerManage";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/answer/manage/{id}")
-    public String getAllAnswersByQuizIdManagePage(@PathVariable(name = "id") Long id, Model model) {
+    public String getAllAnswersByQuizIdManagePage(@PathVariable(name = "id") Long id,
+                                                  Model model,
+                                                  @AuthenticationPrincipal User user) {
         model.addAttribute("answers", answerService.getAnswersByQuestionId(id));
+        model.addAttribute("user", user);
         return "answerManage";
     }
 
     @GetMapping(path = "/answer/edit/{id}")
-    public String getEditQuestionPage(@PathVariable(name = "id") Long id, Model model) {
+    public String getEditQuestionPage(@PathVariable(name = "id") Long id, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("answer", answerService.getAnswerById(id));
         model.addAttribute("questions", questionService.getAllQuestions());
+        model.addAttribute("user", user);
         return "answerEdit";
+    }
+
+    @GetMapping(path = "/answer/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String getAddAnswerPage(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("questions", questionService.getAllQuestions());
+        model.addAttribute("user", user);
+        return "answerAdd";
     }
 }

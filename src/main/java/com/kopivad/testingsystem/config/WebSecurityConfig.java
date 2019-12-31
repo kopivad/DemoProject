@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor(onConstructor = @__({@Lazy}))
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -34,28 +35,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
 
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
 
                 .and()
-                    .logout()
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/login?logout=true")
-                    .permitAll()
-
-                .and()
-                    .rememberMe()
-                    .key("simpleToken")
-                    .rememberMeParameter("remember-me")
-                    .tokenValiditySeconds(86400); // 2 weeks
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login?logout=true")
+                .permitAll();
+//
+//                .and()
+//                .rememberMe()
+//                .key("simpleToken")
+//                .rememberMeParameter("remember-me")
+//                .tokenValiditySeconds(86400); // 2 weeks
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(getPasswordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
-    
+
 
 }

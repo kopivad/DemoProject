@@ -2,12 +2,12 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="Vadym (generated)" id="1576791453248-1">
+    <changeSet author="Vadym (generated)" id="1577774258655-1">
         <createTable tableName="answers">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="answers_pkey"/>
             </column>
-            <column name="is_right" type="BIT(1)">
+            <column name="is_right" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="text" type="VARCHAR(255)"/>
@@ -16,10 +16,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-2">
+    <changeSet author="Vadym (generated)" id="1577774258655-2">
         <createTable tableName="questions">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="questions_pkey"/>
             </column>
             <column name="title" type="VARCHAR(255)"/>
             <column name="quiz_id" type="BIGINT">
@@ -27,11 +27,12 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-3">
+    <changeSet author="Vadym (generated)" id="1577774258655-3">
         <createTable tableName="quiz_sessions">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="quiz_sessions_pkey"/>
             </column>
+            <column name="created" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
             <column name="quiz_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -40,10 +41,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-4">
+    <changeSet author="Vadym (generated)" id="1577774258655-4">
         <createTable tableName="quizzes">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="quizzes_pkey"/>
             </column>
             <column name="description" type="VARCHAR(255)"/>
             <column name="title" type="VARCHAR(255)"/>
@@ -52,10 +53,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-5">
+    <changeSet author="Vadym (generated)" id="1577774258655-5">
         <createTable tableName="user_responces">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="user_responces_pkey"/>
             </column>
             <column name="answer_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -68,7 +69,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-6">
+    <changeSet author="Vadym (generated)" id="1577774258655-6">
         <createTable tableName="user_roles">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -76,86 +77,41 @@
             <column name="roles" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-7">
+    <changeSet author="Vadym (generated)" id="1577774258655-7">
         <createTable tableName="users">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="users_pkey"/>
             </column>
             <column name="email" type="VARCHAR(255)"/>
             <column name="nickname" type="VARCHAR(255)"/>
             <column name="password" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-8">
-        <createIndex indexName="FK323kvt7oni5t0b0tr570yyn9t" tableName="user_responces">
-            <column name="question_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-8">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="user_responces" constraintName="fk323kvt7oni5t0b0tr570yyn9t" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="questions"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-9">
-        <createIndex indexName="FK3erw1a3t0r78st8ty27x6v3g1" tableName="answers">
-            <column name="question_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-9">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="answers" constraintName="fk3erw1a3t0r78st8ty27x6v3g1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="questions"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-10">
-        <createIndex indexName="FKa2rodablx8mhce3bdaj19eqhe" tableName="quizzes">
-            <column name="user_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-10">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="quizzes" constraintName="fka2rodablx8mhce3bdaj19eqhe" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-11">
-        <createIndex indexName="FKhfh9dx7w3ubf1co1vdev94g3f" tableName="user_roles">
-            <column name="user_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-11">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles" constraintName="fkhfh9dx7w3ubf1co1vdev94g3f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-12">
-        <createIndex indexName="FKkflyth3d76arxn7v9c0fyskqo" tableName="quiz_sessions">
-            <column name="user_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-12">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="quiz_sessions" constraintName="fkkflyth3d76arxn7v9c0fyskqo" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-13">
-        <createIndex indexName="FKkv6ftjce5hfmcch43jkbgg4ok" tableName="user_responces">
-            <column name="session_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-13">
+        <addForeignKeyConstraint baseColumnNames="session_id" baseTableName="user_responces" constraintName="fkkv6ftjce5hfmcch43jkbgg4ok" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="quiz_sessions"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-14">
-        <createIndex indexName="FKn3gvco4b0kewxc0bywf1igfms" tableName="questions">
-            <column name="quiz_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-14">
+        <addForeignKeyConstraint baseColumnNames="quiz_id" baseTableName="questions" constraintName="fkn3gvco4b0kewxc0bywf1igfms" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="quizzes"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-15">
-        <createIndex indexName="FKt4x7j4gv9gnvw9eq16vqfqi46" tableName="user_responces">
-            <column name="answer_id"/>
-        </createIndex>
+    <changeSet author="Vadym (generated)" id="1577774258655-15">
+        <addForeignKeyConstraint baseColumnNames="answer_id" baseTableName="user_responces" constraintName="fkt4x7j4gv9gnvw9eq16vqfqi46" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="answers"/>
     </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-16">
-        <createIndex indexName="FKth8oxrekwmqh63ra9vr84cn17" tableName="quiz_sessions">
-            <column name="quiz_id"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-17">
-        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="user_responces" constraintName="FK323kvt7oni5t0b0tr570yyn9t" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="questions"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-18">
-        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="answers" constraintName="FK3erw1a3t0r78st8ty27x6v3g1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="questions"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-19">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="quizzes" constraintName="FKa2rodablx8mhce3bdaj19eqhe" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-20">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles" constraintName="FKhfh9dx7w3ubf1co1vdev94g3f" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-21">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="quiz_sessions" constraintName="FKkflyth3d76arxn7v9c0fyskqo" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-22">
-        <addForeignKeyConstraint baseColumnNames="session_id" baseTableName="user_responces" constraintName="FKkv6ftjce5hfmcch43jkbgg4ok" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="quiz_sessions"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-23">
-        <addForeignKeyConstraint baseColumnNames="quiz_id" baseTableName="questions" constraintName="FKn3gvco4b0kewxc0bywf1igfms" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="quizzes"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-24">
-        <addForeignKeyConstraint baseColumnNames="answer_id" baseTableName="user_responces" constraintName="FKt4x7j4gv9gnvw9eq16vqfqi46" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="answers"/>
-    </changeSet>
-    <changeSet author="Vadym (generated)" id="1576791453248-25">
-        <addForeignKeyConstraint baseColumnNames="quiz_id" baseTableName="quiz_sessions" constraintName="FKth8oxrekwmqh63ra9vr84cn17" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="quizzes"/>
+    <changeSet author="Vadym (generated)" id="1577774258655-16">
+        <addForeignKeyConstraint baseColumnNames="quiz_id" baseTableName="quiz_sessions" constraintName="fkth8oxrekwmqh63ra9vr84cn17" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="quizzes"/>
     </changeSet>
 </databaseChangeLog>

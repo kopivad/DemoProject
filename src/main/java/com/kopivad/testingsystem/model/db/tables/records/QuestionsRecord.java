@@ -28,45 +28,45 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class QuestionsRecord extends UpdatableRecordImpl<QuestionsRecord> implements Record3<Long, String, Long> {
 
-    private static final long serialVersionUID = 303918124;
+    private static final long serialVersionUID = 805700300;
 
     /**
-     * Setter for <code>testing_system.questions.id</code>.
+     * Setter for <code>public.questions.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>testing_system.questions.id</code>.
+     * Getter for <code>public.questions.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>testing_system.questions.title</code>.
+     * Setter for <code>public.questions.title</code>.
      */
     public void setTitle(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>testing_system.questions.title</code>.
+     * Getter for <code>public.questions.title</code>.
      */
     public String getTitle() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>testing_system.questions.quiz_id</code>.
+     * Setter for <code>public.questions.quiz_id</code>.
      */
     public void setQuizId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>testing_system.questions.quiz_id</code>.
+     * Getter for <code>public.questions.quiz_id</code>.
      */
     public Long getQuizId() {
         return (Long) get(2);

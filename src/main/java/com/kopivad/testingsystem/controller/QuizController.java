@@ -3,7 +3,6 @@ package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.QuizSession;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
@@ -18,18 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.sql.Timestamp;
-import java.time.temporal.Temporal;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 @Controller
 @AllArgsConstructor
 public class QuizController {
     private final QuizService quizService;
     private final QuestionService questionService;
-    private final QuizSessionService quizSessionService;
 
     @PostMapping(path = "quiz/add")
     public String saveQuiz(@AuthenticationPrincipal User user, @ModelAttribute QuizForm quizForm) {
@@ -50,47 +42,54 @@ public class QuizController {
 
 
     @GetMapping(path = "/")
-    public String getIndexPage() {
+    public String getIndexPage(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "redirect:/index";
     }
 
     @GetMapping(path = "index")
-    public String getQuizPage(Model model, QuizForm quizForm) {
+    public String getQuizPage(Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
         model.addAttribute("quizForm", quizForm);
         model.addAttribute("quizzes", quizService.getAllQuizzes());
+        model.addAttribute("user", user);
         return "index";
     }
 
     @GetMapping(path = "quiz/{id}")
-    public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model) {
+    public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("quiz", quizService.getQuizById(quizId));
         model.addAttribute("questionAmount", questionService.countByQuizId(quizId));
+        model.addAttribute("user", user);
         return "quiz";
     }
 
     @GetMapping(path = "/quiz/add")
-    public String getAddQuizPage(Model model, QuizForm quizForm) {
+    public String getAddQuizPage(Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
         model.addAttribute("quizForm", quizForm);
+        model.addAttribute("user", user);
         return "quizAdd";
     }
 
     @GetMapping(path = "/quiz/edit/{id}")
-    public String getEditQuizPage(@PathVariable(name = "id") Long id, Model model, QuizForm quizForm) {
+    public String getEditQuizPage(@PathVariable(name = "id") Long id, Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
         model.addAttribute("quiz", quizService.getQuizById(id));
         model.addAttribute("quizForm", quizForm);
+        model.addAttribute("user", user);
         return "quizEdit";
     }
 
     @GetMapping(path = "/quiz/{id}/start")
-    public String startQuiz(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id) {
+    public String startQuiz(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id, Model model) {
         Long sessionId = quizService.startQuiz(id, user);
+        model.addAttribute("user", user);
         return String.format("redirect:/quiz/%d/question/1?session=%s", id, sessionId);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/quiz/manage")
-    public String manageQuiz(Model model) {
+    public String manageQuiz(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("quizzes", quizService.getAllQuizzes());
+        model.addAttribute("user", user);
         return "quizManage";
     }
 }

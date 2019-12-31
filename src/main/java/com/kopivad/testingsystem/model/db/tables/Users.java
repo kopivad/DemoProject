@@ -6,7 +6,7 @@ package com.kopivad.testingsystem.model.db.tables;
 
 import com.kopivad.testingsystem.model.db.Indexes;
 import com.kopivad.testingsystem.model.db.Keys;
-import com.kopivad.testingsystem.model.db.TestingSystem;
+import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.UsersRecord;
 
 import java.util.Arrays;
@@ -42,10 +42,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 1816975829;
+    private static final long serialVersionUID = 106886315;
 
     /**
-     * The reference instance of <code>testing_system.users</code>
+     * The reference instance of <code>public.users</code>
      */
     public static final Users USERS = new Users();
 
@@ -58,41 +58,41 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     /**
-     * The column <code>testing_system.users.id</code>.
+     * The column <code>public.users.id</code>.
      */
-    public final TableField<UsersRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UsersRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('users_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>testing_system.users.email</code>.
+     * The column <code>public.users.email</code>.
      */
     public final TableField<UsersRecord, String> EMAIL = createField(DSL.name("email"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>testing_system.users.nickname</code>.
+     * The column <code>public.users.nickname</code>.
      */
     public final TableField<UsersRecord, String> NICKNAME = createField(DSL.name("nickname"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>testing_system.users.password</code>.
+     * The column <code>public.users.password</code>.
      */
     public final TableField<UsersRecord, String> PASSWORD = createField(DSL.name("password"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * Create a <code>testing_system.users</code> table reference
+     * Create a <code>public.users</code> table reference
      */
     public Users() {
         this(DSL.name("users"), null);
     }
 
     /**
-     * Create an aliased <code>testing_system.users</code> table reference
+     * Create an aliased <code>public.users</code> table reference
      */
     public Users(String alias) {
         this(DSL.name(alias), USERS);
     }
 
     /**
-     * Create an aliased <code>testing_system.users</code> table reference
+     * Create an aliased <code>public.users</code> table reference
      */
     public Users(Name alias) {
         this(alias, USERS);
@@ -112,12 +112,12 @@ public class Users extends TableImpl<UsersRecord> {
 
     @Override
     public Schema getSchema() {
-        return TestingSystem.TESTING_SYSTEM;
+        return Public.PUBLIC;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USERS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.USERS_PKEY);
     }
 
     @Override
@@ -127,12 +127,12 @@ public class Users extends TableImpl<UsersRecord> {
 
     @Override
     public UniqueKey<UsersRecord> getPrimaryKey() {
-        return Keys.KEY_USERS_PRIMARY;
+        return Keys.USERS_PKEY;
     }
 
     @Override
     public List<UniqueKey<UsersRecord>> getKeys() {
-        return Arrays.<UniqueKey<UsersRecord>>asList(Keys.KEY_USERS_PRIMARY);
+        return Arrays.<UniqueKey<UsersRecord>>asList(Keys.USERS_PKEY);
     }
 
     @Override

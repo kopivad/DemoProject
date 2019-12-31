@@ -4,9 +4,8 @@
 package com.kopivad.testingsystem.model.db.tables;
 
 
-import com.kopivad.testingsystem.model.db.Indexes;
 import com.kopivad.testingsystem.model.db.Keys;
-import com.kopivad.testingsystem.model.db.TestingSystem;
+import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.UserRolesRecord;
 
 import java.util.Arrays;
@@ -16,7 +15,6 @@ import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row2;
@@ -40,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRoles extends TableImpl<UserRolesRecord> {
 
-    private static final long serialVersionUID = -1660950794;
+    private static final long serialVersionUID = 483039481;
 
     /**
-     * The reference instance of <code>testing_system.user_roles</code>
+     * The reference instance of <code>public.user_roles</code>
      */
     public static final UserRoles USER_ROLES = new UserRoles();
 
@@ -56,31 +54,31 @@ public class UserRoles extends TableImpl<UserRolesRecord> {
     }
 
     /**
-     * The column <code>testing_system.user_roles.user_id</code>.
+     * The column <code>public.user_roles.user_id</code>.
      */
     public final TableField<UserRolesRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>testing_system.user_roles.roles</code>.
+     * The column <code>public.user_roles.roles</code>.
      */
     public final TableField<UserRolesRecord, String> ROLES = createField(DSL.name("roles"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * Create a <code>testing_system.user_roles</code> table reference
+     * Create a <code>public.user_roles</code> table reference
      */
     public UserRoles() {
         this(DSL.name("user_roles"), null);
     }
 
     /**
-     * Create an aliased <code>testing_system.user_roles</code> table reference
+     * Create an aliased <code>public.user_roles</code> table reference
      */
     public UserRoles(String alias) {
         this(DSL.name(alias), USER_ROLES);
     }
 
     /**
-     * Create an aliased <code>testing_system.user_roles</code> table reference
+     * Create an aliased <code>public.user_roles</code> table reference
      */
     public UserRoles(Name alias) {
         this(alias, USER_ROLES);
@@ -100,21 +98,16 @@ public class UserRoles extends TableImpl<UserRolesRecord> {
 
     @Override
     public Schema getSchema() {
-        return TestingSystem.TESTING_SYSTEM;
-    }
-
-    @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USER_ROLES_FKHFH9DX7W3UBF1CO1VDEV94G3F);
+        return Public.PUBLIC;
     }
 
     @Override
     public List<ForeignKey<UserRolesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<UserRolesRecord, ?>>asList(Keys.FKHFH9DX7W3UBF1CO1VDEV94G3F);
+        return Arrays.<ForeignKey<UserRolesRecord, ?>>asList(Keys.USER_ROLES__FKHFH9DX7W3UBF1CO1VDEV94G3F);
     }
 
     public Users users() {
-        return new Users(this, Keys.FKHFH9DX7W3UBF1CO1VDEV94G3F);
+        return new Users(this, Keys.USER_ROLES__FKHFH9DX7W3UBF1CO1VDEV94G3F);
     }
 
     @Override

@@ -6,7 +6,7 @@ package com.kopivad.testingsystem.model.db.tables;
 
 import com.kopivad.testingsystem.model.db.Indexes;
 import com.kopivad.testingsystem.model.db.Keys;
-import com.kopivad.testingsystem.model.db.TestingSystem;
+import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.QuestionsRecord;
 
 import java.util.Arrays;
@@ -42,10 +42,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Questions extends TableImpl<QuestionsRecord> {
 
-    private static final long serialVersionUID = -1237211696;
+    private static final long serialVersionUID = 116568770;
 
     /**
-     * The reference instance of <code>testing_system.questions</code>
+     * The reference instance of <code>public.questions</code>
      */
     public static final Questions QUESTIONS = new Questions();
 
@@ -58,36 +58,36 @@ public class Questions extends TableImpl<QuestionsRecord> {
     }
 
     /**
-     * The column <code>testing_system.questions.id</code>.
+     * The column <code>public.questions.id</code>.
      */
-    public final TableField<QuestionsRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<QuestionsRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('questions_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>testing_system.questions.title</code>.
+     * The column <code>public.questions.title</code>.
      */
     public final TableField<QuestionsRecord, String> TITLE = createField(DSL.name("title"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>testing_system.questions.quiz_id</code>.
+     * The column <code>public.questions.quiz_id</code>.
      */
     public final TableField<QuestionsRecord, Long> QUIZ_ID = createField(DSL.name("quiz_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * Create a <code>testing_system.questions</code> table reference
+     * Create a <code>public.questions</code> table reference
      */
     public Questions() {
         this(DSL.name("questions"), null);
     }
 
     /**
-     * Create an aliased <code>testing_system.questions</code> table reference
+     * Create an aliased <code>public.questions</code> table reference
      */
     public Questions(String alias) {
         this(DSL.name(alias), QUESTIONS);
     }
 
     /**
-     * Create an aliased <code>testing_system.questions</code> table reference
+     * Create an aliased <code>public.questions</code> table reference
      */
     public Questions(Name alias) {
         this(alias, QUESTIONS);
@@ -107,12 +107,12 @@ public class Questions extends TableImpl<QuestionsRecord> {
 
     @Override
     public Schema getSchema() {
-        return TestingSystem.TESTING_SYSTEM;
+        return Public.PUBLIC;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.QUESTIONS_FKN3GVCO4B0KEWXC0BYWF1IGFMS, Indexes.QUESTIONS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.QUESTIONS_PKEY);
     }
 
     @Override
@@ -122,21 +122,21 @@ public class Questions extends TableImpl<QuestionsRecord> {
 
     @Override
     public UniqueKey<QuestionsRecord> getPrimaryKey() {
-        return Keys.KEY_QUESTIONS_PRIMARY;
+        return Keys.QUESTIONS_PKEY;
     }
 
     @Override
     public List<UniqueKey<QuestionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<QuestionsRecord>>asList(Keys.KEY_QUESTIONS_PRIMARY);
+        return Arrays.<UniqueKey<QuestionsRecord>>asList(Keys.QUESTIONS_PKEY);
     }
 
     @Override
     public List<ForeignKey<QuestionsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<QuestionsRecord, ?>>asList(Keys.FKN3GVCO4B0KEWXC0BYWF1IGFMS);
+        return Arrays.<ForeignKey<QuestionsRecord, ?>>asList(Keys.QUESTIONS__FKN3GVCO4B0KEWXC0BYWF1IGFMS);
     }
 
     public Quizzes quizzes() {
-        return new Quizzes(this, Keys.FKN3GVCO4B0KEWXC0BYWF1IGFMS);
+        return new Quizzes(this, Keys.QUESTIONS__FKN3GVCO4B0KEWXC0BYWF1IGFMS);
     }
 
     @Override

@@ -6,7 +6,7 @@ package com.kopivad.testingsystem.model.db.tables;
 
 import com.kopivad.testingsystem.model.db.Indexes;
 import com.kopivad.testingsystem.model.db.Keys;
-import com.kopivad.testingsystem.model.db.TestingSystem;
+import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.UserResponcesRecord;
 
 import java.util.Arrays;
@@ -42,10 +42,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserResponces extends TableImpl<UserResponcesRecord> {
 
-    private static final long serialVersionUID = -307660587;
+    private static final long serialVersionUID = 585868450;
 
     /**
-     * The reference instance of <code>testing_system.user_responces</code>
+     * The reference instance of <code>public.user_responces</code>
      */
     public static final UserResponces USER_RESPONCES = new UserResponces();
 
@@ -58,41 +58,41 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
     }
 
     /**
-     * The column <code>testing_system.user_responces.id</code>.
+     * The column <code>public.user_responces.id</code>.
      */
-    public final TableField<UserResponcesRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserResponcesRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('user_responces_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * The column <code>testing_system.user_responces.answer_id</code>.
+     * The column <code>public.user_responces.answer_id</code>.
      */
     public final TableField<UserResponcesRecord, Long> ANSWER_ID = createField(DSL.name("answer_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>testing_system.user_responces.question_id</code>.
+     * The column <code>public.user_responces.question_id</code>.
      */
     public final TableField<UserResponcesRecord, Long> QUESTION_ID = createField(DSL.name("question_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>testing_system.user_responces.session_id</code>.
+     * The column <code>public.user_responces.session_id</code>.
      */
     public final TableField<UserResponcesRecord, Long> SESSION_ID = createField(DSL.name("session_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * Create a <code>testing_system.user_responces</code> table reference
+     * Create a <code>public.user_responces</code> table reference
      */
     public UserResponces() {
         this(DSL.name("user_responces"), null);
     }
 
     /**
-     * Create an aliased <code>testing_system.user_responces</code> table reference
+     * Create an aliased <code>public.user_responces</code> table reference
      */
     public UserResponces(String alias) {
         this(DSL.name(alias), USER_RESPONCES);
     }
 
     /**
-     * Create an aliased <code>testing_system.user_responces</code> table reference
+     * Create an aliased <code>public.user_responces</code> table reference
      */
     public UserResponces(Name alias) {
         this(alias, USER_RESPONCES);
@@ -112,12 +112,12 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
 
     @Override
     public Schema getSchema() {
-        return TestingSystem.TESTING_SYSTEM;
+        return Public.PUBLIC;
     }
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USER_RESPONCES_FK323KVT7ONI5T0B0TR570YYN9T, Indexes.USER_RESPONCES_FKKV6FTJCE5HFMCCH43JKBGG4OK, Indexes.USER_RESPONCES_FKT4X7J4GV9GNVW9EQ16VQFQI46, Indexes.USER_RESPONCES_PRIMARY);
+        return Arrays.<Index>asList(Indexes.USER_RESPONCES_PKEY);
     }
 
     @Override
@@ -127,29 +127,29 @@ public class UserResponces extends TableImpl<UserResponcesRecord> {
 
     @Override
     public UniqueKey<UserResponcesRecord> getPrimaryKey() {
-        return Keys.KEY_USER_RESPONCES_PRIMARY;
+        return Keys.USER_RESPONCES_PKEY;
     }
 
     @Override
     public List<UniqueKey<UserResponcesRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserResponcesRecord>>asList(Keys.KEY_USER_RESPONCES_PRIMARY);
+        return Arrays.<UniqueKey<UserResponcesRecord>>asList(Keys.USER_RESPONCES_PKEY);
     }
 
     @Override
     public List<ForeignKey<UserResponcesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<UserResponcesRecord, ?>>asList(Keys.FKT4X7J4GV9GNVW9EQ16VQFQI46, Keys.FK323KVT7ONI5T0B0TR570YYN9T, Keys.FKKV6FTJCE5HFMCCH43JKBGG4OK);
+        return Arrays.<ForeignKey<UserResponcesRecord, ?>>asList(Keys.USER_RESPONCES__FKT4X7J4GV9GNVW9EQ16VQFQI46, Keys.USER_RESPONCES__FK323KVT7ONI5T0B0TR570YYN9T, Keys.USER_RESPONCES__FKKV6FTJCE5HFMCCH43JKBGG4OK);
     }
 
     public Answers answers() {
-        return new Answers(this, Keys.FKT4X7J4GV9GNVW9EQ16VQFQI46);
+        return new Answers(this, Keys.USER_RESPONCES__FKT4X7J4GV9GNVW9EQ16VQFQI46);
     }
 
     public Questions questions() {
-        return new Questions(this, Keys.FK323KVT7ONI5T0B0TR570YYN9T);
+        return new Questions(this, Keys.USER_RESPONCES__FK323KVT7ONI5T0B0TR570YYN9T);
     }
 
     public QuizSessions quizSessions() {
-        return new QuizSessions(this, Keys.FKKV6FTJCE5HFMCCH43JKBGG4OK);
+        return new QuizSessions(this, Keys.USER_RESPONCES__FKKV6FTJCE5HFMCCH43JKBGG4OK);
     }
 
     @Override

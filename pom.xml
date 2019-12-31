@@ -93,11 +93,10 @@
 			<version>4.5.0</version>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.17</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.9</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -139,29 +138,30 @@
 				</executions>
 				<dependencies>
 					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>8.0.17</version>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>42.2.9</version>
 					</dependency>
+
 				</dependencies>
 				<configuration>
 					<jdbc>
-						<driver>com.mysql.cj.jdbc.Driver</driver>
-						<url>jdbc:mysql://localhost:3306/testing_system</url>
-						<user>root</user>
+						<driver>org.postgresql.Driver</driver>
+						<url>jdbc:postgresql://localhost:5432/testing_system</url>
+						<user>vad</user>
 						<password>root</password>
 					</jdbc>
 					<generator>
 						<name>org.jooq.codegen.JavaGenerator</name>
 						<database>
-							<name>org.jooq.meta.mysql.MySQLDatabase</name>
+							<name>org.jooq.meta.postgres.PostgresDatabase</name>
 							<includes>.*</includes>
 							<excludes>
 								databasechangelog |
 								databasechangeloglock |
 								hibernate_sequence
 							</excludes>
-							<inputSchema>testing_system</inputSchema>
+							<inputSchema>public</inputSchema>
 						</database>
 						<target>
 							<packageName>com.kopivad.testingsystem.model.db</packageName>
