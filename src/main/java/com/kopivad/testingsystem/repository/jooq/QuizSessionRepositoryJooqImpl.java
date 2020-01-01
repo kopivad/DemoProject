@@ -13,10 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.kopivad.testingsystem.model.db.Sequences.QUIZ_SESSIONS_ID_SEQ;
 import static com.kopivad.testingsystem.model.db.tables.QuizSessions.QUIZ_SESSIONS;
 import static com.kopivad.testingsystem.model.db.tables.Quizzes.QUIZZES;
 import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
 import static com.kopivad.testingsystem.model.db.tables.Users.USERS;
+import static org.jooq.impl.DSL.val;
 
 @Repository
 @Primary
@@ -27,8 +29,8 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
     @Override
     public QuizSession saveQuizSession(QuizSession quizSession) {
         return dslContext
-                .insertInto(QUIZ_SESSIONS, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
-                .values(quizSession.getUser().getId(), quizSession.getQuiz().getId())
+                .insertInto(QUIZ_SESSIONS, QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
+                .values(QUIZ_SESSIONS_ID_SEQ.nextval(), val(quizSession.getUser().getId()), val(quizSession.getQuiz().getId()))
                 .returning(QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
                 .fetchOne()
                 .map(this::getQuizSessionFromRecord);

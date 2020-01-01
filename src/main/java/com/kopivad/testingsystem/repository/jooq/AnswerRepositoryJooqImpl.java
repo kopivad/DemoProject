@@ -13,9 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.kopivad.testingsystem.model.db.Sequences.ANSWERS_ID_SEQ;
 import static com.kopivad.testingsystem.model.db.tables.Answers.ANSWERS;
 import static com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
 import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
+import static org.jooq.impl.DSL.val;
 
 @Repository
 @AllArgsConstructor
@@ -44,8 +46,8 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
     @Override
     public Answer saveAnswer(Answer answer) {
         return dslContext
-                .insertInto(ANSWERS, ANSWERS.TEXT, ANSWERS.IS_RIGHT, ANSWERS.QUESTION_ID)
-                .values(answer.getText(), answer.isRight(), answer.getQuestion().getId())
+                .insertInto(ANSWERS, ANSWERS.ID, ANSWERS.TEXT, ANSWERS.IS_RIGHT, ANSWERS.QUESTION_ID)
+                .values(ANSWERS_ID_SEQ.nextval() ,val(answer.getText()), val(answer.isRight()), val(answer.getQuestion().getId()))
                 .returning(ANSWERS.ID, ANSWERS.TEXT, ANSWERS.QUESTION_ID, ANSWERS.IS_RIGHT)
                 .fetchOne()
                 .map(this::getAnswerFromRecord);

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.kopivad.testingsystem.model.db.Sequences.USER_RESPONCES_ID_SEQ;
 import static com.kopivad.testingsystem.model.db.Tables.*;
+import static org.jooq.impl.DSL.val;
 
 @RequiredArgsConstructor
 @Repository
@@ -32,10 +34,9 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
 
     @Override
     public UserResponce save(UserResponce userAnswer) {
-        System.out.println(userAnswer.getId());
         dslContext
                 .insertInto(USER_RESPONCES, USER_RESPONCES.ID, USER_RESPONCES.SESSION_ID, USER_RESPONCES.ANSWER_ID, USER_RESPONCES.QUESTION_ID)
-                .values(0L, userAnswer.getQuizSession().getId(), userAnswer.getAnswer().getId(), userAnswer.getQuestion().getId())
+                .values(USER_RESPONCES_ID_SEQ.nextval(), val(userAnswer.getQuizSession().getId()), val(userAnswer.getAnswer().getId()), val(userAnswer.getQuestion().getId()))
                 .execute();
         return userAnswer;
     }

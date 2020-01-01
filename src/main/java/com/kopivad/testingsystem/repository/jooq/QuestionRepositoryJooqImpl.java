@@ -16,7 +16,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.kopivad.testingsystem.model.db.Sequences.QUESTIONS_ID_SEQ;
 import static com.kopivad.testingsystem.model.db.Tables.*;
+import static org.jooq.impl.DSL.val;
 
 @Repository
 @RequiredArgsConstructor
@@ -66,8 +68,8 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
     @Override
     public Question saveQuestion(Question question) {
         return dslContext
-                .insertInto(QUESTIONS, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
-                .values(question.getTitle(), question.getQuiz().getId())
+                .insertInto(QUESTIONS, QUESTIONS.ID, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
+                .values(QUESTIONS_ID_SEQ.nextval(), val(question.getTitle()), val(question.getQuiz().getId()))
                 .returning(QUESTIONS.ID, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
                 .fetchOne()
                 .map(this::getQuestionFromRecord);
