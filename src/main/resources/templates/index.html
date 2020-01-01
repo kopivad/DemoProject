@@ -2,7 +2,7 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Demo quiz app</title>
     <link th:replace="fragments/libs :: css" />
 
@@ -12,7 +12,7 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <br>
+    <br />
     <h2>All quizzes</h2>
     <p>Each quiz contains questions, you get 1 point for each correct answer, at the end of each quiz you get your total
         score.</p>
@@ -21,15 +21,15 @@
         <div th:each="quiz : ${quizzes}" class="col-sm-4 text-center">
             <div class="card bg-body text-body mt-4">
                 <div class="card-body">
-                    <br>
+                    <br />
                     <h4 th:text="${quiz.getTitle()}" class="card-title">Quiz title</h4>
-                    <br>
+                    <br />
                     <p class="card-text">
                         <span th:text="${quiz.getDescription()}"></span>
                     </p>
-                    <br>
+                    <br />
                     <a th:href="@{/quiz/{id} (id = ${quiz.id})}" class="btn btn-success" role="button">Quiz page</a>
-                    <br>
+                    <br />
                 </div>
             </div>
         </div>

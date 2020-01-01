@@ -30,7 +30,8 @@ public class SignUpController {
         }
 
         userService.saveUser(form);
-        return "redirect:/login";
+        model.addAttribute("message", String.format("User with email: %s created!", form.getEmail()));
+        return "/login";
     }
 
 
