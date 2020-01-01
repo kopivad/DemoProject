@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Demo quiz app</title>
+    <title>Registration page</title>
     <link th:replace="fragments/libs :: css"/>
 </head>
 <body>
@@ -18,31 +18,23 @@
                     <h4 class="card-title mt-2">Registration</h4>
                 </header>
                 <article class="card-body">
-                    <form th:action="@{/signup}" th:object="${form}" method="post">
+                    <form th:action="@{/signup}" method="post">
                         <div class="form-row">
                             <div class="col form-group">
                                 <label for="nickname">Nickname: </label>
-                                <input th:class="${#fields.hasErrors('nickname')} ? 'is-invalid form-control' : 'form-control'"
-                                       id="nickname" th:field="*{nickname}" type="text" placeholder="Vadym"
-                                       th:value="*{nickname}">
-                                <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"
-                                     class="invalid-feedback"></div>
+                                <input th:value="${form.getNickname() != null ? form.getNickname() : ''}" th:class="${nicknameError != null ? 'form-control is-invalid' : 'form-control'}" id="nickname" name="nickname" type="text" placeholder="Vadym" />
+                                <div th:if="${nicknameError != null}" th:text="${nicknameError}" class="invalid-feedback"></div>
                             </div>
                             <div class="col form-group">
                                 <label for="email">Email address:</label>
-                                <input th:class="${#fields.hasErrors('email')} ? 'is-invalid form-control': 'form-control'"
-                                       id="email" th:field="*{email}" type="text"
-                                       placeholder="example@gmail.com">
-                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                                     class="invalid-feedback"></div>
+                                <input th:value="${form.getEmail() != null ? form.getEmail() : ''}" th:class="${emailError != null ? 'form-control is-invalid' : 'form-control'}" id="email" name="email" type="text" />
+                                <div th:if="${emailError != null}" th:text="${emailError}" class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="pass">Password:</label>
-                            <input th:class="${#fields.hasErrors('password')} ? 'is-invalid form-control': 'form-control'"
-                                   id="pass" th:field="*{password}" type="password">
-                            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                                 class="invalid-feedback"></div>
+                            <input th:class="${passwordError != null ? 'form-control is-invalid' : 'form-control'}" class="form-control" id="pass" name="password" type="password">
+                            <div th:if="${passwordError != null}" th:text="${passwordError}" class="invalid-feedback"></div>
                         </div>
                         <br>
                         <div class="form-group">
