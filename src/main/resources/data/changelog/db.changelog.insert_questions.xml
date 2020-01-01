@@ -6,7 +6,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-1">
         <insert tableName="questions">
-            <column name="id" value="1"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="Скільки потрібно часу, щоб написати цей англійський тест?"/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -14,7 +14,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-2">
         <insert tableName="questions">
-            <column name="id" value="2"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="Учителька примусила учнів прибирати класну кімнату."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -22,7 +22,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-3">
         <insert tableName="questions">
-            <column name="id" value="3"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="Коли вона була дитиною, то захоплювалася балетом."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -30,7 +30,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-4">
         <insert tableName="questions">
-            <column name="id" value="4"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="Учнів не було на останньому уроці."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -38,7 +38,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-5">
         <insert tableName="questions">
-            <column name="id" value="5"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="За таксі пошлють, щойно речі будуть спаковані."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -46,7 +46,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-6">
         <insert tableName="questions">
-            <column name="id" value="6"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="If she knew where they stayed she would join them."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -54,7 +54,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-7">
         <insert tableName="questions">
-            <column name="id" value="7"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="Suddenly I heard somebody play the violin."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -62,7 +62,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-8">
         <insert tableName="questions">
-            <column name="id" value="8"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="I was glad to find my new book on the shelf."/>
             <column name="quiz_id" value="1"/>
         </insert>
@@ -70,7 +70,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634345-9">
         <insert tableName="questions">
-            <column name="id" value="9"/>
+            <column name="id" valueSequenceNext="questions_id_seq"/>
             <column name="title" value="She found the film very interesting."/>
             <column name="quiz_id" value="1"/>
         </insert>

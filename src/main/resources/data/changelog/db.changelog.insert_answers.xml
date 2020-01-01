@@ -8,7 +8,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-1">
         <insert tableName="answers">
-            <column name="id" value="1"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="How much time does it take to write this English test?"/>
             <column name="question_id" value="1"/>
@@ -17,7 +17,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-2">
         <insert tableName="answers">
-            <column name="id" value="2"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="How long did it take to write this English test?"/>
             <column name="question_id" value="1"/>
@@ -26,7 +26,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-3">
         <insert tableName="answers">
-            <column name="id" value="3"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="How many hours does it take to write this English test."/>
             <column name="question_id" value="1"/>
@@ -35,7 +35,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-4">
         <insert tableName="answers">
-            <column name="id" value="4"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="How long does it take to write this English How many hours does it take to write this English test."/>
             <column name="question_id" value="1"/>
@@ -46,7 +46,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-5">
         <insert tableName="answers">
-            <column name="id" value="5"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The teacher made her pupils to do the classroom."/>
             <column name="question_id" value="2"/>
@@ -55,7 +55,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-6">
         <insert tableName="answers">
-            <column name="id" value="6"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The teacher asked her pupils to do the classroom."/>
             <column name="question_id" value="2"/>
@@ -64,7 +64,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-7">
         <insert tableName="answers">
-            <column name="id" value="7"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="The teacher made her pupils do the classroom."/>
             <column name="question_id" value="2"/>
@@ -73,7 +73,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-8">
         <insert tableName="answers">
-            <column name="id" value="8"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The teacher makes her pupils to do the classroom."/>
             <column name="question_id" value="2"/>
@@ -84,7 +84,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-9">
         <insert tableName="answers">
-            <column name="id" value="9"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="She wasn`t fond of ballet when she was a child."/>
             <column name="question_id" value="3"/>
@@ -93,7 +93,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-10">
         <insert tableName="answers">
-            <column name="id" value="10"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="She was fond of dancing when she was a child."/>
             <column name="question_id" value="3"/>
@@ -102,7 +102,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-11">
         <insert tableName="answers">
-            <column name="id" value="11"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="She liked to dance when she was a child."/>
             <column name="question_id" value="3"/>
@@ -111,7 +111,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-12">
         <insert tableName="answers">
-            <column name="id" value="12"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="She was fond of ballet when she was a child."/>
             <column name="question_id" value="3"/>
@@ -122,7 +122,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-13">
         <insert tableName="answers">
-            <column name="id" value="13"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The pupils are not in the lesson right now."/>
             <column name="question_id" value="4"/>
@@ -131,7 +131,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-14">
         <insert tableName="answers">
-            <column name="id" value="14"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The pupils were missing from the first lesson."/>
             <column name="question_id" value="4"/>
@@ -140,7 +140,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-15">
         <insert tableName="answers">
-            <column name="id" value="15"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="The pupils were missing from the last lesson."/>
             <column name="question_id" value="4"/>
@@ -149,7 +149,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-16">
         <insert tableName="answers">
-            <column name="id" value="16"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The pupils were not present at the lessons."/>
             <column name="question_id" value="4"/>
@@ -160,7 +160,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-17">
         <insert tableName="answers">
-            <column name="id" value="17"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The taxi is send as soon as the things will be packed."/>
             <column name="question_id" value="5"/>
@@ -169,7 +169,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-18">
         <insert tableName="answers">
-            <column name="id" value="18"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The taxi will be send as soon as the things are packed."/>
             <column name="question_id" value="5"/>
@@ -178,7 +178,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-19">
         <insert tableName="answers">
-            <column name="id" value="19"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="The taxi will be sent for as soon as the things are packed."/>
             <column name="question_id" value="5"/>
@@ -187,7 +187,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-20">
         <insert tableName="answers">
-            <column name="id" value="20"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="The taxi will be send as soon as the things will be packed."/>
             <column name="question_id" value="5"/>
@@ -198,7 +198,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-21">
         <insert tableName="answers">
-            <column name="id" value="21"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Якщо вона дізнається, де вони зупинились, то вона до них приєднається."/>
             <column name="question_id" value="6"/>
@@ -207,7 +207,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-22">
         <insert tableName="answers">
-            <column name="id" value="22"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Якщо вона знає, де вони зупинились, то вона теж зупиниться там."/>
             <column name="question_id" value="6"/>
@@ -216,7 +216,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-23">
         <insert tableName="answers">
-            <column name="id" value="23"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="Якби вона знала, де вони зупинилися, вона приєдналася б до них."/>
             <column name="question_id" value="6"/>
@@ -225,7 +225,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-24">
         <insert tableName="answers">
-            <column name="id" value="24"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Якщо вона знатиме, де вони зупинилися, то приєднається до них."/>
             <column name="question_id" value="6"/>
@@ -236,7 +236,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-25">
         <insert tableName="answers">
-            <column name="id" value="25"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Раптом мені здалося, що хтось грає на скрипці."/>
             <column name="question_id" value="7"/>
@@ -245,7 +245,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-26">
         <insert tableName="answers">
-            <column name="id" value="26"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Раптом я почав слухати чиюсь гру на скрипці."/>
             <column name="question_id" value="7"/>
@@ -254,7 +254,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-27">
         <insert tableName="answers">
-            <column name="id" value="27"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Раптом я почув чиюсь гру на скрипці."/>
             <column name="question_id" value="7"/>
@@ -263,7 +263,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-28">
         <insert tableName="answers">
-            <column name="id" value="28"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="Раптом я почув, що хтось грає на скрипці."/>
             <column name="question_id" value="7"/>
@@ -274,7 +274,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-29">
         <insert tableName="answers">
-            <column name="id" value="29"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Я радий знайти свою книжку на полиці."/>
             <column name="question_id" value="8"/>
@@ -283,7 +283,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-30">
         <insert tableName="answers">
-            <column name="id" value="30"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="Я зрадів, коли знайшов свою нову книжку на полиці."/>
             <column name="question_id" value="8"/>
@@ -292,7 +292,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-31">
         <insert tableName="answers">
-            <column name="id" value="31"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Я був щасливий, що знайшов свою стару книжку на полиці."/>
             <column name="question_id" value="8"/>
@@ -301,7 +301,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-32">
         <insert tableName="answers">
-            <column name="id" value="32"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Мені радісно знайти свою книжку на полиці."/>
             <column name="question_id" value="8"/>
@@ -312,7 +312,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-33">
         <insert tableName="answers">
-            <column name="id" value="33"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Вона знайшла дуже цікавий фільм."/>
             <column name="question_id" value="9"/>
@@ -321,7 +321,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-34">
         <insert tableName="answers">
-            <column name="id" value="34"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Вона вважає, що цей фільм нецікавий."/>
             <column name="question_id" value="9"/>
@@ -330,7 +330,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-35">
         <insert tableName="answers">
-            <column name="id" value="35"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="false"/>
             <column name="text" value="Вона загубила диск з дуже цікавим фільмом."/>
             <column name="question_id" value="9"/>
@@ -339,7 +339,7 @@
 
     <changeSet author="Vadym (generated)" id="1574891634344-36">
         <insert tableName="answers">
-            <column name="id" value="36"/>
+            <column name="id" valueSequenceNext="answers_id_seq"/>
             <column name="is_right" valueBoolean="true"/>
             <column name="text" value="Фільм їй дуже сподобався."/>
             <column name="question_id" value="9"/>

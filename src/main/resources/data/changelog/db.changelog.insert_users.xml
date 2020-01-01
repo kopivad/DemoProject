@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="Vadym (generated)" id="1574891634343-1">
         <insert tableName="users">
-            <column name="id" value="1"/>
+            <column name="id" valueSequenceNext="users_id_seq"/>
             <column name="nickname" value="Admin"/>
             <column name="email" value="admin@gmail.com"/>
             <column name="password" value="$2a$08$AYgAjhOsopRZ2Ye/tGq98e6b6fucc6fx.oo2mUK2/BItmBvPPHin6"/>
@@ -16,7 +16,7 @@
     </changeSet>
     <changeSet author="Vadym (generated)" id="1574891634343-3">
         <insert tableName="users">
-            <column name="id" value="2"/>
+            <column name="id" valueSequenceNext="users_id_seq"/>
             <column name="nickname" value="User"/>
             <column name="email" value="user@gmail.com"/>
             <column name="password" value="$2a$08$Vb.jbmrq31zNvuu0OjA26eLXgRI2S7xKuuOMKE.t9MjUKyGeTczFq"/>

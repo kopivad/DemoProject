@@ -5,7 +5,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="Vadym (generated)" id="1574891634344-1">
         <insert tableName="quizzes">
-            <column name="id" value="1"/>
+            <column name="id" valueSequenceNext="quizzes_id_seq"/>
             <column name="description" value="Тести на переклад (Grammar)"/>
             <column name="title" value="Grammar"/>
             <column name="user_id" value="2"/>
