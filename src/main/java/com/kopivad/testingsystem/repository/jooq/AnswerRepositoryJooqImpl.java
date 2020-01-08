@@ -21,7 +21,6 @@ import static org.jooq.impl.DSL.val;
 
 @Repository
 @AllArgsConstructor
-@Primary
 public class AnswerRepositoryJooqImpl implements AnswerRepository {
     private final DSLContext dslContext;
 

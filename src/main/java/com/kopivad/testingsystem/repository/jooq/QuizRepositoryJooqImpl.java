@@ -4,9 +4,7 @@ package com.kopivad.testingsystem.repository.jooq;
 import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.User;
-import com.kopivad.testingsystem.model.db.tables.records.QuizzesRecord;
 import com.kopivad.testingsystem.repository.QuizRepository;
-import com.kopivad.testingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -21,9 +19,7 @@ import static org.jooq.impl.DSL.val;
 
 @Repository
 @RequiredArgsConstructor
-@Primary
 public class QuizRepositoryJooqImpl implements QuizRepository {
-    private final UserRepository userRepository;
     private final DSLContext dslContext;
 
     @Override
@@ -36,11 +32,10 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
 
     @Override
     public Quiz saveQuiz(Quiz quiz) {
-
         return dslContext
-                .insertInto(QUIZZES, QUIZZES.ID, QUIZZES.TITLE, QUIZZES.DESCRIPTION, QUIZZES.USER_ID)
-                .values(QUIZZES_ID_SEQ.nextval(), val(quiz.getTitle()), val(quiz.getDescription()), val(quiz.getAuthor().getId()))
-                .returning(QUIZZES.ID, QUIZZES.TITLE, QUIZZES.DESCRIPTION, QUIZZES.USER_ID)
+                .insertInto(QUIZZES, QUIZZES.ID, QUIZZES.TITLE, QUIZZES.DESCRIPTION, QUIZZES.USER_ID, QUIZZES.CREATED, QUIZZES.ACTIVE)
+                .values(QUIZZES_ID_SEQ.nextval(), val(quiz.getTitle()), val(quiz.getDescription()), val(quiz.getAuthor().getId()), val(quiz.getCreated()), val(quiz.isActive()))
+                .returning(QUIZZES.ID, QUIZZES.TITLE, QUIZZES.DESCRIPTION, QUIZZES.USER_ID, QUIZZES.CREATED, QUIZZES.ACTIVE)
                 .fetchOne()
                 .map(this::getQuizFromRecord);
     }
@@ -61,6 +56,8 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .set(QUIZZES.DESCRIPTION, quiz.getDescription())
                 .set(QUIZZES.TITLE, quiz.getTitle())
                 .set(QUIZZES.USER_ID, quiz.getAuthor().getId())
+                .set(QUIZZES.CREATED, quiz.getCreated())
+                .set(QUIZZES.ACTIVE, quiz.isActive())
                 .where(QUIZZES.ID.eq(quiz.getId()))
                 .execute();
         return quiz;
@@ -76,10 +73,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
     }
 
     private Quiz getQuizFromRecord(Record r) {
-        Long id = r.getValue(QUIZZES.ID);
-        String title = r.getValue(QUIZZES.TITLE);
-        String description = r.getValue(QUIZZES.DESCRIPTION);
-        User user = dslContext
+        User author = dslContext
                 .selectFrom(USERS)
                 .where(USERS.ID.eq(r.getValue(QUIZZES.USER_ID)))
                 .fetchOne()
@@ -93,7 +87,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 );
         List<Question> questions = dslContext
                 .selectFrom(QUESTIONS)
-                .where(QUESTIONS.QUIZ_ID.eq(id))
+                .where(QUESTIONS.QUIZ_ID.eq(r.getValue(QUIZZES.ID)))
                 .fetch()
                 .map(record -> Question
                         .builder()
@@ -103,11 +97,13 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 );
         return Quiz
                 .builder()
-                .id(id)
-                .description(description)
+                .id(r.getValue(QUIZZES.ID))
+                .description(r.getValue(QUIZZES.DESCRIPTION))
                 .questions(questions)
-                .author(user)
-                .title(title)
+                .author(author)
+                .title(r.getValue(QUIZZES.TITLE))
+                .created(r.getValue(QUIZZES.CREATED))
+                .active(r.getValue(QUIZZES.ACTIVE))
                 .build();
     }
 }

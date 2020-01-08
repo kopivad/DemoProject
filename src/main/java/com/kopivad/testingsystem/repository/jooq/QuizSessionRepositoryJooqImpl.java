@@ -21,7 +21,6 @@ import static com.kopivad.testingsystem.model.db.tables.Users.USERS;
 import static org.jooq.impl.DSL.val;
 
 @Repository
-@Primary
 @RequiredArgsConstructor
 public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
     private final DSLContext dslContext;

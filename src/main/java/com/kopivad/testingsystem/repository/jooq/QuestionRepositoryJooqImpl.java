@@ -1,13 +1,11 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.model.Answer;
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.model.*;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Result;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,7 +20,6 @@ import static org.jooq.impl.DSL.val;
 
 @Repository
 @RequiredArgsConstructor
-@Primary
 public class QuestionRepositoryJooqImpl implements QuestionRepository {
     private final DSLContext dslContext;
 
@@ -103,6 +100,13 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .where(QUESTIONS.QUIZ_ID.eq(quizId))
                 .fetchOne()
                 .into(long.class);
+    }
+
+    public Result<Record> getAnswers() {
+        return dslContext.select()
+                .from(ANSWERS)
+                .join(QUESTIONS).onKey()
+                .fetch();
     }
 
     private Question getQuestionFromRecord(Record r) {

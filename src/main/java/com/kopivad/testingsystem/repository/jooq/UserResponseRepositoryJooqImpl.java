@@ -19,7 +19,6 @@ import static org.jooq.impl.DSL.val;
 
 @RequiredArgsConstructor
 @Repository
-@Primary
 public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     private final DSLContext dslContext;
 
