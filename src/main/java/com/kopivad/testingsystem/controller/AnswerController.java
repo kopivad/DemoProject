@@ -6,9 +6,9 @@ import com.kopivad.testingsystem.model.Question;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.AnswerService;
 import com.kopivad.testingsystem.service.QuestionService;
-import com.kopivad.testingsystem.service.QuizSessionService;
 import com.kopivad.testingsystem.service.UserResponseService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -45,6 +45,7 @@ public class AnswerController {
         return "redirect:/answer/manage";
     }
 
+    @SneakyThrows
     @PostMapping(path = "/answer")
     public String getUserAnswer(UserResponseForm userResponseForm) {
         Question userQuestion = questionService.getQuestionById(userResponseForm.getQuestionId());

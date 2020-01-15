@@ -2,18 +2,15 @@ package com.kopivad.testingsystem.controller;
 
 
 import com.kopivad.testingsystem.form.QuizForm;
-import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
-import com.kopivad.testingsystem.service.QuizSessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,13 +21,8 @@ public class QuizController {
     private final QuestionService questionService;
 
     @PostMapping(path = "quiz/add")
-    public String saveQuiz(@AuthenticationPrincipal User user, @ModelAttribute QuizForm quizForm) {
-        Quiz newQuiz = new Quiz();
-        newQuiz.setId(-1L);
-        newQuiz.setTitle(quizForm.getTitle());
-        newQuiz.setDescription(quizForm.getDescription());
-        newQuiz.setAuthor(user);
-        quizService.saveQuiz(newQuiz);
+    public String saveQuiz(@AuthenticationPrincipal User user, QuizForm quizForm) {
+        quizService.saveQuiz(quizForm, user);
         return "redirect:/index";
     }
 
@@ -41,19 +33,6 @@ public class QuizController {
     }
 
 
-    @GetMapping(path = "/")
-    public String getIndexPage(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        return "redirect:/index";
-    }
-
-    @GetMapping(path = "index")
-    public String getQuizPage(Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
-        model.addAttribute("quizForm", quizForm);
-        model.addAttribute("quizzes", quizService.getAllQuizzes());
-        model.addAttribute("user", user);
-        return "index";
-    }
 
     @GetMapping(path = "quiz/{id}")
     public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model, @AuthenticationPrincipal User user) {
@@ -92,4 +71,18 @@ public class QuizController {
         model.addAttribute("user", user);
         return "quizManage";
     }
+
+    @GetMapping("/quiz/share/{id}")
+    public String shareQuiz(@PathVariable(name = "id") Long id, Model model) {
+//        model.addAttribute();
+        return "quizShare";
+    }
+
+    @GetMapping("/quiz/user/{id}")
+    public String userQuiz(@PathVariable(name = "id") Long id, Model model) {
+//        model.addAttribute();
+        return "quizUser";
+    }
+
+
 }

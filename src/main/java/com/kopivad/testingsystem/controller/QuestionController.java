@@ -6,6 +6,7 @@ import com.kopivad.testingsystem.model.Quiz;
 import com.kopivad.testingsystem.model.User;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
+import com.kopivad.testingsystem.service.impl.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -26,6 +28,7 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuizService quizService;
+    private final ServiceUtils serviceUtils;
 
 
     @PostMapping(path = "/question/add")
@@ -51,12 +54,12 @@ public class QuestionController {
         Pageable pageable = PageRequest.of(n - 1, 1);
         Quiz currentQuiz = quizService.getQuizById(quizId);
         Page<Question> question = questionService.getQuestionByQuizId(quizId, pageable);
-
+        Question fullQuestion = serviceUtils.getFullQuestion(question.getContent().get(0));
+        Collections.shuffle(fullQuestion.getAnswers());
         model.addAttribute("quiz", currentQuiz);
-        model.addAttribute("question", question.getContent().get(0));
+        model.addAttribute("question", fullQuestion);
         model.addAttribute("questionNumber", question.getNumber());
         model.addAttribute("questionTotalPages", question.getTotalPages());
-        model.addAttribute("answers", question.getContent().get(0).getAnswers());
         model.addAttribute("sessionId", sessionId);
         model.addAttribute("user", user);
         return "question";
