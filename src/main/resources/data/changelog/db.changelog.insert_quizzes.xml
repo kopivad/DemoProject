@@ -3,12 +3,15 @@
                    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
     <changeSet author="Vadym (generated)" id="1574891634344-1">
         <insert tableName="quizzes">
             <column name="id" valueSequenceNext="quizzes_id_seq"/>
             <column name="description" value="Тести на переклад (Grammar)"/>
             <column name="title" value="Grammar"/>
             <column name="user_id" value="2"/>
+            <column name="active" value="true"/>
+            <column name="created" value="now()"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
