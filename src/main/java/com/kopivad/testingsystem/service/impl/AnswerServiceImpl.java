@@ -1,43 +1,58 @@
 package com.kopivad.testingsystem.service.impl;
 
 import com.kopivad.testingsystem.form.AnswerForm;
-import com.kopivad.testingsystem.model.Answer;
-import com.kopivad.testingsystem.model.Question;
+import com.kopivad.testingsystem.domain.Answer;
+import com.kopivad.testingsystem.domain.Question;
 import com.kopivad.testingsystem.repository.AnswerRepository;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import com.kopivad.testingsystem.service.AnswerService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
+//(onConstructor = @__({@Lazy}))
 @Service
 @AllArgsConstructor
 public class AnswerServiceImpl implements AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
+    private final ServiceUtils serviceUtils;
+
 
     @Override
     public Answer saveAnswer(Answer answer) {
-        return answerRepository.saveAnswer(answer);
+        Answer answerFromDB = answerRepository.saveAnswer(answer);
+        return serviceUtils.getFullAnswer(answerFromDB);
     }
 
     public List<Answer> getAnswersByQuestionId(Long id) {
-        return answerRepository.findAllByQuestionId(id);
+        List<Answer> answersFromDB = answerRepository.findAllByQuestionId(id);
+        return answersFromDB
+                .stream()
+                .map(serviceUtils::getFullAnswer)
+                .collect(Collectors.toList());
     }
 
     public Answer getAnswerById(Long id) {
-        return answerRepository.findAnswerById(id);
+        Answer answerFromDB = answerRepository.findAnswerById(id);
+        return serviceUtils.getFullAnswer(answerFromDB);
     }
 
     @Override
     public List<Answer> getAllAnswers() {
-        return answerRepository.findAll();
+        List<Answer> answersFromDB = answerRepository.findAll();
+        return answersFromDB
+                .stream()
+                .map(serviceUtils::getFullAnswer)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Answer updateAnswer(Answer answer) {
-        return answerRepository.updateAnswer(answer);
+        Answer answerFromDB = answerRepository.updateAnswer(answer);
+        return serviceUtils.getFullAnswer(answerFromDB);
     }
 
     @Override
@@ -50,6 +65,7 @@ public class AnswerServiceImpl implements AnswerService {
         return this.saveAnswer(getAnswerFromAnswerForm(answerForm));
     }
 
+    @SneakyThrows
     @Override
     public Answer updateAnswer(AnswerForm answerForm) {
         Answer answerForUpdate = answerRepository.findAnswerById(answerForm.getAnswerId());
@@ -60,7 +76,8 @@ public class AnswerServiceImpl implements AnswerService {
         return this.updateAnswer(answerForUpdate);
     }
 
-    public Answer getAnswerFromAnswerForm(AnswerForm answerForm) {
+    @SneakyThrows
+    private Answer getAnswerFromAnswerForm(AnswerForm answerForm) {
         return Answer
                 .builder()
                 .text(answerForm.getText())
@@ -69,6 +86,4 @@ public class AnswerServiceImpl implements AnswerService {
                 .id(answerForm.getAnswerId())
                 .build();
     }
-
-
 }

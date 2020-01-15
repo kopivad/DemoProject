@@ -1,83 +1,54 @@
 package com.kopivad.testingsystem.service.impl;
 
 import com.kopivad.testingsystem.form.QuizForm;
-import com.kopivad.testingsystem.model.*;
+import com.kopivad.testingsystem.domain.Quiz;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizRepository;
-import com.kopivad.testingsystem.service.QuizService;
-import com.kopivad.testingsystem.service.QuizSessionService;
-import com.kopivad.testingsystem.service.UserResponseService;
-import lombok.AllArgsConstructor;
+import com.kopivad.testingsystem.service.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.System.currentTimeMillis;
+
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuizSessionService quizSessionService;
     private final UserResponseService responseService;
+    private final QuizResultService resultService;
+    private final ServiceUtils serviceUtils;
 
     @Override
     public Quiz saveQuiz(Quiz quiz) {
+        quiz.setActive(true);
+        quiz.setCreated(new Timestamp(currentTimeMillis()));
         return quizRepository.saveQuiz(quiz);
     }
 
     @Override
     public List<Quiz> getAllQuizzes() {
-        return quizRepository.findAll();
-    }
-
-    @Override
-    public Quiz getQuizById(Long id) {
-        return quizRepository.findQuizById(id);
-    }
-
-    @Override
-    public long getCountOfCorrectAnswersBySessionId(Long sessionId) {
-        return responseService
-                .getAllResponseBySessionId(sessionId)
+        List<Quiz> quizzesFromDB = quizRepository.findAll();
+        return quizzesFromDB
                 .stream()
-                .filter(response -> response.getAnswer().isRight())
-                .count();
-    }
-
-    @Override
-    public long getTotalOfAnswersBySessionId(Long sessionId) {
-        return responseService
-                .getAllResponseBySessionId(sessionId)
-                .size();
-    }
-
-    @Override
-    public float getPercentageOfCorrectAnswers(long obtained, long total) {
-        return (float) obtained * 100 / total;
-    }
-
-    @Override
-    public List<Question> getQuestionsBySessionId(Long sessionId) {
-        return responseService
-                .getAllResponseBySessionId(getTotalOfAnswersBySessionId(sessionId))
-                .stream()
-                .map(UserResponce::getQuestion)
+                .map(serviceUtils::getFullQuiz)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Quiz> getAllQuizzesByUserId(Long id) {
-        return quizRepository.findAllByAuthorId(id);
+    public Quiz getQuizById(Long id) {
+        Quiz quizFromDB = quizRepository.findQuizById(id);
+        return serviceUtils.getFullQuiz(quizFromDB);
     }
 
     @Override
     public Long startQuiz(Long id, User user) {
         Quiz quiz = getQuizById(id);
         return quizSessionService.createSession(quiz, user).getId();
-    }
-
-    @Override
-    public Quiz saveQuiz(QuizForm form) {
-        return this.saveQuiz(getQuizFromForm(form));
     }
 
     @Override
@@ -90,7 +61,15 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz updateQuiz(Quiz quiz) {
-        return quizRepository.updateQuiz(quiz);
+        Quiz quizFromDB = quizRepository.updateQuiz(quiz);
+        return serviceUtils.getFullQuiz(quizFromDB);
+    }
+
+    @Override
+    public Quiz saveQuiz(QuizForm quizForm, User user) {
+        Quiz quiz = getQuizFromForm(quizForm);
+        quiz.setAuthor(user);
+        return this.saveQuiz(quiz);
     }
 
     public Quiz getQuizFromForm(QuizForm form) {

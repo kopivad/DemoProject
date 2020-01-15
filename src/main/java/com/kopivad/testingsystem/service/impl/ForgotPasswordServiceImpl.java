@@ -1,6 +1,6 @@
 package com.kopivad.testingsystem.service.impl;
 
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.ForgotPasswordService;
 import com.kopivad.testingsystem.service.MailService;
 import com.kopivad.testingsystem.service.UserService;

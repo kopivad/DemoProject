@@ -2,8 +2,8 @@ package com.kopivad.testingsystem.service.impl;
 
 import com.kopivad.testingsystem.exception.UserNotFoundException;
 import com.kopivad.testingsystem.form.SignUpForm;
-import com.kopivad.testingsystem.model.Role;
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.Role;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.UserRepository;
 import com.kopivad.testingsystem.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,29 +20,34 @@ import java.util.Collections;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ServiceUtils serviceUtils;
 
 
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+        User userFromDB = userRepository.findByEmail(email);
+        return serviceUtils.getFullUser(userFromDB);
     }
 
     @Override
     public User saveUser(User user) {
-        return userRepository.saveUser(user);
+        User userFromDB = userRepository.saveUser(user);
+        return serviceUtils.getFullUser(userFromDB);
 
     }
 
     @SneakyThrows
     @Override
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        User userFromDB = userRepository.findByEmail(email);
+        return serviceUtils.getFullUser(userFromDB);
     }
 
     @Override
     public User getUserById(Long userId) {
-        return userRepository.findUserById(userId);
+        User userFromDB = userRepository.findUserById(userId);
+        return serviceUtils.getFullUser(userFromDB);
     }
 
     @Override

@@ -1,16 +1,14 @@
 package com.kopivad.testingsystem.service;
 
 import com.kopivad.testingsystem.form.UserResponseForm;
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.domain.UserResponse;
 
 import java.util.List;
 
 public interface UserResponseService {
-    UserResponce saveUserResponse(UserResponce userAnswer);
-
-    List<UserResponce> getAllResponseBySessionId(Long sessionId);
-
-    List<UserResponce> getAllByQuestionId(Long id);
-
-    UserResponce saveUserResponse(UserResponseForm userResponseForm);
+    UserResponse saveUserResponse(UserResponse userAnswer);
+    List<UserResponse> getAllResponseBySessionId(Long sessionId);
+    UserResponse saveUserResponse(UserResponseForm userResponseForm);
+    List<UserResponse> getAllUserResponseBySessionId(Long sessionId);
+    List<UserResponse> getAllResponseByAnswerId(Long id);
 }
