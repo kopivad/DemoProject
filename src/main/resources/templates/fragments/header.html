@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4" >
 <body>
-<div th:fragment="nav" class="header">
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Quizzes application</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <a th:href="@{/index}" class="p-2 text-dark" href="#">Home</a>
-            <th:block sec:authorize="hasAuthority('ADMIN')">
-                <a class="p-2 text-dark" th:href="@{/quiz/manage}" href="#">Quizzes</a>
-                <a class="p-2 text-dark" th:href="@{/question/manage}" href="#">Questions</a>
-                <a class="p-2 text-dark" th:href="@{/answer/manage}" href="#">Answers</a>
-            </th:block>
-        </nav>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <div sec:authorize="isAnonymous()">
-                <a th:href="@{/login}" class="btn btn-outline-primary" href="#">Log in</a>
-                <a th:href="@{/signup}" class="btn btn-primary" href="#">Sign up</a>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <form method="post" th:action="@{/logout}">
-                    <a class="btn" th:href="@{/user/{id} (id = ${user.getId()})}" th:text="${user.getNickname()}"></a>
-                    <button class="btn btn-primary" type="submit">Sign Out</button>
-                </form>
-            </div>
 
+<div th:fragment="nav" class="header">
+    <div class="d-flex flex-column flex-md-row align-items-center px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <a th:href="@{/index}" class="navbar-brand my-0 mr-md-auto text-dark font-weight-normal">Quizzes application</a>
+        <nav class="navbar navbar-expand-lg">
+            <ul class="navbar-nav mr-lg-0 my-lg-0">
+                <li sec:authorize="isAnonymous()" class="nav-item">
+                    <a th:href="@{/login}" class="btn btn-outline-primary" href="#">Log in</a>
+                </li>
+                <li sec:authorize="isAnonymous()" class="ml-2 nav-item">
+                    <a th:href="@{/signup}" class="btn btn-primary" href="#">Sign up</a>
+                </li>
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="text-dark nav-link" th:href="@{/quiz/manage}" href="#">Quizzes</a>
+                </li>
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="text-dark nav-link" th:href="@{/question/manage}" href="#">Questions</a>
+                </li>
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="text-dark nav-link" th:href="@{/answer/manage}" href="#">Answers</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                    <a th:text="${user.getNickname()}" class="text-dark nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a th:href="@{/user/{id} (id = ${user.getId()})}" class="text-dark dropdown-item" href="#">Profile</a>
+                        <a class="text-dark dropdown-item" th:href="@{/quiz/user/{id} (id = ${user.getId()})}" href="#">My quizzes</a>
+                        <a class="text-dark dropdown-item" th:href="@{/quiz/history/{id} (id = ${user.getId()})}" href="#">History</a>
+                        <div class="dropdown-divider"></div>
+                        <form method="post" th:action="@{/logout}">
+                            <button class="text-dark dropdown-item" type="submit">Sign Out</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
         </nav>
 
     </div>

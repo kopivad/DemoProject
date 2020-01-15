@@ -13,11 +13,10 @@
     <h1 class="mt-5"></h1>
     <div class="text-center">
         <h1 class="mt-5">Result:</h1>
-        <p><span th:text="${correctAmount}"></span> of <span th:text="${totalAmount}"></span></p>
-        <p th:text="${percentageAmount + ' %'}"></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, consequatur.</p>
+        <p><span th:text="${result.getCountOfCorrect()}"></span> of <span th:text="${result.getTotalAnswers()}"></span></p>
+        <p th:text="${result.getRating() + ' %'}"></p>
         <div class="mt-4">
-            <a href="#" th:href="@{/quiz/check/{sessionId} (sessionId = ${sessionId})}" class="btn btn-success" role="button">Check your answers</a><a th:href="@{/}" class=" ml-2 btn btn-primary" role="button">Back to Quizzes</a>
+            <a href="#" th:href="@{/quiz/check/{sessionId} (sessionId = ${result.getSession().getId()})}" class="btn btn-success" role="button">Check your answers</a><a th:href="@{/}" class=" ml-2 btn btn-primary" role="button">Back to Quizzes</a>
         </div>
     </div>
 </div>

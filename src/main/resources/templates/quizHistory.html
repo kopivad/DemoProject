@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz history</title>
+    <link th:replace="fragments/libs :: css" />
+</head>
+<body>
+<!--Header here-->
+<div th:replace="fragments/header :: nav"></div>
+<!--Content-->
+<div class="container">
+    <div class="row justify-content-between mt-5">
+        <h2 class="col-4">Your results</h2>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Correct</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="result : ${results}">
+            <th th:text="${results.indexOf(result)}" scope="row"></th>
+            <td th:text="${result.getSession().getCreated()}"></td>
+            <td th:text="${result.getRating()}"></td>
+            <td th:text="${result.getCountOfCorrect() + '/' + result.getTotalAnswers()}"></td>
+            <td><a th:href="@{/quiz/result/(id = ${result.getSession().getId()})}">View</a></td>
+        </tr>
+    </table>
+</div>
+<script th:replace="fragments/libs :: js"></script>
+</body>
+</html>

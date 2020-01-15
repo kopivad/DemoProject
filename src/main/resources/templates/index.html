@@ -2,9 +2,9 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Demo quiz app</title>
-    <link th:replace="fragments/libs :: css" />
+    <link th:replace="fragments/libs :: css"/>
 
 </head>
 <body>
@@ -12,27 +12,52 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <br />
-    <h2>All quizzes</h2>
-    <p>Each quiz contains questions, you get 1 point for each correct answer, at the end of each quiz you get your total
-        score.</p>
-    <p>When you finish the quiz, you can go through each question with the correct answer.</p>
-    <div class="row mb-4">
-        <div th:each="quiz : ${quizzes}" class="col-sm-4 text-center">
-            <div class="card bg-body text-body mt-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Quizzes</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a href="#" th:href="@{/quiz/add}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>
+                        Create</a>
+                </li>
+            </ul>
+<!--            <form class="form-inline my-2 my-lg-0">-->
+<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--            </form>-->
+        </div>
+    </nav>
+
+    <div class="row mt-4">
+        <div th:each="quiz : ${quizzes}" class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <!--                <img class="card-img-top"-->
+                <!--                     data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"-->
+                <!--                     alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;"-->
+                <!--                     src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22348%22%20height%3D%22225%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20348%20225%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16f872fe7c5%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A17pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16f872fe7c5%22%3E%3Crect%20width%3D%22348%22%20height%3D%22225%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22116.71875%22%20y%3D%22120.3%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"-->
+                <!--                     data-holder-rendered="true">-->
                 <div class="card-body">
-                    <br />
-                    <h4 th:text="${quiz.getTitle()}" class="card-title">Quiz title</h4>
-                    <br />
-                    <p class="card-text">
-                        <span th:text="${quiz.getDescription()}"></span>
-                    </p>
-                    <br />
-                    <a th:href="@{/quiz/{id} (id = ${quiz.id})}" class="btn btn-success" role="button">Quiz page</a>
-                    <br />
+                    <h5 th:text="${quiz.getTitle()}" class="card-title"></h5>
+                    <p th:text="${quiz.getDescription()}" class="card-text"></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="#" th:href="@{quiz/{id} (id = ${quiz.getId()})}" type="button"
+                               class="btn btn-sm btn-outline-primary">View</a>
+                            <a href="#" th:href="@{quiz/share/{id} (id = ${quiz.getId()})}" type="button"
+                               class="btn btn-sm btn-outline-primary">Share</a>
+                        </div>
+                        <a href="#" th:href="@{/user/{id} (id = ${quiz.getAuthor().getId()})}"
+                           th:text="${quiz.getAuthor().getNickname()}" class="text-muted"></a>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
 </div>

@@ -22,7 +22,7 @@
                 <input type="hidden" th:value="${question.getId()}" name="questionId">
                 <input type="hidden" th:value="${questionNumber + 1}" name="questionNumber">
                 <input type="hidden" th:value="${questionTotalPages}" name="questionTotalPages">
-                <div th:each="answer : ${answers}" class="custom-control custom-radio mt-1 mb-1">
+                <div th:each="answer : ${question.getAnswers()}" class="custom-control custom-radio mt-1 mb-1">
                     <input type="radio" th:id="${answer.getId()}" name="userAnswerId" class="custom-control-input" th:value="${answer.getId()}" />
                     <label th:text="${answer.getText()}" class="custom-control-label" th:for="${answer.getId()}">answer text</label>
                 </div>
