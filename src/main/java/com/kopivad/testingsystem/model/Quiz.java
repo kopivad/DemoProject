@@ -3,8 +3,10 @@ package com.kopivad.testingsystem.model;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -20,6 +22,11 @@ public class Quiz {
     private Long id;
 
     private String title;
+
+    private boolean active;
+
+    @CreatedDate
+    private Timestamp created;
 
     private String description;
 

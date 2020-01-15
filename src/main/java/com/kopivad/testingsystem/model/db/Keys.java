@@ -6,6 +6,7 @@ package com.kopivad.testingsystem.model.db;
 
 import com.kopivad.testingsystem.model.db.tables.Answers;
 import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.QuizResults;
 import com.kopivad.testingsystem.model.db.tables.QuizSessions;
 import com.kopivad.testingsystem.model.db.tables.Quizzes;
 import com.kopivad.testingsystem.model.db.tables.UserResponces;
@@ -13,6 +14,7 @@ import com.kopivad.testingsystem.model.db.tables.UserRoles;
 import com.kopivad.testingsystem.model.db.tables.Users;
 import com.kopivad.testingsystem.model.db.tables.records.AnswersRecord;
 import com.kopivad.testingsystem.model.db.tables.records.QuestionsRecord;
+import com.kopivad.testingsystem.model.db.tables.records.QuizResultsRecord;
 import com.kopivad.testingsystem.model.db.tables.records.QuizSessionsRecord;
 import com.kopivad.testingsystem.model.db.tables.records.QuizzesRecord;
 import com.kopivad.testingsystem.model.db.tables.records.UserResponcesRecord;
@@ -47,6 +49,7 @@ public class Keys {
 
     public static final Identity<AnswersRecord, Long> IDENTITY_ANSWERS = Identities0.IDENTITY_ANSWERS;
     public static final Identity<QuestionsRecord, Long> IDENTITY_QUESTIONS = Identities0.IDENTITY_QUESTIONS;
+    public static final Identity<QuizResultsRecord, Long> IDENTITY_QUIZ_RESULTS = Identities0.IDENTITY_QUIZ_RESULTS;
     public static final Identity<QuizSessionsRecord, Long> IDENTITY_QUIZ_SESSIONS = Identities0.IDENTITY_QUIZ_SESSIONS;
     public static final Identity<QuizzesRecord, Long> IDENTITY_QUIZZES = Identities0.IDENTITY_QUIZZES;
     public static final Identity<UserResponcesRecord, Long> IDENTITY_USER_RESPONCES = Identities0.IDENTITY_USER_RESPONCES;
@@ -58,6 +61,7 @@ public class Keys {
 
     public static final UniqueKey<AnswersRecord> ANSWERS_PKEY = UniqueKeys0.ANSWERS_PKEY;
     public static final UniqueKey<QuestionsRecord> QUESTIONS_PKEY = UniqueKeys0.QUESTIONS_PKEY;
+    public static final UniqueKey<QuizResultsRecord> QUIZ_RESULTS_PKEY = UniqueKeys0.QUIZ_RESULTS_PKEY;
     public static final UniqueKey<QuizSessionsRecord> QUIZ_SESSIONS_PKEY = UniqueKeys0.QUIZ_SESSIONS_PKEY;
     public static final UniqueKey<QuizzesRecord> QUIZZES_PKEY = UniqueKeys0.QUIZZES_PKEY;
     public static final UniqueKey<UserResponcesRecord> USER_RESPONCES_PKEY = UniqueKeys0.USER_RESPONCES_PKEY;
@@ -69,6 +73,8 @@ public class Keys {
 
     public static final ForeignKey<AnswersRecord, QuestionsRecord> ANSWERS__FK3ERW1A3T0R78ST8TY27X6V3G1 = ForeignKeys0.ANSWERS__FK3ERW1A3T0R78ST8TY27X6V3G1;
     public static final ForeignKey<QuestionsRecord, QuizzesRecord> QUESTIONS__FKN3GVCO4B0KEWXC0BYWF1IGFMS = ForeignKeys0.QUESTIONS__FKN3GVCO4B0KEWXC0BYWF1IGFMS;
+    public static final ForeignKey<QuizResultsRecord, QuizSessionsRecord> QUIZ_RESULTS__FK8B0O8JG288Q504M3J6PF4414U = ForeignKeys0.QUIZ_RESULTS__FK8B0O8JG288Q504M3J6PF4414U;
+    public static final ForeignKey<QuizResultsRecord, UsersRecord> QUIZ_RESULTS__FKC31XKN83Q9V6YF9GH2SPKVXRC = ForeignKeys0.QUIZ_RESULTS__FKC31XKN83Q9V6YF9GH2SPKVXRC;
     public static final ForeignKey<QuizSessionsRecord, QuizzesRecord> QUIZ_SESSIONS__FKTH8OXREKWMQH63RA9VR84CN17 = ForeignKeys0.QUIZ_SESSIONS__FKTH8OXREKWMQH63RA9VR84CN17;
     public static final ForeignKey<QuizSessionsRecord, UsersRecord> QUIZ_SESSIONS__FKKFLYTH3D76ARXN7V9C0FYSKQO = ForeignKeys0.QUIZ_SESSIONS__FKKFLYTH3D76ARXN7V9C0FYSKQO;
     public static final ForeignKey<QuizzesRecord, UsersRecord> QUIZZES__FKA2RODABLX8MHCE3BDAJ19EQHE = ForeignKeys0.QUIZZES__FKA2RODABLX8MHCE3BDAJ19EQHE;
@@ -84,6 +90,7 @@ public class Keys {
     private static class Identities0 {
         public static Identity<AnswersRecord, Long> IDENTITY_ANSWERS = Internal.createIdentity(Answers.ANSWERS, Answers.ANSWERS.ID);
         public static Identity<QuestionsRecord, Long> IDENTITY_QUESTIONS = Internal.createIdentity(Questions.QUESTIONS, Questions.QUESTIONS.ID);
+        public static Identity<QuizResultsRecord, Long> IDENTITY_QUIZ_RESULTS = Internal.createIdentity(QuizResults.QUIZ_RESULTS, QuizResults.QUIZ_RESULTS.ID);
         public static Identity<QuizSessionsRecord, Long> IDENTITY_QUIZ_SESSIONS = Internal.createIdentity(QuizSessions.QUIZ_SESSIONS, QuizSessions.QUIZ_SESSIONS.ID);
         public static Identity<QuizzesRecord, Long> IDENTITY_QUIZZES = Internal.createIdentity(Quizzes.QUIZZES, Quizzes.QUIZZES.ID);
         public static Identity<UserResponcesRecord, Long> IDENTITY_USER_RESPONCES = Internal.createIdentity(UserResponces.USER_RESPONCES, UserResponces.USER_RESPONCES.ID);
@@ -93,6 +100,7 @@ public class Keys {
     private static class UniqueKeys0 {
         public static final UniqueKey<AnswersRecord> ANSWERS_PKEY = Internal.createUniqueKey(Answers.ANSWERS, "answers_pkey", Answers.ANSWERS.ID);
         public static final UniqueKey<QuestionsRecord> QUESTIONS_PKEY = Internal.createUniqueKey(Questions.QUESTIONS, "questions_pkey", Questions.QUESTIONS.ID);
+        public static final UniqueKey<QuizResultsRecord> QUIZ_RESULTS_PKEY = Internal.createUniqueKey(QuizResults.QUIZ_RESULTS, "quiz_results_pkey", QuizResults.QUIZ_RESULTS.ID);
         public static final UniqueKey<QuizSessionsRecord> QUIZ_SESSIONS_PKEY = Internal.createUniqueKey(QuizSessions.QUIZ_SESSIONS, "quiz_sessions_pkey", QuizSessions.QUIZ_SESSIONS.ID);
         public static final UniqueKey<QuizzesRecord> QUIZZES_PKEY = Internal.createUniqueKey(Quizzes.QUIZZES, "quizzes_pkey", Quizzes.QUIZZES.ID);
         public static final UniqueKey<UserResponcesRecord> USER_RESPONCES_PKEY = Internal.createUniqueKey(UserResponces.USER_RESPONCES, "user_responces_pkey", UserResponces.USER_RESPONCES.ID);
@@ -102,6 +110,8 @@ public class Keys {
     private static class ForeignKeys0 {
         public static final ForeignKey<AnswersRecord, QuestionsRecord> ANSWERS__FK3ERW1A3T0R78ST8TY27X6V3G1 = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.QUESTIONS_PKEY, Answers.ANSWERS, "answers__fk3erw1a3t0r78st8ty27x6v3g1", Answers.ANSWERS.QUESTION_ID);
         public static final ForeignKey<QuestionsRecord, QuizzesRecord> QUESTIONS__FKN3GVCO4B0KEWXC0BYWF1IGFMS = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.QUIZZES_PKEY, Questions.QUESTIONS, "questions__fkn3gvco4b0kewxc0bywf1igfms", Questions.QUESTIONS.QUIZ_ID);
+        public static final ForeignKey<QuizResultsRecord, QuizSessionsRecord> QUIZ_RESULTS__FK8B0O8JG288Q504M3J6PF4414U = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.QUIZ_SESSIONS_PKEY, QuizResults.QUIZ_RESULTS, "quiz_results__fk8b0o8jg288q504m3j6pf4414u", QuizResults.QUIZ_RESULTS.SESSION_ID);
+        public static final ForeignKey<QuizResultsRecord, UsersRecord> QUIZ_RESULTS__FKC31XKN83Q9V6YF9GH2SPKVXRC = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.USERS_PKEY, QuizResults.QUIZ_RESULTS, "quiz_results__fkc31xkn83q9v6yf9gh2spkvxrc", QuizResults.QUIZ_RESULTS.USER_ID);
         public static final ForeignKey<QuizSessionsRecord, QuizzesRecord> QUIZ_SESSIONS__FKTH8OXREKWMQH63RA9VR84CN17 = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.QUIZZES_PKEY, QuizSessions.QUIZ_SESSIONS, "quiz_sessions__fkth8oxrekwmqh63ra9vr84cn17", QuizSessions.QUIZ_SESSIONS.QUIZ_ID);
         public static final ForeignKey<QuizSessionsRecord, UsersRecord> QUIZ_SESSIONS__FKKFLYTH3D76ARXN7V9C0FYSKQO = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.USERS_PKEY, QuizSessions.QUIZ_SESSIONS, "quiz_sessions__fkkflyth3d76arxn7v9c0fyskqo", QuizSessions.QUIZ_SESSIONS.USER_ID);
         public static final ForeignKey<QuizzesRecord, UsersRecord> QUIZZES__FKA2RODABLX8MHCE3BDAJ19EQHE = Internal.createForeignKey(com.kopivad.testingsystem.model.db.Keys.USERS_PKEY, Quizzes.QUIZZES, "quizzes__fka2rodablx8mhce3bdaj19eqhe", Quizzes.QUIZZES.USER_ID);

@@ -6,6 +6,7 @@ package com.kopivad.testingsystem.model.db;
 
 import com.kopivad.testingsystem.model.db.tables.Answers;
 import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.QuizResults;
 import com.kopivad.testingsystem.model.db.tables.QuizSessions;
 import com.kopivad.testingsystem.model.db.tables.Quizzes;
 import com.kopivad.testingsystem.model.db.tables.UserResponces;
@@ -37,7 +38,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -748438651;
+    private static final long serialVersionUID = -947785803;
 
     /**
      * The reference instance of <code>public</code>
@@ -53,6 +54,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.questions</code>.
      */
     public final Questions QUESTIONS = com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
+
+    /**
+     * The table <code>public.quiz_results</code>.
+     */
+    public final QuizResults QUIZ_RESULTS = com.kopivad.testingsystem.model.db.tables.QuizResults.QUIZ_RESULTS;
 
     /**
      * The table <code>public.quiz_sessions</code>.
@@ -103,6 +109,7 @@ public class Public extends SchemaImpl {
         return Arrays.<Sequence<?>>asList(
             Sequences.ANSWERS_ID_SEQ,
             Sequences.QUESTIONS_ID_SEQ,
+            Sequences.QUIZ_RESULTS_ID_SEQ,
             Sequences.QUIZ_SESSIONS_ID_SEQ,
             Sequences.QUIZZES_ID_SEQ,
             Sequences.USER_RESPONCES_ID_SEQ,
@@ -120,6 +127,7 @@ public class Public extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Answers.ANSWERS,
             Questions.QUESTIONS,
+            QuizResults.QUIZ_RESULTS,
             QuizSessions.QUIZ_SESSIONS,
             Quizzes.QUIZZES,
             UserResponces.USER_RESPONCES,

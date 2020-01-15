@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -33,12 +33,17 @@ public class QuizSession {
 
     @CreatedDate
     @Column(name = "created")
-    private Date created;
+    private Timestamp created;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "session")
+    private List<QuizResult> results;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "answer")
-    private List<UserResponce> userResponces;
+    private List<UserResponse> userResponses;
 
 
 }

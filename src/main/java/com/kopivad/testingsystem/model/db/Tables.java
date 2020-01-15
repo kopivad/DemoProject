@@ -6,6 +6,7 @@ package com.kopivad.testingsystem.model.db;
 
 import com.kopivad.testingsystem.model.db.tables.Answers;
 import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.QuizResults;
 import com.kopivad.testingsystem.model.db.tables.QuizSessions;
 import com.kopivad.testingsystem.model.db.tables.Quizzes;
 import com.kopivad.testingsystem.model.db.tables.UserResponces;
@@ -37,6 +38,11 @@ public class Tables {
      * The table <code>public.questions</code>.
      */
     public static final Questions QUESTIONS = Questions.QUESTIONS;
+
+    /**
+     * The table <code>public.quiz_results</code>.
+     */
+    public static final QuizResults QUIZ_RESULTS = QuizResults.QUIZ_RESULTS;
 
     /**
      * The table <code>public.quiz_sessions</code>.

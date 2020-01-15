@@ -6,6 +6,7 @@ package com.kopivad.testingsystem.model.db;
 
 import com.kopivad.testingsystem.model.db.tables.Answers;
 import com.kopivad.testingsystem.model.db.tables.Questions;
+import com.kopivad.testingsystem.model.db.tables.QuizResults;
 import com.kopivad.testingsystem.model.db.tables.QuizSessions;
 import com.kopivad.testingsystem.model.db.tables.Quizzes;
 import com.kopivad.testingsystem.model.db.tables.UserResponces;
@@ -37,6 +38,7 @@ public class Indexes {
 
     public static final Index ANSWERS_PKEY = Indexes0.ANSWERS_PKEY;
     public static final Index QUESTIONS_PKEY = Indexes0.QUESTIONS_PKEY;
+    public static final Index QUIZ_RESULTS_PKEY = Indexes0.QUIZ_RESULTS_PKEY;
     public static final Index QUIZ_SESSIONS_PKEY = Indexes0.QUIZ_SESSIONS_PKEY;
     public static final Index QUIZZES_PKEY = Indexes0.QUIZZES_PKEY;
     public static final Index USER_RESPONCES_PKEY = Indexes0.USER_RESPONCES_PKEY;
@@ -49,6 +51,7 @@ public class Indexes {
     private static class Indexes0 {
         public static Index ANSWERS_PKEY = Internal.createIndex("answers_pkey", Answers.ANSWERS, new OrderField[] { Answers.ANSWERS.ID }, true);
         public static Index QUESTIONS_PKEY = Internal.createIndex("questions_pkey", Questions.QUESTIONS, new OrderField[] { Questions.QUESTIONS.ID }, true);
+        public static Index QUIZ_RESULTS_PKEY = Internal.createIndex("quiz_results_pkey", QuizResults.QUIZ_RESULTS, new OrderField[] { QuizResults.QUIZ_RESULTS.ID }, true);
         public static Index QUIZ_SESSIONS_PKEY = Internal.createIndex("quiz_sessions_pkey", QuizSessions.QUIZ_SESSIONS, new OrderField[] { QuizSessions.QUIZ_SESSIONS.ID }, true);
         public static Index QUIZZES_PKEY = Internal.createIndex("quizzes_pkey", Quizzes.QUIZZES, new OrderField[] { Quizzes.QUIZZES.ID }, true);
         public static Index USER_RESPONCES_PKEY = Internal.createIndex("user_responces_pkey", UserResponces.USER_RESPONCES, new OrderField[] { UserResponces.USER_RESPONCES.ID }, true);

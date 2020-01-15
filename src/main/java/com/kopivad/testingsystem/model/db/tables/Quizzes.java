@@ -9,6 +9,7 @@ import com.kopivad.testingsystem.model.db.Keys;
 import com.kopivad.testingsystem.model.db.Public;
 import com.kopivad.testingsystem.model.db.tables.records.QuizzesRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -42,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Quizzes extends TableImpl<QuizzesRecord> {
 
-    private static final long serialVersionUID = -267354535;
+    private static final long serialVersionUID = -1573889482;
 
     /**
      * The reference instance of <code>public.quizzes</code>
@@ -61,6 +62,16 @@ public class Quizzes extends TableImpl<QuizzesRecord> {
      * The column <code>public.quizzes.id</code>.
      */
     public final TableField<QuizzesRecord, Long> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('quizzes_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+
+    /**
+     * The column <code>public.quizzes.active</code>.
+     */
+    public final TableField<QuizzesRecord, Boolean> ACTIVE = createField(DSL.name("active"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false), this, "");
+
+    /**
+     * The column <code>public.quizzes.created</code>.
+     */
+    public final TableField<QuizzesRecord, Timestamp> CREATED = createField(DSL.name("created"), org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
      * The column <code>public.quizzes.description</code>.
@@ -171,11 +182,11 @@ public class Quizzes extends TableImpl<QuizzesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, String, Long> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row6<Long, Boolean, Timestamp, String, String, Long> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }
