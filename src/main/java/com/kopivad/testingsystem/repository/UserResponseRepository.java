@@ -1,18 +1,15 @@
 package com.kopivad.testingsystem.repository;
 
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.domain.UserResponse;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
 @NoRepositoryBean
 public interface UserResponseRepository {
-
-    UserResponce save(UserResponce userAnswer);
-
-    List<UserResponce> findAllByQuestionId(Long id);
-
-    List<UserResponce> findAllByAnswerId(Long id);
-
-    List<UserResponce> findAllByQuizSessionId(Long sessionId);
+    UserResponse save(UserResponse userAnswer);
+    List<UserResponse> findAllByQuestionId(Long id);
+    List<UserResponse> findAllByAnswerId(Long id);
+    List<UserResponse> findAllByQuizSessionId(Long sessionId);
+    boolean isUserResponceExist(Long questionId, Long sessionId);
 }

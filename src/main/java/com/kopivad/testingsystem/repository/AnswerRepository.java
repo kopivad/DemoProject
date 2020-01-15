@@ -1,6 +1,6 @@
 package com.kopivad.testingsystem.repository;
 
-import com.kopivad.testingsystem.model.Answer;
+import com.kopivad.testingsystem.domain.Answer;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;

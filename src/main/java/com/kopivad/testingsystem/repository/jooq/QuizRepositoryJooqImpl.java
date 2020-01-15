@@ -1,20 +1,19 @@
 package com.kopivad.testingsystem.repository.jooq;
 
 
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.Quiz;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Sequences.QUIZZES_ID_SEQ;
-import static com.kopivad.testingsystem.model.db.Tables.*;
+import static com.kopivad.testingsystem.domain.db.Sequences.QUIZZES_ID_SEQ;
+import static com.kopivad.testingsystem.domain.db.Tables.QUIZZES;
 import static org.jooq.impl.DSL.val;
 
 @Repository
@@ -31,6 +30,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
     }
 
     @Override
+    @Transactional
     public Quiz saveQuiz(Quiz quiz) {
         return dslContext
                 .insertInto(QUIZZES, QUIZZES.ID, QUIZZES.TITLE, QUIZZES.DESCRIPTION, QUIZZES.USER_ID, QUIZZES.CREATED, QUIZZES.ACTIVE)
@@ -73,34 +73,11 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
     }
 
     private Quiz getQuizFromRecord(Record r) {
-        User author = dslContext
-                .selectFrom(USERS)
-                .where(USERS.ID.eq(r.getValue(QUIZZES.USER_ID)))
-                .fetchOne()
-                .map(record -> User
-                        .builder()
-                        .id(record.getValue(USERS.ID))
-                        .password(record.getValue(USERS.PASSWORD))
-                        .nickname(record.getValue(USERS.NICKNAME))
-                        .email(record.getValue(USERS.EMAIL))
-                        .build()
-                );
-        List<Question> questions = dslContext
-                .selectFrom(QUESTIONS)
-                .where(QUESTIONS.QUIZ_ID.eq(r.getValue(QUIZZES.ID)))
-                .fetch()
-                .map(record -> Question
-                        .builder()
-                        .id(record.getValue(QUESTIONS.ID))
-                        .title(record.getValue(QUESTIONS.TITLE))
-                        .build()
-                );
         return Quiz
                 .builder()
                 .id(r.getValue(QUIZZES.ID))
                 .description(r.getValue(QUIZZES.DESCRIPTION))
-                .questions(questions)
-                .author(author)
+                .author(User.builder().id(r.getValue(QUIZZES.ID)).build())
                 .title(r.getValue(QUIZZES.TITLE))
                 .created(r.getValue(QUIZZES.CREATED))
                 .active(r.getValue(QUIZZES.ACTIVE))

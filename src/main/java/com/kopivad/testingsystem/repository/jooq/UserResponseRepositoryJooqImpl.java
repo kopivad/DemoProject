@@ -1,20 +1,19 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.model.Answer;
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.QuizSession;
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.domain.Answer;
+import com.kopivad.testingsystem.domain.Question;
+import com.kopivad.testingsystem.domain.QuizSession;
+import com.kopivad.testingsystem.domain.UserResponse;
 import com.kopivad.testingsystem.repository.UserResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Sequences.USER_RESPONCES_ID_SEQ;
-import static com.kopivad.testingsystem.model.db.Tables.*;
+import static com.kopivad.testingsystem.domain.db.Sequences.USER_RESPONCES_ID_SEQ;
+import static com.kopivad.testingsystem.domain.db.Tables.*;
 import static org.jooq.impl.DSL.val;
 
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     private final DSLContext dslContext;
 
     @Override
-    public List<UserResponce> findAllByQuizSessionId(Long sessionId) {
+    public List<UserResponse> findAllByQuizSessionId(Long sessionId) {
         return dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.SESSION_ID.eq(sessionId))
@@ -32,7 +31,18 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     }
 
     @Override
-    public UserResponce save(UserResponce userAnswer) {
+    public boolean isUserResponceExist(Long questionId, Long sessionId) {
+        return dslContext
+                .fetchExists(
+                        dslContext
+                                .selectOne()
+                                .from(USER_RESPONCES)
+                                .where(USER_RESPONCES.QUESTION_ID.eq(questionId).and(USER_RESPONCES.SESSION_ID.eq(sessionId)))
+                );
+    }
+
+    @Override
+    public UserResponse save(UserResponse userAnswer) {
         dslContext
                 .insertInto(USER_RESPONCES, USER_RESPONCES.ID, USER_RESPONCES.SESSION_ID, USER_RESPONCES.ANSWER_ID, USER_RESPONCES.QUESTION_ID)
                 .values(USER_RESPONCES_ID_SEQ.nextval(), val(userAnswer.getQuizSession().getId()), val(userAnswer.getAnswer().getId()), val(userAnswer.getQuestion().getId()))
@@ -41,7 +51,7 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     }
 
     @Override
-    public List<UserResponce> findAllByQuestionId(Long id) {
+    public List<UserResponse> findAllByQuestionId(Long id) {
         return dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.QUESTION_ID.eq(id))
@@ -50,7 +60,7 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     }
 
     @Override
-    public List<UserResponce> findAllByAnswerId(Long id) {
+    public List<UserResponse> findAllByAnswerId(Long id) {
         return dslContext
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.ANSWER_ID.eq(id))
@@ -58,47 +68,13 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
                 .map(this::getUserQuestionResponseFromRecord);
     }
 
-    private UserResponce getUserQuestionResponseFromRecord(Record r) {
-        Long id = r.getValue(USER_RESPONCES.ID, Long.class);
-        Long answerId = r.getValue(USER_RESPONCES.ANSWER_ID);
-        Long questionId = r.getValue(USER_RESPONCES.QUESTION_ID);
-        Long sessionId = r.getValue(USER_RESPONCES.SESSION_ID);
-        Answer answer = dslContext
-                .selectFrom(ANSWERS)
-                .where(ANSWERS.ID.eq(answerId))
-                .fetchOne()
-                .map(record -> Answer
-                        .builder()
-                        .id(record.getValue(ANSWERS.ID))
-                        .text(record.getValue(ANSWERS.TEXT))
-                        .isRight(record.getValue(ANSWERS.IS_RIGHT))
-                        .build());
-        Question question = dslContext
-                .selectFrom(QUESTIONS)
-                .where(QUESTIONS.ID.eq(questionId))
-                .fetchOne()
-                .map(record -> Question
-                        .builder()
-                        .id(record.getValue(QUESTIONS.ID))
-                        .title(record.getValue(QUESTIONS.TITLE))
-                        .build()
-                );
-
-        QuizSession quizSession = dslContext
-                .selectFrom(QUIZ_SESSIONS)
-                .where(QUIZ_SESSIONS.ID.eq(sessionId))
-                .fetchOne()
-                .map(record -> QuizSession
-                        .builder()
-                        .id(record.getValue(QUIZ_SESSIONS.ID))
-                        .build()
-                );
-        return UserResponce
+    private UserResponse getUserQuestionResponseFromRecord(Record r) {
+        return UserResponse
                 .builder()
-                .id(id)
-                .quizSession(quizSession)
-                .answer(answer)
-                .question(question)
+                .id(r.getValue(USER_RESPONCES.ID))
+                .quizSession(QuizSession.builder().id(r.getValue(USER_RESPONCES.SESSION_ID)).build())
+                .answer(Answer.builder().id(r.getValue(USER_RESPONCES.ANSWER_ID)).build())
+                .question(Question.builder().id(r.getValue(USER_RESPONCES.QUESTION_ID)).build())
                 .build();
     }
 }

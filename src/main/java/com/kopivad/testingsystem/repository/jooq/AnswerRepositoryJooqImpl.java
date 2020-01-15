@@ -1,22 +1,17 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.model.Answer;
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.domain.Answer;
+import com.kopivad.testingsystem.domain.Question;
 import com.kopivad.testingsystem.repository.AnswerRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Sequences.ANSWERS_ID_SEQ;
-import static com.kopivad.testingsystem.model.db.tables.Answers.ANSWERS;
-import static com.kopivad.testingsystem.model.db.tables.Questions.QUESTIONS;
-import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
+import static com.kopivad.testingsystem.domain.db.Sequences.ANSWERS_ID_SEQ;
+import static com.kopivad.testingsystem.domain.db.tables.Answers.ANSWERS;
 import static org.jooq.impl.DSL.val;
 
 @Repository
@@ -81,36 +76,12 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
     }
 
     private Answer getAnswerFromRecord(Record record) {
-        Long questionId = record.getValue(ANSWERS.QUESTION_ID, Long.class);
-        Long id = record.getValue(ANSWERS.ID, Long.class);
-        Question question = dslContext
-                .selectFrom(QUESTIONS)
-                .where(QUESTIONS.ID.eq(questionId))
-                .fetchOne()
-                .map(r -> Question
-                        .builder()
-                        .id(r.getValue(QUESTIONS.ID, Long.class))
-                        .title(r.getValue(QUESTIONS.TITLE, String.class))
-                        .build());
-
-        String text = record.getValue(ANSWERS.TEXT, String.class);
-        Boolean isRight = record.getValue(ANSWERS.IS_RIGHT, Boolean.class);
-        List<UserResponce> responses = dslContext
-                .selectFrom(USER_RESPONCES)
-                .where(USER_RESPONCES.ANSWER_ID.eq(id))
-                .fetch()
-                .map(r -> UserResponce
-                        .builder()
-                        .id(r.getValue(USER_RESPONCES.ID, Long.class))
-                        .build()
-                );
         return Answer
                 .builder()
-                .id(id)
-                .isRight(isRight)
-                .question(question)
-                .userResponces(responses)
-                .text(text)
+                .id(record.getValue(ANSWERS.ID))
+                .isRight(record.getValue(ANSWERS.IS_RIGHT))
+                .question(Question.builder().id(record.getValue(ANSWERS.QUESTION_ID)).build())
+                .text(record.getValue(ANSWERS.TEXT))
                 .build();
     }
 }

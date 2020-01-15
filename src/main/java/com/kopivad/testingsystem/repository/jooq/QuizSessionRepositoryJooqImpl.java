@@ -1,23 +1,18 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.QuizSession;
-import com.kopivad.testingsystem.model.User;
-import com.kopivad.testingsystem.model.UserResponce;
+import com.kopivad.testingsystem.domain.Quiz;
+import com.kopivad.testingsystem.domain.QuizSession;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Sequences.QUIZ_SESSIONS_ID_SEQ;
-import static com.kopivad.testingsystem.model.db.tables.QuizSessions.QUIZ_SESSIONS;
-import static com.kopivad.testingsystem.model.db.tables.Quizzes.QUIZZES;
-import static com.kopivad.testingsystem.model.db.tables.UserResponces.USER_RESPONCES;
-import static com.kopivad.testingsystem.model.db.tables.Users.USERS;
+import static com.kopivad.testingsystem.domain.db.Sequences.QUIZ_SESSIONS_ID_SEQ;
+import static com.kopivad.testingsystem.domain.db.tables.QuizSessions.QUIZ_SESSIONS;
 import static org.jooq.impl.DSL.val;
 
 @Repository
@@ -28,9 +23,9 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
     @Override
     public QuizSession saveQuizSession(QuizSession quizSession) {
         return dslContext
-                .insertInto(QUIZ_SESSIONS, QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
-                .values(QUIZ_SESSIONS_ID_SEQ.nextval(), val(quizSession.getUser().getId()), val(quizSession.getQuiz().getId()))
-                .returning(QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.QUIZ_ID)
+                .insertInto(QUIZ_SESSIONS, QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.CREATED, QUIZ_SESSIONS.QUIZ_ID)
+                .values(QUIZ_SESSIONS_ID_SEQ.nextval(), val(quizSession.getUser().getId()), val(quizSession.getCreated()), val(quizSession.getQuiz().getId()))
+                .returning(QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.CREATED, QUIZ_SESSIONS.QUIZ_ID)
                 .fetchOne()
                 .map(this::getQuizSessionFromRecord);
     }
@@ -44,49 +39,31 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
                 .map(this::getQuizSessionFromRecord);
     }
 
-    private QuizSession getQuizSessionFromRecord(Record record) {
-        User user = dslContext
-                .selectFrom(USERS)
-                .where(USERS.ID.eq(record.getValue(QUIZ_SESSIONS.USER_ID)))
-                .fetchOne()
-                .map(r -> User
-                        .builder()
-                        .id(r.getValue(USERS.ID))
-                        .password(r.getValue(USERS.PASSWORD))
-                        .email(r.getValue(USERS.EMAIL))
-                        .nickname(r.getValue(USERS.NICKNAME))
-                        .build()
-                );
-
-        Quiz quiz = dslContext
-                .selectFrom(QUIZZES)
-                .where(QUIZZES.ID.eq(record.getValue(QUIZ_SESSIONS.QUIZ_ID)))
-                .fetchOne()
-                .map(r -> Quiz
-                        .builder()
-                        .id(r.getValue(QUIZZES.ID))
-                        .title(r.getValue(QUIZZES.TITLE))
-                        .description(r.getValue(QUIZZES.DESCRIPTION))
-                        .build()
-                );
-
-
-        List<UserResponce> userResponces = dslContext
-                .selectFrom(USER_RESPONCES)
-                .where(USER_RESPONCES.SESSION_ID.eq(record.getValue(QUIZ_SESSIONS.ID)))
+    @Override
+    public List<QuizSession> findQuizSessionByUserId(Long id) {
+        return dslContext
+                .selectFrom(QUIZ_SESSIONS)
+                .where(QUIZ_SESSIONS.USER_ID.eq(id))
                 .fetch()
-                .map(r -> UserResponce
-                        .builder()
-                        .id(r.getValue(USER_RESPONCES.ID))
-                        .build()
-                );
+                .map(this::getQuizSessionFromRecord);
+    }
 
+    @Override
+    public List<QuizSession> findAllByQuizId(Long id) {
+        return dslContext
+                .selectFrom(QUIZ_SESSIONS)
+                .where(QUIZ_SESSIONS.QUIZ_ID.eq(id))
+                .fetch()
+                .map(this::getQuizSessionFromRecord);
+    }
+
+    private QuizSession getQuizSessionFromRecord(Record record) {
         return QuizSession
                 .builder()
                 .id(record.getValue(QUIZ_SESSIONS.ID))
-                .user(user)
-                .quiz(quiz)
-                .userResponces(userResponces)
+                .user(User.builder().id(record.getValue(QUIZ_SESSIONS.USER_ID)).build())
+                .quiz(Quiz.builder().id(record.getValue(QUIZ_SESSIONS.QUIZ_ID)).build())
+                .created(record.getValue(QUIZ_SESSIONS.CREATED))
                 .build();
     }
 }

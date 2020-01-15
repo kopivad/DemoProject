@@ -1,12 +1,14 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.model.*;
+import com.kopivad.testingsystem.exception.QuestionNotFoundExeption;
+import com.kopivad.testingsystem.domain.Question;
+import com.kopivad.testingsystem.domain.Quiz;
+import com.kopivad.testingsystem.domain.db.tables.records.QuestionsRecord;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.kopivad.testingsystem.model.db.Sequences.QUESTIONS_ID_SEQ;
-import static com.kopivad.testingsystem.model.db.Tables.*;
+import static com.kopivad.testingsystem.domain.db.Sequences.QUESTIONS_ID_SEQ;
+import static com.kopivad.testingsystem.domain.db.Tables.ANSWERS;
+import static com.kopivad.testingsystem.domain.db.Tables.QUESTIONS;
 import static org.jooq.impl.DSL.val;
 
 @Repository
@@ -73,12 +76,16 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
     }
 
     @Override
-    public Question findQuestionById(Long questionId) {
-        return dslContext
+    public Question findQuestionById(Long questionId) throws QuestionNotFoundExeption {
+        QuestionsRecord record = dslContext
                 .selectFrom(QUESTIONS)
                 .where(QUESTIONS.ID.eq(questionId))
-                .fetchOne()
-                .map(this::getQuestionFromRecord);
+                .fetchOne();
+
+        if (record == null)
+            throw new QuestionNotFoundExeption(String.format("Question with id %d not found", questionId));
+
+        return record.map(this::getQuestionFromRecord);
     }
 
     @Override
@@ -110,54 +117,13 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
     }
 
     private Question getQuestionFromRecord(Record r) {
-        Long id = r.getValue(QUESTIONS.ID, Long.class);
-        String title = r.getValue(QUESTIONS.TITLE, String.class);
-        Long quizId = r.getValue(QUESTIONS.QUIZ_ID, Long.class);
-        Quiz quiz = dslContext
-                .selectFrom(QUIZZES)
-                .where(QUIZZES.ID.eq(quizId))
-                .fetchOne()
-                .map(record -> Quiz
-                        .builder()
-                        .id(record.getValue(QUIZZES.ID, Long.class))
-                        .title(record.getValue(QUIZZES.TITLE, String.class))
-                        .description(record.getValue(QUIZZES.DESCRIPTION, String.class))
-                        .build()
-                );
-        List<Answer> answers = dslContext
-                .selectFrom(ANSWERS)
-                .where(ANSWERS.QUESTION_ID.eq(id))
-                .fetch()
-                .map(record -> Answer
-                        .builder()
-                        .id(record.getValue(ANSWERS.ID, Long.class))
-                        .isRight(record.getValue(ANSWERS.IS_RIGHT, Boolean.class))
-                        .text(record.getValue(ANSWERS.TEXT, String.class))
-                        .build()
-                );
-        List<UserResponce> responses = dslContext
-                .selectFrom(USER_RESPONCES)
-                .where(USER_RESPONCES.QUESTION_ID.eq(id))
-                .fetch()
-                .map(record -> UserResponce
-                        .builder()
-                        .id(record.getValue(USER_RESPONCES.ID, Long.class))
-                        .build()
-                );
         return Question
                 .builder()
-                .id(id)
-                .title(title)
-                .quiz(
-                        Quiz
-                                .builder()
-                                .id(quiz.getId())
-                                .title(quiz.getTitle())
-                                .description(quiz.getDescription())
-                                .build()
-                )
-                .answers(answers)
-                .userQuestionRespons(responses)
+                .id(r.getValue(QUESTIONS.ID))
+                .title(r.getValue(QUESTIONS.TITLE))
+                .quiz(Quiz.builder().id(r.getValue(QUESTIONS.QUIZ_ID)).build())
                 .build();
     }
+
+
 }
