@@ -5,6 +5,7 @@ import com.kopivad.testingsystem.domain.Question;
 import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import com.kopivad.testingsystem.repository.QuizRepository;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.QuestionService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final QuizRepository quizRepository;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public Question saveQuestion(Question question) {
         Question questionFromDB = questionRepository.saveQuestion(question);
-        return serviceUtils.getFullQuestion(questionFromDB);
+        return repositoryUtils.getFullQuestion(questionFromDB);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question getQuestionById(Long questionId) {
         Question questionFromDB = questionRepository.findQuestionById(questionId);
-        return serviceUtils.getFullQuestion(questionFromDB);
+        return repositoryUtils.getFullQuestion(questionFromDB);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questionsFromDB = questionRepository.findAll();
         return questionsFromDB
                 .stream()
-                .map(serviceUtils::getFullQuestion)
+                .map(repositoryUtils::getFullQuestion)
                 .collect(Collectors.toList());
     }
 
@@ -56,14 +57,14 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questionsFromDB = questionRepository.findAllByQuizId(id);
         return questionsFromDB
                 .stream()
-                .map(serviceUtils::getFullQuestion)
+                .map(repositoryUtils::getFullQuestion)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Question updateQuestion(Question question) {
         Question questionFromDB = questionRepository.updateQuestion(question);
-        return serviceUtils.getFullQuestion(questionFromDB);
+        return repositoryUtils.getFullQuestion(questionFromDB);
     }
 
     @Override

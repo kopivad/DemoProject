@@ -4,6 +4,7 @@ import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizRepository;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizSessionService quizSessionService;
     private final UserResponseService responseService;
     private final QuizResultService resultService;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public Quiz saveQuiz(Quiz quiz) {
@@ -35,14 +36,14 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizzesFromDB = quizRepository.findAll();
         return quizzesFromDB
                 .stream()
-                .map(serviceUtils::getFullQuiz)
+                .map(repositoryUtils::getFullQuiz)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Quiz getQuizById(Long id) {
         Quiz quizFromDB = quizRepository.findQuizById(id);
-        return serviceUtils.getFullQuiz(quizFromDB);
+        return repositoryUtils.getFullQuiz(quizFromDB);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz updateQuiz(Quiz quiz) {
         Quiz quizFromDB = quizRepository.updateQuiz(quiz);
-        return serviceUtils.getFullQuiz(quizFromDB);
+        return repositoryUtils.getFullQuiz(quizFromDB);
     }
 
     @Override

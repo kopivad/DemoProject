@@ -5,6 +5,7 @@ import com.kopivad.testingsystem.form.SignUpForm;
 import com.kopivad.testingsystem.domain.Role;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.UserRepository;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,20 +21,20 @@ import java.util.Collections;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
 
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User userFromDB = userRepository.findByEmail(email);
-        return serviceUtils.getFullUser(userFromDB);
+        return repositoryUtils.getFullUser(userFromDB);
     }
 
     @Override
     public User saveUser(User user) {
         User userFromDB = userRepository.saveUser(user);
-        return serviceUtils.getFullUser(userFromDB);
+        return repositoryUtils.getFullUser(userFromDB);
 
     }
 
@@ -41,13 +42,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         User userFromDB = userRepository.findByEmail(email);
-        return serviceUtils.getFullUser(userFromDB);
+        return repositoryUtils.getFullUser(userFromDB);
     }
 
     @Override
     public User getUserById(Long userId) {
         User userFromDB = userRepository.findUserById(userId);
-        return serviceUtils.getFullUser(userFromDB);
+        return repositoryUtils.getFullUser(userFromDB);
     }
 
     @Override

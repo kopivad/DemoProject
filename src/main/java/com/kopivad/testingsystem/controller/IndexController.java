@@ -1,7 +1,7 @@
 package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.QuizForm;
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.QuizService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

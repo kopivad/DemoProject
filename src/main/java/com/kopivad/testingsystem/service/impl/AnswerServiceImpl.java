@@ -5,6 +5,7 @@ import com.kopivad.testingsystem.domain.Answer;
 import com.kopivad.testingsystem.domain.Question;
 import com.kopivad.testingsystem.repository.AnswerRepository;
 import com.kopivad.testingsystem.repository.QuestionRepository;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.AnswerService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -18,26 +19,26 @@ import java.util.stream.Collectors;
 public class AnswerServiceImpl implements AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
 
     @Override
     public Answer saveAnswer(Answer answer) {
         Answer answerFromDB = answerRepository.saveAnswer(answer);
-        return serviceUtils.getFullAnswer(answerFromDB);
+        return repositoryUtils.getFullAnswer(answerFromDB);
     }
 
     public List<Answer> getAnswersByQuestionId(Long id) {
         List<Answer> answersFromDB = answerRepository.findAllByQuestionId(id);
         return answersFromDB
                 .stream()
-                .map(serviceUtils::getFullAnswer)
+                .map(repositoryUtils::getFullAnswer)
                 .collect(Collectors.toList());
     }
 
     public Answer getAnswerById(Long id) {
         Answer answerFromDB = answerRepository.findAnswerById(id);
-        return serviceUtils.getFullAnswer(answerFromDB);
+        return repositoryUtils.getFullAnswer(answerFromDB);
     }
 
     @Override
@@ -45,14 +46,14 @@ public class AnswerServiceImpl implements AnswerService {
         List<Answer> answersFromDB = answerRepository.findAll();
         return answersFromDB
                 .stream()
-                .map(serviceUtils::getFullAnswer)
+                .map(repositoryUtils::getFullAnswer)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Answer updateAnswer(Answer answer) {
         Answer answerFromDB = answerRepository.updateAnswer(answer);
-        return serviceUtils.getFullAnswer(answerFromDB);
+        return repositoryUtils.getFullAnswer(answerFromDB);
     }
 
     @Override
@@ -65,7 +66,6 @@ public class AnswerServiceImpl implements AnswerService {
         return this.saveAnswer(getAnswerFromAnswerForm(answerForm));
     }
 
-    @SneakyThrows
     @Override
     public Answer updateAnswer(AnswerForm answerForm) {
         Answer answerForUpdate = answerRepository.findAnswerById(answerForm.getAnswerId());
@@ -76,7 +76,6 @@ public class AnswerServiceImpl implements AnswerService {
         return this.updateAnswer(answerForUpdate);
     }
 
-    @SneakyThrows
     private Answer getAnswerFromAnswerForm(AnswerForm answerForm) {
         return Answer
                 .builder()

@@ -1,12 +1,12 @@
 package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.QuestionForm;
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.Quiz;
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.Question;
+import com.kopivad.testingsystem.domain.Quiz;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
-import com.kopivad.testingsystem.service.impl.ServiceUtils;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +28,7 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuizService quizService;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
 
     @PostMapping(path = "/question/add")
@@ -54,7 +54,7 @@ public class QuestionController {
         Pageable pageable = PageRequest.of(n - 1, 1);
         Quiz currentQuiz = quizService.getQuizById(quizId);
         Page<Question> question = questionService.getQuestionByQuizId(quizId, pageable);
-        Question fullQuestion = serviceUtils.getFullQuestion(question.getContent().get(0));
+        Question fullQuestion = repositoryUtils.getFullQuestion(question.getContent().get(0));
         Collections.shuffle(fullQuestion.getAnswers());
         model.addAttribute("quiz", currentQuiz);
         model.addAttribute("question", fullQuestion);

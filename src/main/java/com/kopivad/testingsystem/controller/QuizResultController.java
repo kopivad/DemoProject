@@ -1,6 +1,6 @@
 package com.kopivad.testingsystem.controller;
 
-import com.kopivad.testingsystem.model.*;
+import com.kopivad.testingsystem.domain.*;
 import com.kopivad.testingsystem.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

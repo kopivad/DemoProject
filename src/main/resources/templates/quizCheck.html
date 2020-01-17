@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
-    <link th:replace="fragments/libs :: css" />
+    <link th:replace="fragments/libs :: css"/>
 </head>
 <body>
 <!--Header here-->
@@ -11,8 +11,8 @@
 <!--Content-->
 <div class="container">
     <h1 class="mt-5 mb-4" th:text="${quizTitle}">Quiz title</h1>
-    <h5 th:text="${'Score: ' + correctAmount + ' of ' + totalAmount}"></h5>
-    <h3 th:text="${percentageAmount + '% Correct:'}"></h3>
+    <h5 th:text="${'Score: ' + quizResult.getCountOfCorrect() + ' of ' + quizResult.getTotalAnswers()}"></h5>
+    <h3 th:text="${quizResult.getRating() + '% Correct:'}"></h3>
 
     <div th:each="response : ${allResponses}">
         <hr>
@@ -20,11 +20,22 @@
             <h5 class="card-header">Question <span th:text="${allResponses.indexOf(response) + 1}"></span>:</h5>
             <div class="card-body">
                 <h5 class="card-title" th:text="${response.getQuestion().getTitle()}"></h5>
-                <div th:each="answer : ${response.getQuestion().getAnswers()}" class="custom-control custom-radio mt-1 mb-1">
-                    <input type="radio" th:id="${answer.getId()}" class="custom-control-input" th:checked="${response.getAnswer().getId() == answer.getId()}"
+                <div th:each="answer : ${response.getQuestion().getAnswers()}"
+                     class="custom-control custom-radio mt-1 mb-1">
+
+
+                    <input type="radio" th:id="${answer.getId()}" class="custom-control-input"
+                           th:checked="${response.getAnswer().getId() == answer.getId()}"
                            disabled>
-                    <label th:class="${answer.isRight() && response.getAnswer().getId() == answer.getId() ? 'custom-control-label text-success' : 'custom-control-label'}" th:text="${answer.getText()}"
-                           th:for="${answer.getId()}"></label>
+                    <label th:if="${response.getAnswer().getId() != answer.getId()}" th:text="${answer.getText()}"
+                           th:for="${answer.getId()}" class="custom-control-label"></label>
+                    <label th:if="${response.getAnswer().getId() == answer.getId()}" th:text="${answer.getText()}"
+                           th:class="${answer.isRight() ? 'custom-control-label text-success' : 'custom-control-label text-danger'}"
+                           th:for="${answer.getId()}" class="custom-control-label"></label>
+                    <!--                    <label th:if="${answer.isRight() && response.getAnswer().getId() == answer.getId()}" th:text="${answer.getText()}"-->
+                    <!--                           th:for="${answer.getId()}" class="custom-control-label text-success"></label>-->
+                    <!--                    <label th:if="${answer.isRight() && response.getAnswer().getId() != answer.getId()}" th:text="${answer.getText()}"-->
+                    <!--                           th:for="${answer.getId()}" class="custom-control-label text-danger"></label>>-->
                 </div>
             </div>
         </div>

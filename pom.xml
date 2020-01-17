@@ -164,7 +164,7 @@
 							<inputSchema>public</inputSchema>
 						</database>
 						<target>
-							<packageName>com.kopivad.testingsystem.model.db</packageName>
+							<packageName>com.kopivad.testingsystem.domain.db</packageName>
 							<directory>src/main/java</directory>
 						</target>
 					</generator>

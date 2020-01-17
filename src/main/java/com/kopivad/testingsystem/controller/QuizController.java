@@ -2,7 +2,7 @@ package com.kopivad.testingsystem.controller;
 
 
 import com.kopivad.testingsystem.form.QuizForm;
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
 import lombok.AllArgsConstructor;
@@ -31,8 +31,6 @@ public class QuizController {
         quizService.updateQuiz(quizForm);
         return "redirect:/quiz/manage";
     }
-
-
 
     @GetMapping(path = "quiz/{id}")
     public String getStartQuizPage(@PathVariable(name = "id") Long quizId, Model model, @AuthenticationPrincipal User user) {

@@ -30,7 +30,7 @@
             <td th:text="${result.getSession().getCreated()}"></td>
             <td th:text="${result.getRating()}"></td>
             <td th:text="${result.getCountOfCorrect() + '/' + result.getTotalAnswers()}"></td>
-            <td><a th:href="@{/quiz/result/(id = ${result.getSession().getId()})}">View</a></td>
+            <td><a th:href="@{/quiz/check/{id} (id = ${result.getSession().getId()})}">View</a></td>
         </tr>
     </table>
 </div>

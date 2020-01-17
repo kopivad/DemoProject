@@ -6,6 +6,7 @@ import com.kopivad.testingsystem.repository.AnswerRepository;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import com.kopivad.testingsystem.repository.QuizSessionRepository;
 import com.kopivad.testingsystem.repository.UserResponseRepository;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.UserResponseService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -21,14 +22,14 @@ public class UserResponseServiceImpl implements UserResponseService {
     private final QuizSessionRepository quizSessionRepository;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public UserResponse saveUserResponse(UserResponse userResponse) {
         if (userResponseRepository.isUserResponceExist(userResponse.getQuestion().getId(), userResponse.getQuizSession().getId()))
             return userResponse;
         UserResponse responseFromDB = userResponseRepository.save(userResponse);
-        return serviceUtils.getFullUserResponse(responseFromDB);
+        return repositoryUtils.getFullUserResponse(responseFromDB);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class UserResponseServiceImpl implements UserResponseService {
         List<UserResponse> responsesFromDB = userResponseRepository.findAllByQuizSessionId(sessionId);
         return responsesFromDB
                 .stream()
-                .map(serviceUtils::getFullUserResponse)
+                .map(repositoryUtils::getFullUserResponse)
                 .collect(Collectors.toList());
     }
 
@@ -50,7 +51,7 @@ public class UserResponseServiceImpl implements UserResponseService {
         List<UserResponse> responseFromDB = userResponseRepository.findAllByQuizSessionId(sessionId);
         return responseFromDB
                 .stream()
-                .map(serviceUtils::getFullUserResponse)
+                .map(repositoryUtils::getFullUserResponse)
                 .collect(Collectors.toList());
     }
 
@@ -59,7 +60,7 @@ public class UserResponseServiceImpl implements UserResponseService {
         List<UserResponse> questionFromDB = userResponseRepository.findAllByAnswerId(id);
         return questionFromDB
                 .stream()
-                .map(serviceUtils::getFullUserResponse)
+                .map(repositoryUtils::getFullUserResponse)
                 .collect(Collectors.toList());
     }
 

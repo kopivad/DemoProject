@@ -6,6 +6,7 @@ import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.db.tables.records.QuestionsRecord;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
@@ -76,7 +77,8 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
     }
 
     @Override
-    public Question findQuestionById(Long questionId) throws QuestionNotFoundExeption {
+    @SneakyThrows
+    public Question findQuestionById(Long questionId) {
         QuestionsRecord record = dslContext
                 .selectFrom(QUESTIONS)
                 .where(QUESTIONS.ID.eq(questionId))

@@ -7,6 +7,7 @@ import com.kopivad.testingsystem.domain.UserResponse;
 import com.kopivad.testingsystem.repository.QuizResultRepository;
 import com.kopivad.testingsystem.repository.QuizSessionRepository;
 import com.kopivad.testingsystem.repository.UserResponseRepository;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.QuizResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,12 @@ public class QuizResultServiceImpl implements QuizResultService {
     private final QuizResultRepository resultRepository;
     private final QuizSessionRepository sessionRepository;
     private final UserResponseRepository responseRepository;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public QuizResult saveQuizResult(Long sessionId, User user) {
         if (!resultRepository.isResultExist(sessionId)) {
-            QuizSession session = serviceUtils.getFullQuizSession(sessionRepository.findQuizSessionById(sessionId));
+            QuizSession session = repositoryUtils.getFullQuizSession(sessionRepository.findQuizSessionById(sessionId));
             long countOfCorrect = getCountOfCorrectAnswersBySessionId(sessionId);
             long totalAnswers = getTotalOfAnswersBySessionId(sessionId);
             return resultRepository.saveQuizResult(
@@ -47,7 +48,7 @@ public class QuizResultServiceImpl implements QuizResultService {
         List<UserResponse> sessionFromDB = responseRepository
                 .findAllByQuizSessionId(sessionId)
                 .stream()
-                .map(serviceUtils::getFullUserResponse)
+                .map(repositoryUtils::getFullUserResponse)
                 .collect(Collectors.toList());
         return sessionFromDB
                 .stream()
@@ -60,7 +61,7 @@ public class QuizResultServiceImpl implements QuizResultService {
         List<UserResponse> sessionFromDB = responseRepository
                 .findAllByQuizSessionId(sessionId)
                 .stream()
-                .map(serviceUtils::getFullUserResponse)
+                .map(repositoryUtils::getFullUserResponse)
                 .collect(Collectors.toList());
         return sessionFromDB
                 .size();
@@ -74,7 +75,7 @@ public class QuizResultServiceImpl implements QuizResultService {
     @Override
     public QuizResult getQuizResultBySessionId(Long sessionId) {
         QuizResult sessionFromDB = resultRepository.findBySessionId(sessionId);
-        return serviceUtils.getFullQuizResult(sessionFromDB);
+        return repositoryUtils.getFullQuizResult(sessionFromDB);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class QuizResultServiceImpl implements QuizResultService {
         List<QuizResult> quizResultsFromDB = resultRepository.getAllQuizResultsByUserId(id);
         return quizResultsFromDB
                 .stream()
-                .map(serviceUtils::getFullQuizResult)
+                .map(repositoryUtils::getFullQuizResult)
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +92,7 @@ public class QuizResultServiceImpl implements QuizResultService {
         List<QuizResult> resultsFromDB = resultRepository.findAllBySessionId(id);
         return resultsFromDB
                 .stream()
-                .map(serviceUtils::getFullQuizResult)
+                .map(repositoryUtils::getFullQuizResult)
                 .collect(Collectors.toList());
     }
 }

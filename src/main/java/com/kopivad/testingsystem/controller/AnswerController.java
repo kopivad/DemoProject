@@ -2,8 +2,8 @@ package com.kopivad.testingsystem.controller;
 
 import com.kopivad.testingsystem.form.AnswerForm;
 import com.kopivad.testingsystem.form.UserResponseForm;
-import com.kopivad.testingsystem.model.Question;
-import com.kopivad.testingsystem.model.User;
+import com.kopivad.testingsystem.domain.Question;
+import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.AnswerService;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.UserResponseService;

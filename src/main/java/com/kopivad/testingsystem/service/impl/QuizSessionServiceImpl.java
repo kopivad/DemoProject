@@ -4,6 +4,7 @@ import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.QuizSession;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.*;
+import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,18 @@ import java.sql.Timestamp;
 @RequiredArgsConstructor
 public class QuizSessionServiceImpl implements QuizSessionService {
     private final QuizSessionRepository sessionRepository;
-    private final ServiceUtils serviceUtils;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public QuizSession saveQuizSession(QuizSession quizSession) {
         QuizSession sessionFromDB = sessionRepository.saveQuizSession(quizSession);
-        return serviceUtils.getFullQuizSession(sessionFromDB);
+        return repositoryUtils.getFullQuizSession(sessionFromDB);
     }
 
     @Override
     public QuizSession getQuizSessionById(Long sessionId) {
         QuizSession sessionFromDB = sessionRepository.findQuizSessionById(sessionId);
-        return serviceUtils.getFullQuizSession(sessionFromDB);
+        return repositoryUtils.getFullQuizSession(sessionFromDB);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class QuizSessionServiceImpl implements QuizSessionService {
                         .quiz(quiz)
                         .created(new Timestamp(System.currentTimeMillis()))
                         .build());
-        return serviceUtils.getFullQuizSession(quizFromDB);
+        return repositoryUtils.getFullQuizSession(quizFromDB);
     }
 
 
