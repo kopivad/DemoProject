@@ -111,6 +111,14 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .into(long.class);
     }
 
+    @Override
+    public void deleteQuestion(Long questionId) {
+        dslContext
+                .deleteFrom(QUESTIONS)
+                .where(QUESTIONS.ID.eq(questionId))
+                .execute();
+    }
+
     public Result<Record> getAnswers() {
         return dslContext.select()
                 .from(ANSWERS)

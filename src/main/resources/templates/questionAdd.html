@@ -13,21 +13,22 @@
     <h2 class="mt-3 display-4">Create new question!</h2>
     <br>
     <div>
-        <form action="#" th:action="@{/question/add}" method="post">
+        <form action="#" th:action="@{/question/add}" th:object="${questionForm}" method="post">
             <div class="form-group">
                 <label for="title">Question title</label>
-                <textarea  name="title" type="text" class="form-control" id="title" placeholder="Enter title"></textarea>
+                <textarea  th:field="*{title}" type="text" th:class="${titleError != null ? 'form-control is-invalid' : 'form-control'}" id="title" placeholder="Enter title"></textarea>
+                <div th:if="${titleError != null}" th:text="${titleError}" class="invalid-feedback"></div>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Quizzes</label>
                 </div>
-                <select name="quizId" class="custom-select" id="inputGroupSelect01">
-                    <option selected>Choose quiz...</option>
-                    <option th:each="quiz : ${quizzes}" th:value="${quiz.getId()}" th:text="${quiz.getTitle()}">One</option>
+                <select th:field="*{quizId}" th:class="${quizIdError != null ? 'custom-select is-invalid' : 'custom-select'}" id="inputGroupSelect01">
+                    <option th:each="quiz : ${quizzes}" th:value="${quiz.getId()}" th:text="${quiz.getTitle()}"></option>
                 </select>
+                <div th:if="${quizIdError != null}" th:text="${quizIdError}" class="invalid-feedback"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Create!</button>
+            <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </div>
 </div>

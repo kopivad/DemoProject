@@ -87,6 +87,11 @@ public class QuestionServiceImpl implements QuestionService {
         return this.updateQuestion(questionForUpdate);
     }
 
+    @Override
+    public void deleteQuestion(Long questionId) {
+        questionRepository.deleteQuestion(questionId);
+    }
+
     private Question getQuestionFromForm(QuestionForm form) {
         return Question
                 .builder()

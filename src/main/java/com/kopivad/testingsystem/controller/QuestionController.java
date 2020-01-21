@@ -15,11 +15,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,14 +31,36 @@ public class QuestionController {
 
 
     @PostMapping(path = "/question/add")
-    public String saveQuestion(QuestionForm form) {
+    public String saveQuestion(@AuthenticationPrincipal User user, @Valid QuestionForm form, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("quizzes", quizService.getAllQuizzes());
+            model.addAttribute("user", user);
+            model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
+            return "questionAdd";
+        }
         questionService.saveQuestion(form);
         return "redirect:/question/manage";
     }
 
     @PostMapping(path = "question/edit")
-    public String editQuiz(QuestionForm form) {
+    public String editQuiz(@AuthenticationPrincipal User user, @Valid QuestionForm form, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("question", questionService.getQuestionById(form.getQuestionId()));
+            model.addAttribute("quizzes", quizService.getAllQuizzes());
+            model.addAttribute("questionForm", form);
+            model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
+            model.addAttribute("user", user);
+            return "questionEdit";
+        }
+
         questionService.updateQuestion(form);
+        return "redirect:/question/manage";
+    }
+
+    @GetMapping(path = "/question/delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String deleteQuestion(@RequestParam(name = "id") Long questionId) {
+        questionService.deleteQuestion(questionId);
         return "redirect:/question/manage";
     }
 
@@ -67,9 +88,10 @@ public class QuestionController {
 
 
     @GetMapping(path = "question/add")
-    public String getAddQuestionPage(Model model, @AuthenticationPrincipal User user) {
+    public String getAddQuestionPage(Model model, @AuthenticationPrincipal User user, QuestionForm questionForm) {
         List<Quiz> allQuizzes = quizService.getAllQuizzes();
         model.addAttribute("quizzes", allQuizzes);
+        model.addAttribute("questionForm", questionForm);
         model.addAttribute("user", user);
         return "questionAdd";
     }

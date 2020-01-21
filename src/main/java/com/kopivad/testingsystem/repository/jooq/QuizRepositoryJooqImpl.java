@@ -72,12 +72,20 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .map(this::getQuizFromRecord);
     }
 
+    @Override
+    public void deleteQuizById(Long id) {
+        dslContext
+                .deleteFrom(QUIZZES)
+                .where(QUIZZES.ID.eq(id))
+                .execute();
+    }
+
     private Quiz getQuizFromRecord(Record r) {
         return Quiz
                 .builder()
                 .id(r.getValue(QUIZZES.ID))
                 .description(r.getValue(QUIZZES.DESCRIPTION))
-                .author(User.builder().id(r.getValue(QUIZZES.ID)).build())
+                .author(User.builder().id(r.getValue(QUIZZES.USER_ID)).build())
                 .title(r.getValue(QUIZZES.TITLE))
                 .created(r.getValue(QUIZZES.CREATED))
                 .active(r.getValue(QUIZZES.ACTIVE))

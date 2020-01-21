@@ -13,5 +13,6 @@ public interface QuizService {
     Long startQuiz(Long id, User user);
     Quiz updateQuiz(QuizForm quizForm);
     Quiz updateQuiz(Quiz quizForUpdate);
-    Quiz saveQuiz(QuizForm quizForm, User user);
+    Quiz saveQuiz(QuizForm quizForm);
+    void deleteQuiz(Long id);
 }

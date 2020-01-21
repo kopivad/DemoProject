@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
-    <link th:replace="fragments/libs :: css" />
+    <link th:replace="fragments/libs :: css"/>
 </head>
 <body>
 <!--Header here-->
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <div class="row justify-content-between mt-5">
-        <h2 class="col-4">Manage your quizzes!</h2>
-        <div class="col-2">
-            <a th:href="@{/quiz/add}" href="#" class="btn btn-primary">Add quiz</a>
-        </div>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Quizzes</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <a href="#" th:href="@{/quiz/add}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>
+                Add quiz</a>
+        </div>
+    </nav>
     <table class="table table-striped mt-3">
         <thead>
         <tr>
@@ -33,9 +37,10 @@
             <th th:text="${quiz.getId()}" scope="row">Id</th>
             <td th:text="${quiz.getTitle()}">Quiz title</td>
             <td th:text="${quiz.getDescription()}">Quiz desc</td>
-            <td><a th:text="${quiz.getQuestions().size()}" th:href="@{/question/manage/{id} (id = ${quiz.getId()})}" href="#"></a></td>
+            <td><a th:text="${quiz.getQuestions().size()}" th:href="@{/question/manage/{id} (id = ${quiz.getId()})}"
+                   href="#"></a></td>
             <td th:text="${quiz.getAuthor().getNickname()}">User</td>
-            <td><a th:href="@{/quiz/edit/{id} (id = ${quiz.getId()})}">Edit</a></td>
+            <td><a th:href="@{/quiz/edit/(id = ${quiz.getId()})}">Edit</a></td>
         </tr>
     </table>
 </div>

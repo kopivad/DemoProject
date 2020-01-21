@@ -16,12 +16,15 @@
         <form action="#" th:action="@{/quiz/add}" th:object="${quizForm}" method="post">
             <div class="form-group">
                 <label for="quizTitle">Quiz title</label>
-                <input th:field="*{title}" type="text" class="form-control" id="quizTitle" placeholder="Enter title">
+                <input th:field="*{title}" type="text" th:class="${titleError != null ? 'form-control is-invalid' : 'form-control'}" id="quizTitle" placeholder="Enter title">
+                <div th:if="${titleError != null}" th:text="${titleError}" class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label for="quizDescription">Quiz description</label>
-                <textarea  th:field="*{description}" type="text" class="form-control" id="quizDescription" placeholder="Enter description"></textarea>
+                <textarea  th:field="*{description}" type="text" th:class="${descriptionError != null ? 'form-control is-invalid' : 'form-control'}" id="quizDescription" placeholder="Enter description"></textarea>
+                <div th:if="${descriptionError != null}" th:text="${descriptionError}" class="invalid-feedback"></div>
             </div>
+            <input type="hidden" th:value="${user.getId()}" name="authorId">
             <button type="submit" class="btn btn-primary">Create!</button>
         </form>
     </div>

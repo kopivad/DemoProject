@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo quiz app</title>
-    <link th:replace="fragments/libs :: css" />
+    <link th:replace="fragments/libs :: css"/>
 </head>
 <body>
 <!--Header here-->
@@ -18,15 +18,42 @@
         <form action="#" th:action="@{/quiz/edit}" th:object="${quizForm}" method="post">
             <div class="form-group">
                 <label for="quizTitle">Quiz title</label>
-                <input th:placeholder="${quiz.getTitle()}" th:field="*{title}" type="text" class="form-control" id="quizTitle">
+                <input th:field="*{title}" type="text"
+                       th:class="${titleError != null ? 'form-control is-invalid' : 'form-control'}" id="quizTitle"
+                       th:value="${quizForm.getTitle() != null ? quizForm.getTitle() : ''}"
+                       placeholder="Enter title">
+                <div th:if="${titleError != null}" th:text="${titleError}" class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label for="quizDescription">Quiz description</label>
-                <textarea th:placeholder="${quiz.getDescription()}" th:field="*{description}" type="text" class="form-control" id="quizDescription"></textarea>
+                <textarea th:field="*{description}" type="text"
+                          th:class="${descriptionError != null ? 'form-control is-invalid' : 'form-control'}"
+                          th:value="${quizForm.getDescription() != null ? quizForm.getDescription() : ''}"
+                          id="quizDescription" placeholder="Enter description"></textarea>
+                <div th:if="${descriptionError != null}" th:text="${descriptionError}" class="invalid-feedback"></div>
             </div>
             <input type="hidden" name="quizId" th:value="${quiz.getId()}">
-            <button type="submit" class="btn btn-primary">Edit!</button>
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">Delete</button>
+
+            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" th:text="${'Delete ' + quiz.getTitle() + '?'}"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a th:href="@{/quiz/delete/(id = ${quiz.getId()})}" class="btn btn-danger" role="button">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
+
     </div>
 </div>
 <script th:replace="fragments/libs :: js"></script>

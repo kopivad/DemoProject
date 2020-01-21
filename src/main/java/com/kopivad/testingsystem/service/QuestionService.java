@@ -17,4 +17,5 @@ public interface QuestionService {
     long countByQuizId(Long quizId);
     Question saveQuestion(QuestionForm form);
     Question updateQuestion(QuestionForm form);
+    void deleteQuestion(Long questionId);
 }

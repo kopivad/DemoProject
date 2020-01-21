@@ -13,22 +13,23 @@
     <h2 class="mt-3 display-4">Create new answer!</h2>
     <br>
     <div>
-        <form action="#" th:action="@{/answer/add}" method="post">
+        <form action="#" th:action="@{/answer/add}" th:object="${answerForm}" method="post">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Questions</label>
                 </div>
-                <select name="questionId" class="custom-select" id="inputGroupSelect01">
-                    <option selected>Choose question...</option>
+                <select name="questionId" th:class="${questionIdError != null ? 'custom-select is-invalid' : 'custom-select'}" id="inputGroupSelect01">
                     <option th:each="question : ${questions}" th:value="${question.getId()}" th:text="${question.getTitle() + ' [' + question.getQuiz().getTitle() +']'}">One</option>
                 </select>
+                <div th:if="${questionIdError != null}" th:text="${questionIdError}" class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label for="text">Answer text</label>
-                <textarea  name="text" type="text" class="form-control" id="text" placeholder="Enter text"></textarea>
+                <textarea th:field="*{text}" type="text" th:class="${textError != null ? 'form-control is-invalid' : 'form-control'}" id="text" placeholder="Enter text"></textarea>
+                <div th:if="${textError != null}" th:text="${textError}" class="invalid-feedback"></div>
             </div>
             <div class="form-group form-check">
-                <input type="checkbox" name="isRight" value="true" class="form-check-input" id="right">
+                <input th:field="*{isRight}" type="checkbox" value="true" class="form-check-input" id="right">
                 <label class="form-check-label" for="right">Is right?</label>
             </div>
             <button type="submit" class="btn btn-primary">Create!</button>

@@ -22,8 +22,6 @@
                 <h5 class="card-title" th:text="${response.getQuestion().getTitle()}"></h5>
                 <div th:each="answer : ${response.getQuestion().getAnswers()}"
                      class="custom-control custom-radio mt-1 mb-1">
-
-
                     <input type="radio" th:id="${answer.getId()}" class="custom-control-input"
                            th:checked="${response.getAnswer().getId() == answer.getId()}"
                            disabled>
@@ -32,10 +30,6 @@
                     <label th:if="${response.getAnswer().getId() == answer.getId()}" th:text="${answer.getText()}"
                            th:class="${answer.isRight() ? 'custom-control-label text-success' : 'custom-control-label text-danger'}"
                            th:for="${answer.getId()}" class="custom-control-label"></label>
-                    <!--                    <label th:if="${answer.isRight() && response.getAnswer().getId() == answer.getId()}" th:text="${answer.getText()}"-->
-                    <!--                           th:for="${answer.getId()}" class="custom-control-label text-success"></label>-->
-                    <!--                    <label th:if="${answer.isRight() && response.getAnswer().getId() != answer.getId()}" th:text="${answer.getText()}"-->
-                    <!--                           th:for="${answer.getId()}" class="custom-control-label text-danger"></label>>-->
                 </div>
             </div>
         </div>

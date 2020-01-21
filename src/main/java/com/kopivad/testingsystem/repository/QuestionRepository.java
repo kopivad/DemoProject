@@ -16,4 +16,5 @@ public interface QuestionRepository {
     Question findQuestionById(Long questionId);
     Question updateQuestion(Question question);
     long countByQuizId(Long quizId);
+    void deleteQuestion(Long questionId);
 }

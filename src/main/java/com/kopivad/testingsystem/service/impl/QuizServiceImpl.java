@@ -1,11 +1,12 @@
 package com.kopivad.testingsystem.service.impl;
 
-import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.User;
+import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
-import com.kopivad.testingsystem.service.*;
+import com.kopivad.testingsystem.service.QuizService;
+import com.kopivad.testingsystem.service.QuizSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,6 @@ import static java.lang.System.currentTimeMillis;
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuizSessionService quizSessionService;
-    private final UserResponseService responseService;
-    private final QuizResultService resultService;
     private final RepositoryUtils repositoryUtils;
 
     @Override
@@ -67,10 +66,15 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz saveQuiz(QuizForm quizForm, User user) {
+    public Quiz saveQuiz(QuizForm quizForm) {
         Quiz quiz = getQuizFromForm(quizForm);
-        quiz.setAuthor(user);
+        quiz.setAuthor(User.builder().id(quizForm.getAuthorId()).build());
         return this.saveQuiz(quiz);
+    }
+
+    @Override
+    public void deleteQuiz(Long id) {
+        quizRepository.deleteQuizById(id);
     }
 
     public Quiz getQuizFromForm(QuizForm form) {

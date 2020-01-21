@@ -12,4 +12,5 @@ public interface QuizRepository {
     Quiz findQuizById(Long id);
     Quiz updateQuiz(Quiz quiz);
     List<Quiz> findAllByAuthorId(Long id);
+    void deleteQuizById(Long id);
 }

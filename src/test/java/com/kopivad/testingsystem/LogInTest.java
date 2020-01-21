@@ -9,8 +9,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.net.URI;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
@@ -22,11 +20,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LogInTest {
-
-
     private static final String LOGIN_PAGE_URL = "/login";
     private static final String INDEX_PAGE_URL = "/index";
-    private static final String REDIRECTED_URL = "/login?error";
+
     @Autowired
     private MockMvc mockMvc;
 

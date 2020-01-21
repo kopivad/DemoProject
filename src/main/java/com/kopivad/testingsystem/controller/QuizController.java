@@ -10,9 +10,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
@@ -21,14 +25,28 @@ public class QuizController {
     private final QuestionService questionService;
 
     @PostMapping(path = "quiz/add")
-    public String saveQuiz(@AuthenticationPrincipal User user, QuizForm quizForm) {
-        quizService.saveQuiz(quizForm, user);
+    public String saveQuiz(@AuthenticationPrincipal User user, @Valid QuizForm form, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
+            model.addAttribute("quizForm" ,form);
+            model.addAttribute("user", user);
+            return "quizAdd";
+        }
+
+        quizService.saveQuiz(form);
         return "redirect:/index";
     }
 
     @PostMapping(path = "quiz/edit")
-    public String editQuiz(QuizForm quizForm) {
-        quizService.updateQuiz(quizForm);
+    public String editQuiz(@AuthenticationPrincipal User user, @Valid QuizForm form, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
+            model.addAttribute("quizForm" ,form);
+            model.addAttribute("quiz", quizService.getQuizById(form.getQuizId()));
+            model.addAttribute("user", user);
+            return "quizEdit";
+        }
+        quizService.updateQuiz(form);
         return "redirect:/quiz/manage";
     }
 
@@ -40,6 +58,13 @@ public class QuizController {
         return "quiz";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(path = "/quiz/delete")
+    public String deleteQuiz(@RequestParam(name = "id") Long quizId) {
+        quizService.deleteQuiz(quizId);
+        return "redirect:/quiz/manage";
+    }
+
     @GetMapping(path = "/quiz/add")
     public String getAddQuizPage(Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
         model.addAttribute("quizForm", quizForm);
@@ -47,8 +72,8 @@ public class QuizController {
         return "quizAdd";
     }
 
-    @GetMapping(path = "/quiz/edit/{id}")
-    public String getEditQuizPage(@PathVariable(name = "id") Long id, Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
+    @GetMapping(path = "/quiz/edit/")
+    public String getEditQuizPage(@RequestParam Long id, Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
         model.addAttribute("quiz", quizService.getQuizById(id));
         model.addAttribute("quizForm", quizForm);
         model.addAttribute("user", user);

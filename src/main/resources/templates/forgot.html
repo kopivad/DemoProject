@@ -14,16 +14,16 @@
         <div class="card col-sm-4">
             <article class="card-body">
                 <a th:href="@{/signup}" href="#" class="float-right btn btn-outline-primary">Sign up</a>
-                <h4 class="card-title mb-4 mt-1">Forgot password</h4>
+                <h4 class="card-title mb-4 mt-1">Restore password</h4>
                 <form th:action="@{/forgot}" method="post">
                     <div class="form-group">
                         <label>Your email:</label>
-                        <input name="email" class="form-control" placeholder="Email" type="text">
+                        <input name="email"
+                               th:class="${emailError != null ? 'form-control is-invalid' : 'form-control'}"
+                               placeholder="Email" type="text">
+                        <div th:if="${emailError != null}" th:text="${emailError}" class="invalid-feedback"></div>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Login</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-block"> Login</button>
                 </form>
             </article>
         </div>

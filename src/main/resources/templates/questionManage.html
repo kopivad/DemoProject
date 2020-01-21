@@ -10,13 +10,17 @@
 <div th:replace="fragments/header :: nav"></div>
 <!--Content-->
 <div class="container">
-    <div class="row justify-content-between mt-5">
-        <h2 class="col-10">Manage your questions!</h2>
-        <div class="col-2">
-            <a th:href="@{/question/add}" href="#" class="btn btn-primary">Add question</a>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Questions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <a href="#" th:href="@{/question/add}" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>
+                Add question</a>
+        </div>
+    </nav>
 
     <table class="table table-striped mt-3">
         <thead>
