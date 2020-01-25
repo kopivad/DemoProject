@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public User updateUser(User user) {
+        return repositoryUtils.getFullUser(userRepository.updateUser(user));
+    }
+
     public User getUserFromForm(SignUpForm form) {
         return User
                 .builder()

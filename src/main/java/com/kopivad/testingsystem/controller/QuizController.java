@@ -1,8 +1,11 @@
 package com.kopivad.testingsystem.controller;
 
 
-import com.kopivad.testingsystem.form.QuizForm;
+import com.kopivad.testingsystem.domain.Quiz;
+import com.kopivad.testingsystem.domain.Role;
 import com.kopivad.testingsystem.domain.User;
+import com.kopivad.testingsystem.form.QuizForm;
+import com.kopivad.testingsystem.form.QuizShareForm;
 import com.kopivad.testingsystem.service.QuestionService;
 import com.kopivad.testingsystem.service.QuizService;
 import lombok.AllArgsConstructor;
@@ -28,7 +31,7 @@ public class QuizController {
     public String saveQuiz(@AuthenticationPrincipal User user, @Valid QuizForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
-            model.addAttribute("quizForm" ,form);
+            model.addAttribute("quizForm", form);
             model.addAttribute("user", user);
             return "quizAdd";
         }
@@ -37,11 +40,25 @@ public class QuizController {
         return "redirect:/index";
     }
 
+    @PostMapping("quiz/share")
+    public String shareQuiz(@AuthenticationPrincipal User user, @Valid QuizShareForm shareForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
+            model.addAttribute("shareForm", shareForm);
+            model.addAttribute("quizId", shareForm.getQuizId());
+            model.addAttribute("user", user);
+            return "share";
+        }
+        quizService.shareQuiz(shareForm.getQuizId(), shareForm.getEmail());
+        model.addAttribute("message", String.format("Quiz successfully shared on %s", shareForm.getEmail()));
+        return "redirect:/index";
+    }
+
     @PostMapping(path = "quiz/edit")
     public String editQuiz(@AuthenticationPrincipal User user, @Valid QuizForm form, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAllAttributes(ControllerUtils.getErrors(bindingResult));
-            model.addAttribute("quizForm" ,form);
+            model.addAttribute("quizForm", form);
             model.addAttribute("quiz", quizService.getQuizById(form.getQuizId()));
             model.addAttribute("user", user);
             return "quizEdit";
@@ -58,11 +75,11 @@ public class QuizController {
         return "quiz";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/quiz/delete")
-    public String deleteQuiz(@RequestParam(name = "id") Long quizId) {
+    public String deleteQuiz(@RequestParam(name = "id") Long quizId, Model model) {
         quizService.deleteQuiz(quizId);
-        return "redirect:/quiz/manage";
+        model.addAttribute("message", "Quiz successfully deleted");
+        return "redirect:/index";
     }
 
     @GetMapping(path = "/quiz/add")
@@ -70,6 +87,14 @@ public class QuizController {
         model.addAttribute("quizForm", quizForm);
         model.addAttribute("user", user);
         return "quizAdd";
+    }
+
+    @GetMapping(path = "/quiz/share")
+    public String shareQuizPage(@RequestParam(name = "id") Long id, Model model, QuizForm quizForm, @AuthenticationPrincipal User user) {
+        model.addAttribute("quizForm", quizForm);
+        model.addAttribute("user", user);
+        model.addAttribute("quizId", id);
+        return "share";
     }
 
     @GetMapping(path = "/quiz/edit/")
@@ -95,16 +120,13 @@ public class QuizController {
         return "quizManage";
     }
 
-    @GetMapping("/quiz/share/{id}")
-    public String shareQuiz(@PathVariable(name = "id") Long id, Model model) {
-//        model.addAttribute();
-        return "quizShare";
-    }
+
 
     @GetMapping("/quiz/user/{id}")
-    public String userQuiz(@PathVariable(name = "id") Long id, Model model) {
-//        model.addAttribute();
-        return "quizUser";
+    public String userQuiz(@PathVariable(name = "id") Long id, @AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("quizzes", quizService.getAllQuizzesByUserId(id));
+        model.addAttribute("user", user);
+        return "quizManage";
     }
 
 

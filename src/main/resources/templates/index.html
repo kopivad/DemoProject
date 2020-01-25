@@ -39,7 +39,7 @@
                         <div class="btn-group">
                             <a href="#" th:href="@{quiz/{id} (id = ${quiz.getId()})}" type="button"
                                class="btn btn-sm btn-outline-primary">View</a>
-                            <a href="#" th:href="@{quiz/share/{id} (id = ${quiz.getId()})}" type="button"
+                            <a href="#" th:href="@{quiz/share/ (id = ${quiz.getId()})}" type="button"
                                class="btn btn-sm btn-outline-primary">Share</a>
                         </div>
                         <a href="#" th:href="@{/user/{id} (id = ${quiz.getAuthor().getId()})}"

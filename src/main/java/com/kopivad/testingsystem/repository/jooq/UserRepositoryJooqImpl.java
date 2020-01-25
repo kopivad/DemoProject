@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.repository.jooq;
 
+import com.kopivad.testingsystem.domain.Answer;
 import com.kopivad.testingsystem.exception.UserNotFoundException;
 import com.kopivad.testingsystem.domain.Role;
 import com.kopivad.testingsystem.domain.User;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashSet;
 
 import static com.kopivad.testingsystem.domain.db.Sequences.USERS_ID_SEQ;
+import static com.kopivad.testingsystem.domain.db.tables.Answers.ANSWERS;
 import static com.kopivad.testingsystem.domain.db.tables.UserRoles.USER_ROLES;
 import static com.kopivad.testingsystem.domain.db.tables.Users.USERS;
 import static org.jooq.impl.DSL.val;
@@ -39,7 +41,7 @@ public class UserRepositoryJooqImpl implements UserRepository {
     public User saveUser(User user) {
         User savedUser = dslContext
                 .insertInto(USERS, USERS.ID, USERS.NICKNAME, USERS.EMAIL, USERS.PASSWORD)
-                .values(USERS_ID_SEQ.nextval() , val(user.getNickname()), val(user.getEmail()), val(user.getPassword()))
+                .values(USERS_ID_SEQ.nextval(), val(user.getNickname()), val(user.getEmail()), val(user.getPassword()))
                 .returning(USERS.ID, USERS.NICKNAME, USERS.EMAIL, USERS.PASSWORD)
                 .fetchOne()
                 .map(this::getUserFromRecord);
@@ -59,6 +61,23 @@ public class UserRepositoryJooqImpl implements UserRepository {
                 .where(USERS.ID.eq(userId))
                 .fetchOne()
                 .map(this::getUserFromRecord);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        dslContext.update(USERS)
+                .set(USERS.EMAIL, user.getEmail())
+                .set(USERS.NICKNAME, user.getNickname())
+                .set(USERS.PASSWORD, user.getPassword())
+                .where(USERS.ID.eq(user.getId()))
+                .execute();
+
+        dslContext.update(USER_ROLES)
+                .set(USER_ROLES.ROLES, user.getRoles().toString())
+                .where(USER_ROLES.USER_ID.eq(user.getId()))
+                .execute();
+
+        return user;
     }
 
     private User getUserFromRecord(Record record) {

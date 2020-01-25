@@ -15,4 +15,6 @@ public interface QuizService {
     Quiz updateQuiz(Quiz quizForUpdate);
     Quiz saveQuiz(QuizForm quizForm);
     void deleteQuiz(Long id);
+    List<Quiz> getAllQuizzesByUserId(Long id);
+    void shareQuiz(Long quizId, String email);
 }

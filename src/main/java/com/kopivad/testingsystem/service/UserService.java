@@ -10,4 +10,5 @@ public interface UserService extends UserDetailsService {
     User getUserById(Long userId);
     User saveUser(SignUpForm signUpForm);
     boolean isUserExistByEmail(String email);
+    User updateUser(User user);
 }

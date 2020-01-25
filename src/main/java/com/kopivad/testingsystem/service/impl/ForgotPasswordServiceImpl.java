@@ -22,7 +22,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
         User userByEmail = userService.getUserByEmail(email);
         String newPassword = UUID.randomUUID().toString();
         userByEmail.setPassword(passwordEncoder.encode(newPassword));
-        userService.saveUser(userByEmail);
+        userService.updateUser(userByEmail);
         String text = String.format("Hello, %s. Your password is %s", userByEmail.getNickname(), newPassword);
         mailService.sendMassage(email, "Restore password", text);
     }

@@ -11,4 +11,5 @@ public interface UserRepository {
     User findByEmail(String email) throws UsernameNotFoundException, UserNotFoundException;
     User saveUser(User user);
     User findUserById(Long userId);
+    User updateUser(User user);
 }

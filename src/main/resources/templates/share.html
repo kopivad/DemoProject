@@ -13,17 +13,17 @@
     <div class="d-flex mt-5 justify-content-center">
         <div class="card col-sm-4">
             <article class="card-body">
-                <a th:href="@{/signup}" href="#" class="float-right btn btn-outline-primary">Sign up</a>
-                <h4 class="card-title mb-4 mt-1">Restore password</h4>
-                <form th:action="@{/forgot}" method="post">
+                <h4 class="card-title mb-4 mt-1">Share quiz</h4>
+                <form th:action="@{/quiz/share}" method="post">
                     <div class="form-group">
-                        <label>Your email:</label>
+                        <label>Email:</label>
                         <input name="email"
                                th:class="${emailError != null ? 'form-control is-invalid' : 'form-control'}"
                                placeholder="Email" type="text">
                         <div th:if="${emailError != null}" th:text="${emailError}" class="invalid-feedback"></div>
+                        <input type="hidden" th:value="${quizId}" name="quizid">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Remind</button>
+                    <button type="submit" class="btn btn-primary btn-block">Share</button>
                 </form>
             </article>
         </div>
