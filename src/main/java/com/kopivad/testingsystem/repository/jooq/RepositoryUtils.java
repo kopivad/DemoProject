@@ -126,6 +126,19 @@ public class RepositoryUtils {
                 );
     }
 
+    public List<Question> getQuestionsFromRecord(Record r) {
+        return dslContext
+                .selectFrom(QUESTIONS)
+                .where(QUESTIONS.QUIZ_ID.eq(r.getValue(QUIZZES.ID)))
+                .fetch(r2 -> Question
+                        .builder()
+                        .id(r2.getId())
+                        .title(r2.getTitle())
+                        .quiz(Quiz.builder().id(r2.getQuizId()).build())
+                        .build()
+                );
+    }
+
     public Answer getAnswerFromRecord(Record r) {
         return dslContext
                 .selectFrom(ANSWERS)

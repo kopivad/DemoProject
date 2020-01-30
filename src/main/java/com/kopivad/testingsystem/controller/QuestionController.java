@@ -75,10 +75,9 @@ public class QuestionController {
         Pageable pageable = PageRequest.of(n - 1, 1);
         Quiz currentQuiz = quizService.getQuizById(quizId);
         Page<Question> question = questionService.getQuestionByQuizId(quizId, pageable);
-        Question fullQuestion = repositoryUtils.getFullQuestion(question.getContent().get(0));
-        Collections.shuffle(fullQuestion.getAnswers());
+        Collections.shuffle(question.getContent().get(0).getAnswers());
         model.addAttribute("quiz", currentQuiz);
-        model.addAttribute("question", fullQuestion);
+        model.addAttribute("question", question.getContent().get(0));
         model.addAttribute("questionNumber", question.getNumber());
         model.addAttribute("questionTotalPages", question.getTotalPages());
         model.addAttribute("sessionId", sessionId);

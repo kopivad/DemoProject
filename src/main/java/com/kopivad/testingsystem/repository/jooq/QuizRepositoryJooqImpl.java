@@ -85,6 +85,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .builder()
                 .id(r.getValue(QUIZZES.ID))
                 .description(r.getValue(QUIZZES.DESCRIPTION))
+                .questions(repositoryUtils.getQuestionsFromRecord(r))
                 .author(repositoryUtils.getUserFromRecord(r))
                 .quizSessions(repositoryUtils.getQuizSessionsFromRecord(r))
                 .title(r.getValue(QUIZZES.TITLE))
