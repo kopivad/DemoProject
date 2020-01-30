@@ -1,10 +1,9 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.domain.Answer;
-import com.kopivad.testingsystem.exception.UserNotFoundException;
 import com.kopivad.testingsystem.domain.Role;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.domain.db.tables.records.UsersRecord;
+import com.kopivad.testingsystem.exception.UserNotFoundException;
 import com.kopivad.testingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashSet;
 
 import static com.kopivad.testingsystem.domain.db.Sequences.USERS_ID_SEQ;
-import static com.kopivad.testingsystem.domain.db.tables.Answers.ANSWERS;
 import static com.kopivad.testingsystem.domain.db.tables.UserRoles.USER_ROLES;
 import static com.kopivad.testingsystem.domain.db.tables.Users.USERS;
 import static org.jooq.impl.DSL.val;
@@ -59,8 +57,18 @@ public class UserRepositoryJooqImpl implements UserRepository {
         return dslContext
                 .selectFrom(USERS)
                 .where(USERS.ID.eq(userId))
-                .fetchOne()
-                .map(this::getUserFromRecord);
+                .fetchOne(r -> User
+                        .builder()
+                        .id(r.getValue(USERS.ID))
+                        .nickname(r.getValue(USERS.NICKNAME))
+                        .email(r.getValue(USERS.EMAIL))
+                        .password(r.getValue(USERS.PASSWORD))
+                        .roles(new HashSet<>(dslContext
+                                .selectDistinct(USER_ROLES.ROLES)
+                                .from(USER_ROLES)
+                                .where(USER_ROLES.USER_ID.eq(r.getValue(USERS.ID)))
+                                .fetch(r1 -> Role.valueOf(r1.getValue(USER_ROLES.ROLES)))))
+                        .build());
     }
 
     @Override
@@ -95,4 +103,6 @@ public class UserRepositoryJooqImpl implements UserRepository {
                         .map(r -> Role.valueOf(r.getValue(USER_ROLES.ROLES)))))
                 .build();
     }
+
+
 }

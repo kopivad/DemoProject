@@ -1,12 +1,11 @@
 package com.kopivad.testingsystem.repository.jooq;
 
 import com.kopivad.testingsystem.domain.QuizResult;
-import com.kopivad.testingsystem.domain.QuizSession;
-import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.RecordMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,6 +18,8 @@ import static org.jooq.impl.DSL.val;
 @RequiredArgsConstructor
 public class QuizResultRepositoryJooqImpl implements QuizResultRepository {
     private final DSLContext dslContext;
+    private final RepositoryUtils repositoryUtils;
+
     @Override
     public QuizResult saveQuizResult(QuizResult quizResult) {
         return dslContext
@@ -26,7 +27,7 @@ public class QuizResultRepositoryJooqImpl implements QuizResultRepository {
                 .values(QUIZ_RESULTS_ID_SEQ.nextval(), val(quizResult.getSession().getId()), val(quizResult.getUser().getId()), val(quizResult.getCountOfCorrect()), val(quizResult.getRating()), val(quizResult.getTotalAnswers()))
                 .returning(QUIZ_RESULTS.ID, QUIZ_RESULTS.SESSION_ID, QUIZ_RESULTS.USER_ID, QUIZ_RESULTS.COUNT_OF_CORRECT, QUIZ_RESULTS.RATING, QUIZ_RESULTS.TOTAL_ANSWERS)
                 .fetchOne()
-                .map(this::getQuizResultFromRecord);
+                .map(getRecordQuizResultRecordMapper());
     }
 
     @Override
@@ -35,8 +36,9 @@ public class QuizResultRepositoryJooqImpl implements QuizResultRepository {
                 .selectFrom(QUIZ_RESULTS)
                 .where(QUIZ_RESULTS.SESSION_ID.eq(sessionId))
                 .fetchOne()
-                .map(this::getQuizResultFromRecord);
+                .map(getRecordQuizResultRecordMapper());
     }
+
 
     @Override
     public List<QuizResult> getAllQuizResultsByUserId(Long id) {
@@ -44,7 +46,7 @@ public class QuizResultRepositoryJooqImpl implements QuizResultRepository {
                 .selectFrom(QUIZ_RESULTS)
                 .where(QUIZ_RESULTS.USER_ID.eq(id))
                 .fetch()
-                .map(this::getQuizResultFromRecord);
+                .map(getRecordQuizResultRecordMapper());
     }
 
     @Override
@@ -64,7 +66,7 @@ public class QuizResultRepositoryJooqImpl implements QuizResultRepository {
                 .selectFrom(QUIZ_RESULTS)
                 .where(QUIZ_RESULTS.SESSION_ID.eq(id))
                 .fetch()
-                .map(this::getQuizResultFromRecord);
+                .map(getRecordQuizResultRecordMapper());
     }
 
     @Override
@@ -73,18 +75,18 @@ public class QuizResultRepositoryJooqImpl implements QuizResultRepository {
                 .selectFrom(QUIZ_RESULTS)
                 .where(QUIZ_RESULTS.USER_ID.eq(id))
                 .fetch()
-                .map(this::getQuizResultFromRecord);
+                .map(getRecordQuizResultRecordMapper());
     }
 
-    private QuizResult getQuizResultFromRecord(Record record) {
-        return QuizResult
+    private RecordMapper<Record, QuizResult> getRecordQuizResultRecordMapper() {
+        return r -> QuizResult
                 .builder()
-                .id(record.getValue(QUIZ_RESULTS.ID))
-                .session(QuizSession.builder().id(record.getValue(QUIZ_RESULTS.SESSION_ID)).build())
-                .user(User.builder().id(record.getValue(QUIZ_RESULTS.USER_ID)).build())
-                .totalAnswers(record.getValue(QUIZ_RESULTS.TOTAL_ANSWERS))
-                .rating(record.getValue(QUIZ_RESULTS.RATING))
-                .countOfCorrect(record.getValue(QUIZ_RESULTS.COUNT_OF_CORRECT))
+                .id(r.getValue(QUIZ_RESULTS.ID))
+                .session(repositoryUtils.getSessionFromRecord(r))
+                .user(repositoryUtils.getUserFromRecord(r))
+                .totalAnswers(r.getValue(QUIZ_RESULTS.TOTAL_ANSWERS))
+                .rating(r.getValue(QUIZ_RESULTS.RATING))
+                .countOfCorrect(r.getValue(QUIZ_RESULTS.COUNT_OF_CORRECT))
                 .build();
     }
 }

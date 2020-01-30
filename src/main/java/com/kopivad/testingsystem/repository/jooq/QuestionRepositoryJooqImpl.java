@@ -1,15 +1,11 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.exception.QuestionNotFoundExeption;
 import com.kopivad.testingsystem.domain.Question;
-import com.kopivad.testingsystem.domain.Quiz;
-import com.kopivad.testingsystem.domain.db.tables.records.QuestionsRecord;
 import com.kopivad.testingsystem.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Result;
+import org.jooq.RecordMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.kopivad.testingsystem.domain.db.Sequences.QUESTIONS_ID_SEQ;
-import static com.kopivad.testingsystem.domain.db.Tables.ANSWERS;
 import static com.kopivad.testingsystem.domain.db.Tables.QUESTIONS;
 import static org.jooq.impl.DSL.val;
 
@@ -26,6 +21,7 @@ import static org.jooq.impl.DSL.val;
 @RequiredArgsConstructor
 public class QuestionRepositoryJooqImpl implements QuestionRepository {
     private final DSLContext dslContext;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public Page<Question> findAllByQuizId(Long quizId, Pageable pageable) {
@@ -42,7 +38,7 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch()
-                .map(this::getQuestionFromRecord);
+                .map(getQuestionsRecordQuestionRecordMapper());
 
         return new PageImpl<>(questions, pageable, totalPages);
     }
@@ -51,10 +47,9 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
     @Override
     public List<Question> findAll() {
         return dslContext
-                .select()
-                .from(QUESTIONS)
+                .selectFrom(QUESTIONS)
                 .fetch()
-                .map(this::getQuestionFromRecord);
+                .map(getQuestionsRecordQuestionRecordMapper());
     }
 
     @Override
@@ -63,8 +58,9 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .selectFrom(QUESTIONS)
                 .where(QUESTIONS.QUIZ_ID.eq(id))
                 .fetch()
-                .map(this::getQuestionFromRecord);
+                .map(getQuestionsRecordQuestionRecordMapper());
     }
+
 
     @Override
     public Question saveQuestion(Question question) {
@@ -73,21 +69,16 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .values(QUESTIONS_ID_SEQ.nextval(), val(question.getTitle()), val(question.getQuiz().getId()))
                 .returning(QUESTIONS.ID, QUESTIONS.TITLE, QUESTIONS.QUIZ_ID)
                 .fetchOne()
-                .map(this::getQuestionFromRecord);
+                .map(getQuestionsRecordQuestionRecordMapper());
     }
 
     @Override
-    @SneakyThrows
     public Question findQuestionById(Long questionId) {
-        QuestionsRecord record = dslContext
+        return dslContext
                 .selectFrom(QUESTIONS)
                 .where(QUESTIONS.ID.eq(questionId))
-                .fetchOne();
-
-        if (record == null)
-            throw new QuestionNotFoundExeption(String.format("Question with id %d not found", questionId));
-
-        return record.map(this::getQuestionFromRecord);
+                .fetchOne()
+                .map(getQuestionsRecordQuestionRecordMapper());
     }
 
     @Override
@@ -119,21 +110,14 @@ public class QuestionRepositoryJooqImpl implements QuestionRepository {
                 .execute();
     }
 
-    public Result<Record> getAnswers() {
-        return dslContext.select()
-                .from(ANSWERS)
-                .join(QUESTIONS).onKey()
-                .fetch();
-    }
-
-    private Question getQuestionFromRecord(Record r) {
-        return Question
+    private RecordMapper<Record, Question> getQuestionsRecordQuestionRecordMapper() {
+        return r -> Question
                 .builder()
-                .id(r.getValue(QUESTIONS.ID))
+                .id(r.getValue(QUESTIONS.QUIZ_ID))
                 .title(r.getValue(QUESTIONS.TITLE))
-                .quiz(Quiz.builder().id(r.getValue(QUESTIONS.QUIZ_ID)).build())
+                .quiz(repositoryUtils.getQuizFromRecord(r))
+                .answers(repositoryUtils.getAnswersFromRecord(r))
+                .userQuestionResponse(repositoryUtils.getUserResponsesFromRecord(r))
                 .build();
     }
-
-
 }

@@ -2,11 +2,11 @@ package com.kopivad.testingsystem.repository.jooq;
 
 
 import com.kopivad.testingsystem.domain.Quiz;
-import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.RecordMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +20,14 @@ import static org.jooq.impl.DSL.val;
 @RequiredArgsConstructor
 public class QuizRepositoryJooqImpl implements QuizRepository {
     private final DSLContext dslContext;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public List<Quiz> findAll() {
         return dslContext
                 .selectFrom(QUIZZES)
                 .fetch()
-                .map(this::getQuizFromRecord);
+                .map(getQuizzesRecordQuizRecordMapper());
     }
 
     @Override
@@ -37,7 +38,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .values(QUIZZES_ID_SEQ.nextval(), val(quiz.getTitle()), val(quiz.getDescription()), val(quiz.getAuthor().getId()), val(quiz.getCreated()), val(quiz.isActive()))
                 .returning(QUIZZES.ID, QUIZZES.TITLE, QUIZZES.DESCRIPTION, QUIZZES.USER_ID, QUIZZES.CREATED, QUIZZES.ACTIVE)
                 .fetchOne()
-                .map(this::getQuizFromRecord);
+                .map(getQuizzesRecordQuizRecordMapper());
     }
 
     @Override
@@ -45,8 +46,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
         return dslContext
                 .selectFrom(QUIZZES)
                 .where(QUIZZES.ID.eq(id))
-                .fetchOne()
-                .map(this::getQuizFromRecord);
+                .fetchOne(getQuizzesRecordQuizRecordMapper());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .selectFrom(QUIZZES)
                 .where(QUIZZES.USER_ID.eq(id))
                 .fetch()
-                .map(this::getQuizFromRecord);
+                .map(getQuizzesRecordQuizRecordMapper());
     }
 
     @Override
@@ -80,12 +80,13 @@ public class QuizRepositoryJooqImpl implements QuizRepository {
                 .execute();
     }
 
-    private Quiz getQuizFromRecord(Record r) {
-        return Quiz
+    private RecordMapper<Record, Quiz> getQuizzesRecordQuizRecordMapper() {
+        return r -> Quiz
                 .builder()
                 .id(r.getValue(QUIZZES.ID))
                 .description(r.getValue(QUIZZES.DESCRIPTION))
-                .author(User.builder().id(r.getValue(QUIZZES.USER_ID)).build())
+                .author(repositoryUtils.getUserFromRecord(r))
+                .quizSessions(repositoryUtils.getQuizSessionsFromRecord(r))
                 .title(r.getValue(QUIZZES.TITLE))
                 .created(r.getValue(QUIZZES.CREATED))
                 .active(r.getValue(QUIZZES.ACTIVE))

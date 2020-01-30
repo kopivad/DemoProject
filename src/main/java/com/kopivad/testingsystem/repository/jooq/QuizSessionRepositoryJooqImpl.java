@@ -1,12 +1,11 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.QuizSession;
-import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.repository.QuizSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.RecordMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import static org.jooq.impl.DSL.val;
 @RequiredArgsConstructor
 public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
     private final DSLContext dslContext;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public QuizSession saveQuizSession(QuizSession quizSession) {
@@ -27,7 +27,7 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
                 .values(QUIZ_SESSIONS_ID_SEQ.nextval(), val(quizSession.getUser().getId()), val(quizSession.getCreated()), val(quizSession.getQuiz().getId()))
                 .returning(QUIZ_SESSIONS.ID, QUIZ_SESSIONS.USER_ID, QUIZ_SESSIONS.CREATED, QUIZ_SESSIONS.QUIZ_ID)
                 .fetchOne()
-                .map(this::getQuizSessionFromRecord);
+                .map(getRecordQuizSessionRecordMapper());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
                 .selectFrom(QUIZ_SESSIONS)
                 .where(QUIZ_SESSIONS.ID.eq(sessionId))
                 .fetchOne()
-                .map(this::getQuizSessionFromRecord);
+                .map(getRecordQuizSessionRecordMapper());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
                 .selectFrom(QUIZ_SESSIONS)
                 .where(QUIZ_SESSIONS.USER_ID.eq(id))
                 .fetch()
-                .map(this::getQuizSessionFromRecord);
+                .map(getRecordQuizSessionRecordMapper());
     }
 
     @Override
@@ -54,16 +54,17 @@ public class QuizSessionRepositoryJooqImpl implements QuizSessionRepository {
                 .selectFrom(QUIZ_SESSIONS)
                 .where(QUIZ_SESSIONS.QUIZ_ID.eq(id))
                 .fetch()
-                .map(this::getQuizSessionFromRecord);
+                .map(getRecordQuizSessionRecordMapper());
     }
 
-    private QuizSession getQuizSessionFromRecord(Record record) {
-        return QuizSession
+    private RecordMapper<Record, QuizSession> getRecordQuizSessionRecordMapper() {
+        return r -> QuizSession
                 .builder()
-                .id(record.getValue(QUIZ_SESSIONS.ID))
-                .user(User.builder().id(record.getValue(QUIZ_SESSIONS.USER_ID)).build())
-                .quiz(Quiz.builder().id(record.getValue(QUIZ_SESSIONS.QUIZ_ID)).build())
-                .created(record.getValue(QUIZ_SESSIONS.CREATED))
+                .id(r.getValue(QUIZ_SESSIONS.ID))
+                .user(repositoryUtils.getUserFromRecord(r))
+                .quiz(repositoryUtils.getQuizFromRecord(r))
+                .results(repositoryUtils.getQuizResultsFromRecord(r))
+                .created(r.getValue(QUIZ_SESSIONS.CREATED))
                 .build();
     }
 }

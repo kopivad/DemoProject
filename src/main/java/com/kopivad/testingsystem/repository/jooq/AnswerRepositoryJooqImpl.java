@@ -1,11 +1,11 @@
 package com.kopivad.testingsystem.repository.jooq;
 
 import com.kopivad.testingsystem.domain.Answer;
-import com.kopivad.testingsystem.domain.Question;
 import com.kopivad.testingsystem.repository.AnswerRepository;
 import lombok.AllArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.RecordMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,15 +18,15 @@ import static org.jooq.impl.DSL.val;
 @AllArgsConstructor
 public class AnswerRepositoryJooqImpl implements AnswerRepository {
     private final DSLContext dslContext;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public List<Answer> findAllByQuestionId(Long id) {
         return dslContext
-                .select()
-                .from(ANSWERS)
+                .selectFrom(ANSWERS)
                 .where(ANSWERS.QUESTION_ID.eq(id))
                 .fetch()
-                .map(this::getAnswerFromRecord);
+                .map(getRecordAnswerRecordMapper());
     }
 
     @Override
@@ -34,26 +34,26 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
         return dslContext
                 .selectFrom(ANSWERS)
                 .fetch()
-                .map(this::getAnswerFromRecord);
+                .map(getRecordAnswerRecordMapper());
     }
 
     @Override
     public Answer saveAnswer(Answer answer) {
         return dslContext
                 .insertInto(ANSWERS, ANSWERS.ID, ANSWERS.TEXT, ANSWERS.IS_RIGHT, ANSWERS.QUESTION_ID)
-                .values(ANSWERS_ID_SEQ.nextval() ,val(answer.getText()), val(answer.isRight()), val(answer.getQuestion().getId()))
+                .values(ANSWERS_ID_SEQ.nextval(), val(answer.getText()), val(answer.isRight()), val(answer.getQuestion().getId()))
                 .returning(ANSWERS.ID, ANSWERS.TEXT, ANSWERS.QUESTION_ID, ANSWERS.IS_RIGHT)
                 .fetchOne()
-                .map(this::getAnswerFromRecord);
+                .map(getRecordAnswerRecordMapper());
     }
 
     @Override
     public Answer findAnswerById(Long id) {
-        return dslContext.select()
-                .from(ANSWERS)
+        return dslContext
+                .selectFrom(ANSWERS)
                 .where(ANSWERS.ID.eq(id))
                 .fetchOne()
-                .map(this::getAnswerFromRecord);
+                .map(getRecordAnswerRecordMapper());
     }
 
     @Override
@@ -75,13 +75,14 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
                 .execute();
     }
 
-    private Answer getAnswerFromRecord(Record record) {
-        return Answer
+    private RecordMapper<Record, Answer> getRecordAnswerRecordMapper() {
+        return r -> Answer
                 .builder()
-                .id(record.getValue(ANSWERS.ID))
-                .isRight(record.getValue(ANSWERS.IS_RIGHT))
-                .question(Question.builder().id(record.getValue(ANSWERS.QUESTION_ID)).build())
-                .text(record.getValue(ANSWERS.TEXT))
+                .id(r.getValue(ANSWERS.ID))
+                .isRight(r.getValue(ANSWERS.IS_RIGHT))
+                .question(repositoryUtils.getQuestionFromRecord(r))
+                .userResponses(repositoryUtils.getUserResponsesFromRecord(r))
+                .text(r.getValue(ANSWERS.TEXT))
                 .build();
     }
 }

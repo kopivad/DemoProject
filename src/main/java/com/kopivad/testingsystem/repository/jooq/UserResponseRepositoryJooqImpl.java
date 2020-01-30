@@ -1,25 +1,24 @@
 package com.kopivad.testingsystem.repository.jooq;
 
-import com.kopivad.testingsystem.domain.Answer;
-import com.kopivad.testingsystem.domain.Question;
-import com.kopivad.testingsystem.domain.QuizSession;
 import com.kopivad.testingsystem.domain.UserResponse;
+import com.kopivad.testingsystem.domain.db.tables.records.UserResponcesRecord;
 import com.kopivad.testingsystem.repository.UserResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
-import org.jooq.Record;
+import org.jooq.RecordMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.kopivad.testingsystem.domain.db.Sequences.USER_RESPONCES_ID_SEQ;
-import static com.kopivad.testingsystem.domain.db.Tables.*;
+import static com.kopivad.testingsystem.domain.db.Tables.USER_RESPONCES;
 import static org.jooq.impl.DSL.val;
 
 @RequiredArgsConstructor
 @Repository
 public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
     private final DSLContext dslContext;
+    private final RepositoryUtils repositoryUtils;
 
     @Override
     public List<UserResponse> findAllByQuizSessionId(Long sessionId) {
@@ -27,7 +26,7 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.SESSION_ID.eq(sessionId))
                 .fetch()
-                .map(this::getUserQuestionResponseFromRecord);
+                .map(getUserResponcesRecordUserResponseRecordMapper());
     }
 
     @Override
@@ -56,7 +55,7 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.QUESTION_ID.eq(id))
                 .fetch()
-                .map(this::getUserQuestionResponseFromRecord);
+                .map(getUserResponcesRecordUserResponseRecordMapper());
     }
 
     @Override
@@ -65,16 +64,16 @@ public class UserResponseRepositoryJooqImpl implements UserResponseRepository {
                 .selectFrom(USER_RESPONCES)
                 .where(USER_RESPONCES.ANSWER_ID.eq(id))
                 .fetch()
-                .map(this::getUserQuestionResponseFromRecord);
+                .map(getUserResponcesRecordUserResponseRecordMapper());
     }
 
-    private UserResponse getUserQuestionResponseFromRecord(Record r) {
-        return UserResponse
+    private RecordMapper<UserResponcesRecord, UserResponse> getUserResponcesRecordUserResponseRecordMapper() {
+        return r -> UserResponse
                 .builder()
                 .id(r.getValue(USER_RESPONCES.ID))
-                .quizSession(QuizSession.builder().id(r.getValue(USER_RESPONCES.SESSION_ID)).build())
-                .answer(Answer.builder().id(r.getValue(USER_RESPONCES.ANSWER_ID)).build())
-                .question(Question.builder().id(r.getValue(USER_RESPONCES.QUESTION_ID)).build())
+                .quizSession(repositoryUtils.getSessionFromRecord(r))
+                .answer(repositoryUtils.getAnswerFromRecord(r))
+                .question(repositoryUtils.getQuestionFromRecord(r))
                 .build();
     }
 }
