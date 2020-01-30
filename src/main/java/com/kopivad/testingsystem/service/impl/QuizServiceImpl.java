@@ -4,17 +4,14 @@ import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.form.QuizForm;
 import com.kopivad.testingsystem.repository.QuizRepository;
-import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.MailService;
 import com.kopivad.testingsystem.service.QuizService;
 import com.kopivad.testingsystem.service.QuizSessionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -23,7 +20,6 @@ import static java.lang.System.currentTimeMillis;
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuizSessionService quizSessionService;
-    private final RepositoryUtils repositoryUtils;
     private final MailService mailService;
 
     @Override
@@ -35,17 +31,12 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getAllQuizzes() {
-        List<Quiz> quizzesFromDB = quizRepository.findAll();
-        return quizzesFromDB
-                .stream()
-                .map(repositoryUtils::getFullQuiz)
-                .collect(Collectors.toList());
+        return quizRepository.findAll();
     }
 
     @Override
     public Quiz getQuizById(Long id) {
-        Quiz quizFromDB = quizRepository.findQuizById(id);
-        return repositoryUtils.getFullQuiz(quizFromDB);
+        return quizRepository.findQuizById(id);
     }
 
     @Override
@@ -64,8 +55,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz updateQuiz(Quiz quiz) {
-        Quiz quizFromDB = quizRepository.updateQuiz(quiz);
-        return repositoryUtils.getFullQuiz(quizFromDB);
+        return quizRepository.updateQuiz(quiz);
     }
 
     @Override
@@ -77,10 +67,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getAllQuizzesByUserId(Long id) {
-        return quizRepository.findAllByAuthorId(id)
-                .stream()
-                .map(repositoryUtils::getFullQuiz)
-                .collect(Collectors.toList());
+        return quizRepository.findAllByAuthorId(id);
     }
 
     @Override

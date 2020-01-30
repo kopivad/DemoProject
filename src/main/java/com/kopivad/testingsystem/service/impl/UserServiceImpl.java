@@ -1,11 +1,10 @@
 package com.kopivad.testingsystem.service.impl;
 
-import com.kopivad.testingsystem.exception.UserNotFoundException;
-import com.kopivad.testingsystem.form.SignUpForm;
 import com.kopivad.testingsystem.domain.Role;
 import com.kopivad.testingsystem.domain.User;
+import com.kopivad.testingsystem.exception.UserNotFoundException;
+import com.kopivad.testingsystem.form.SignUpForm;
 import com.kopivad.testingsystem.repository.UserRepository;
-import com.kopivad.testingsystem.repository.jooq.RepositoryUtils;
 import com.kopivad.testingsystem.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -21,34 +20,28 @@ import java.util.Collections;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RepositoryUtils repositoryUtils;
-
 
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User userFromDB = userRepository.findByEmail(email);
-        return repositoryUtils.getFullUser(userFromDB);
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public User saveUser(User user) {
-        User userFromDB = userRepository.saveUser(user);
-        return repositoryUtils.getFullUser(userFromDB);
+        return userRepository.saveUser(user);
 
     }
 
     @SneakyThrows
     @Override
     public User getUserByEmail(String email) {
-        User userFromDB = userRepository.findByEmail(email);
-        return repositoryUtils.getFullUser(userFromDB);
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public User getUserById(Long userId) {
-        User userFromDB = userRepository.findUserById(userId);
-        return repositoryUtils.getFullUser(userFromDB);
+        return userRepository.findUserById(userId);
     }
 
     @Override
@@ -68,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        return repositoryUtils.getFullUser(userRepository.updateUser(user));
+        return userRepository.updateUser(user);
     }
 
     public User getUserFromForm(SignUpForm form) {
