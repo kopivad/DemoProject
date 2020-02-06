@@ -3,7 +3,6 @@ package com.kopivad.testingsystem.service.impl;
 import com.kopivad.testingsystem.domain.Answer;
 import com.kopivad.testingsystem.domain.Question;
 import com.kopivad.testingsystem.repository.AnswerRepository;
-import com.kopivad.testingsystem.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,8 +28,7 @@ class AnswerServiceImplTest {
     @Test
     void saveAnswer() {
         Answer answerForSave = Answer.builder().isRight(false).text("some text 1").question(Question.builder().id(1l).build()).build();
-        Answer savedAnswer = answerForSave;
-        savedAnswer.setId(1l);
+        Answer savedAnswer = Answer.builder().id(1l).isRight(false).text("some text 1").question(Question.builder().id(1l).build()).build();
         when(answerRepository.saveAnswer(answerForSave)).thenReturn(savedAnswer);
         Answer answer = answerService.saveAnswer(answerForSave);
         assertEquals(savedAnswer, answer);
@@ -77,7 +75,7 @@ class AnswerServiceImplTest {
     @Test
     void updateAnswer() {
         Answer answerForUpdate = Answer.builder().isRight(false).text("some text 1").question(Question.builder().id(1l).build()).build();
-        Answer updatedAnswer = answerForUpdate;
+        Answer updatedAnswer = Answer.builder().id(1l).isRight(false).text("some text 1").question(Question.builder().id(1l).build()).build();;
         updatedAnswer.setRight(true);
         when(answerRepository.saveAnswer(answerForUpdate)).thenReturn(updatedAnswer);
         Answer answer = answerService.saveAnswer(answerForUpdate);
@@ -87,7 +85,6 @@ class AnswerServiceImplTest {
 
     @Test
     void deleteAnswerById() {
-        Answer answerForDelete = Answer.builder().id(1l).isRight(false).text("some text 1").question(Question.builder().id(1l).build()).build();
         answerService.deleteAnswerById(1l);
         verify(answerRepository, times(1)).deleteAnswerById(1l);
     }
