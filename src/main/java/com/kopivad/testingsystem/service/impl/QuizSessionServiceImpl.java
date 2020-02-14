@@ -35,6 +35,4 @@ public class QuizSessionServiceImpl implements QuizSessionService {
                         .created(new Timestamp(System.currentTimeMillis()))
                         .build());
     }
-
-
 }

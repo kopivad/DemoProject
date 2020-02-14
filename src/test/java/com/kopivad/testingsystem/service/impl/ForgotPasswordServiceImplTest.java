@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.domain.Mail;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.MailService;
 import com.kopivad.testingsystem.service.UserService;
@@ -40,7 +41,7 @@ class ForgotPasswordServiceImplTest {
         verify(userService, times(1)).getUserByEmail(EMAIL);
         verify(userService, times(1)).updateUser(any(User.class));
         verify(passwordEncoder, times(1)).encode(any(String.class));
-        verify(mailService, times(1)).sendMassage(any(String.class), any(String.class), any(String.class));
+        verify(mailService, times(1)).sendMessage(any(Mail.class));
 
     }
 

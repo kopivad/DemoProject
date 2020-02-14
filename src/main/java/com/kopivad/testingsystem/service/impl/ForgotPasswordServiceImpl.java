@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.domain.Mail;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.service.ForgotPasswordService;
 import com.kopivad.testingsystem.service.MailService;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     private final UserService userService;
-    private final MailService mailService;
+    private final RabbitMQSender sender;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -24,6 +25,6 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
         userByEmail.setPassword(passwordEncoder.encode(newPassword));
         userService.updateUser(userByEmail);
         String text = String.format("Hello, %s. Your password is %s", userByEmail.getNickname(), newPassword);
-        mailService.sendMassage(email, "Restore password", text);
+        sender.send(Mail.builder().receiver(email).subject("Restore password").text(text).build());
     }
 }

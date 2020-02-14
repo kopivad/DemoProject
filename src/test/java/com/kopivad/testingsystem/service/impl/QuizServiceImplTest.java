@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.domain.Mail;
 import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.repository.jooq.QuizRepositoryJooqImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,7 +91,7 @@ class QuizServiceImplTest {
     void shareQuiz() {
         String email = "some@email.com";
         quizService.shareQuiz(1l, email);
-        verify(mailService, times(1)).sendMassage(anyString(), anyString(), anyString());
+        verify(mailService, times(1)).sendMessage(any(Mail.class));
     }
 
     @Test

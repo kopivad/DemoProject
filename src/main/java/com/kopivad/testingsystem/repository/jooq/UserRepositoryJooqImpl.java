@@ -10,6 +10,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.HashSet;
 
 import static com.kopivad.testingsystem.domain.db.Sequences.USERS_ID_SEQ;
@@ -80,10 +81,10 @@ public class UserRepositoryJooqImpl implements UserRepository {
                 .where(USERS.ID.eq(user.getId()))
                 .execute();
 
-        dslContext.update(USER_ROLES)
-                .set(USER_ROLES.ROLES, user.getRoles().toString())
-                .where(USER_ROLES.USER_ID.eq(user.getId()))
-                .execute();
+//        dslContext.update(USER_ROLES)
+//                .set(USER_ROLES.ROLES, user.getRoles())
+//                .where(USER_ROLES.USER_ID.eq(user.getId()))
+//                .execute();
 
         return user;
     }

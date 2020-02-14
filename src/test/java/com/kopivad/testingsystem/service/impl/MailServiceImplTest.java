@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.domain.Mail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,7 +24,7 @@ class MailServiceImplTest {
 
     @Test
     void sendMassage() {
-        mailService.sendMassage("email@test.com", "Some subject", "Some text");
+        mailService.sendMessage(Mail.builder().receiver("email@test.com").text("Some text").subject("Some subject").build());
         verify(emailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 }

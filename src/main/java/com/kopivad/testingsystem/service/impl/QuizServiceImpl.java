@@ -1,5 +1,6 @@
 package com.kopivad.testingsystem.service.impl;
 
+import com.kopivad.testingsystem.domain.Mail;
 import com.kopivad.testingsystem.domain.Quiz;
 import com.kopivad.testingsystem.domain.User;
 import com.kopivad.testingsystem.form.QuizForm;
@@ -74,7 +75,7 @@ public class QuizServiceImpl implements QuizService {
     public void shareQuiz(Long quizId, String email) {
         String subject = "Quiz invation";
         String text = String.format("Hello, you have invation on Quizzes App, http://localhost:8080/quiz/%d", quizId);
-        mailService.sendMassage(email, subject, text);
+        mailService.sendMessage(Mail.builder().receiver(email).subject("Restore password").text(text).build());
     }
 
     public Quiz getQuizFromForm(QuizForm form) {
