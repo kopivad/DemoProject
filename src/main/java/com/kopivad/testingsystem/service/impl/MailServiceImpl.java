@@ -1,6 +1,5 @@
 package com.kopivad.testingsystem.service.impl;
 
-import com.kopivad.testingsystem.config.RabbitMQConfig;
 import com.kopivad.testingsystem.domain.Mail;
 import com.kopivad.testingsystem.service.MailService;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ public class MailServiceImpl implements MailService {
     public final RabbitTemplate rabbitTemplate;
 
     @Override
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+    @RabbitListener(queues = "mail")
     public void sendMessage(Mail mail) {
         log.info("Mail received {}", mail.getReceiver());
         SimpleMailMessage message = new SimpleMailMessage();

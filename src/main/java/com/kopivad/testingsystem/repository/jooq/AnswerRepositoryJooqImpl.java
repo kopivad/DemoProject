@@ -32,7 +32,7 @@ public class AnswerRepositoryJooqImpl implements AnswerRepository {
     @Override
     public List<Answer> findAll() {
         return dslContext
-                .selectFrom(ANSWERS)
+                .selectFrom(ANSWERS.as("a"))
                 .fetch()
                 .map(getRecordAnswerRecordMapper());
     }

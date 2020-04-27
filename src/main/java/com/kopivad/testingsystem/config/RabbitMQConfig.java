@@ -1,6 +1,8 @@
 package com.kopivad.testingsystem.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kopivad.testingsystem.property.RabbitMQProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -12,24 +14,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class RabbitMQConfig {
-    public final static String QUEUE_NAME = "mail";
-    public final static String EXCHANGE_NAME = "spring-boot-exchange";
-    public final static String ROUTING_KEY_NAME = "routingKey";
+    private final RabbitMQProperties property;
 
     @Bean
     public Queue queue() {
-        return new Queue(QUEUE_NAME);
+        return new Queue(property.getQueue());
     }
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE_NAME);
+        return new TopicExchange(property.getExchange());
     }
 
     @Bean
     public Binding binding() {
-        return BindingBuilder.bind(queue()).to(exchange()).with(ROUTING_KEY_NAME);
+        return BindingBuilder.bind(queue()).to(exchange()).with(property.getRouting());
     }
 
     @Bean

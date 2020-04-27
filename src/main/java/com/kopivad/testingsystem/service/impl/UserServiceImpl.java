@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -62,6 +63,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         return userRepository.updateUser(user);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
     public User getUserFromForm(SignUpForm form) {

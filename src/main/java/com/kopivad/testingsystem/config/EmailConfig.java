@@ -1,5 +1,7 @@
 package com.kopivad.testingsystem.config;
 
+import com.kopivad.testingsystem.property.EmailProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,16 +10,17 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
+@RequiredArgsConstructor
 public class EmailConfig {
+    private final EmailProperties emailProperties;
 
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
-        mailSender.setUsername("kopivad.smtp@gmail.com");
-        mailSender.setPassword("$2y$12$zxSmSzbqmGgkgdx/L0Lg2OoJuB9pKbaQEK8JWTnj8tcI3BOO0.B/a");
+        mailSender.setHost(emailProperties.getHost());
+        mailSender.setPort(emailProperties.getPort());
+        mailSender.setUsername(emailProperties.getUsername());
+        mailSender.setPassword(emailProperties.getPassword());
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

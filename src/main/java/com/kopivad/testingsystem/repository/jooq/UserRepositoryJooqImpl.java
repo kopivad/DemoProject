@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 import static com.kopivad.testingsystem.domain.db.Sequences.USERS_ID_SEQ;
 import static com.kopivad.testingsystem.domain.db.tables.UserRoles.USER_ROLES;
@@ -87,6 +88,13 @@ public class UserRepositoryJooqImpl implements UserRepository {
 //                .execute();
 
         return user;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return dslContext
+                .selectFrom(USERS)
+                .fetchInto(User.class);
     }
 
     private User getUserFromRecord(Record record) {

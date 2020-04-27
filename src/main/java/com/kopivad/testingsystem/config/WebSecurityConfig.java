@@ -45,12 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll();
-//
-//                .and()
-//                .rememberMe()
-//                .key("simpleToken")
-//                .rememberMeParameter("remember-me")
-//                .tokenValiditySeconds(86400); // 2 weeks
     }
 
     @Override
